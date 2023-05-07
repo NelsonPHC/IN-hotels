@@ -1,0 +1,61 @@
+h1 {
+  font-size: 100px;
+  margin: 0px;
+  padding: 0px;
+  top: 40%;
+}
+
+.caption {
+  top: 55%;
+  animation: fadeInAnimation ease 10s;
+  animation-fill-mode: forwards;
+  font-size: 40px;
+}
+
+h1, .caption {
+  text-align: center;
+  position: absolute;
+  transform: translateX(-50%);
+  left: 50%;
+}
+
+nav > p {
+  font-family: 'Merriweather', serif;
+  color: white;
+  margin: auto;
+  font-size: 40px;
+}
+
+@keyframes fadeInAnimation {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+article {
+  height: 100vh;
+}
+
+input {
+  border-radius: 12px;
+  text-align: center;
+  font-size: 28px;
+}
+
+.search-bar {
+  justify-content: center;
+  align-items: center;
+}
+
+.search-bar, .other-bar {
+  display: flex;
+  flex-wrap: wrap;
+  height: 50vh;
+}
+
+.other-bar {
+  justify-content: space-evenly;
+}

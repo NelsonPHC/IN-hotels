@@ -1,29 +1,47 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <link rel="stylesheet" href="styles.css">
-        <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@1,300&display=swap" rel="stylesheet">
-        <title>Hotel Reservation Website</title>
-    </head>
-    <body>
-        <article>
-            <nav>
-                <img src="imgs/home-icon.png" alt="home-icon">
-                <!--
-                    Home icon obtained from nicepng.com
-                -->
-                <p>I&N Hotels</p>
-                <img src="imgs/profile-icon.png" alt="profile-icon" class="right-icon">
-                <!--
-                    Profile icon obtained from flaticons.com
-                -->
-            </nav>
-            <h1>Welcome!</h1>
-            <p class="caption">
-                Explore hotels all around the world and choose your ideal
-                getaway
-            </p>
-        </article>
-    </body>
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="home.css">
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@1,300&display=swap" rel="stylesheet">
+    <title>Hotel Reservation Website</title>
+  </head>
+  <body>
+    <article>
+      <nav>
+        <a href="index.html">
+            <img src="imgs/home-icon.png" alt="home-icon" class="left-icon">
+        </a>
+        <!--
+            Home icon obtained from nicepng.com
+        -->
+        <p>I&N Hotels</p>
+        <img src="imgs/profile-icon.png" alt="profile-icon" class="right-icon">
+        <!--
+            Profile icon obtained from flaticons.com
+        -->
+      </nav>
+      <h1>Welcome!</h1>
+      <p class="caption">
+          Explore hotels all around the world and choose your ideal
+          getaway
+      </p>
+    </article>
+    <article>
+      <section class="search-bar">
+        <form>
+          <input type="text" id="hotel-name" placeholder="Search Hotels">
+        </form>
+      </section>
+      <section class="other-bar">
+        <form>
+          <input type="text" id="hotel-name" placeholder="a">
+        </form>
+        <form>
+          <input type="text" id="hotel-name" placeholder="b">
+        </form>
+      </section>
+    </article>
+  </body>
 </html>
