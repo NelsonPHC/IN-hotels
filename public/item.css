@@ -19,3 +19,9 @@ form {
   display: flex;
   flex-direction: column;
 }
+
+.adjust {
+  transform: translateY(10%);
+  width: 100%;
+  display: inline-block;
+}
