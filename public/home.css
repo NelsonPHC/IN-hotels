@@ -55,3 +55,17 @@ input, select, label {
 h1, .caption, input, select {
   text-align: center;
 }
+
+#display {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin: 10%;
+}
+
+#display > div {
+  margin: 15px;
+  height: 400px;
+  width: 300px;
+  text-align: center;
+}
