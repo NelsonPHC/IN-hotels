@@ -13,7 +13,6 @@ h1 {
 }
 
 h1, .caption {
-  text-align: center;
   position: absolute;
   transform: translateX(-50%);
   left: 50%;
@@ -32,26 +31,27 @@ article {
   height: 100vh;
 }
 
-input {
+input, select {
   border-radius: 12px;
-  text-align: center;
-  font-size: 28px;
+  height: 50px;
+  border-color: black;
+  border-width: 2px;
 }
 
 .search-bar {
   display: flex;
-  flex-wrap: wrap;
-  height: 50vh;
+  align-items: center;
   justify-content: space-evenly;
 }
 
 label {
-  font-size: 28px;
   text-decoration: underline;
 }
 
-main {
-  margin: 0px;
-  border: 0px;
-  padding: 0px;
+input, select, label {
+  font-size: 28px;
+}
+
+h1, .caption, input, select {
+  text-align: center;
 }
