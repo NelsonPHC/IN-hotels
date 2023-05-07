@@ -36,7 +36,7 @@ nav > p {
 }
 
 article {
-  height: 70vh;
+  height: 100vh;
 }
 
 input {
@@ -46,16 +46,19 @@ input {
 }
 
 .search-bar {
-  justify-content: center;
-  align-items: center;
-}
-
-.search-bar, .other-bar {
   display: flex;
   flex-wrap: wrap;
   height: 50vh;
+  justify-content: space-evenly;
 }
 
-.other-bar {
-  justify-content: space-evenly;
+label {
+  font-size: 28px;
+  text-decoration: underline;
+}
+
+main {
+  margin: 0px;
+  border: 0px;
+  padding: 0px;
 }
