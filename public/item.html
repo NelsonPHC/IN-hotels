@@ -1,44 +1,47 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <link rel="stylesheet" href="styles.css">
-        <link rel="stylesheet" href="item.css">
-        <title>Hotel Name</title><!-- this should change according to the item being clicked -->
-    </head>
-    <body>
-      <nav>
-        <img src="imgs/home-icon.png" alt="home-icon">
-        <!--
-            Home icon obtained from nicepng.com
-        -->
-        <p>I&N Hotels</p>
-        <img src="imgs/profile-icon.png" alt="profile-icon" class="right-icon">
-        <!--
-            Profile icon obtained from flaticons.com
-        -->
-      </nav>
-      <main>
-        <h1>Name of the hotel</h1>
-        <article>
-          <img alt='image of the hotel'>
-          <section id='description'>
-            <form>
-              <label for="start">Check-in date:</label>
-              <input type="date" id="start" name="trip-start"><br> <!-- min=today's date -->
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="item.css">
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@1,300&display=swap" rel="stylesheet">
+    <title>Hotel Name</title><!-- this should change according to the item being clicked -->
+  </head>
+  <body>
+    <nav>
+      <a href="index.html">
+          <img src="imgs/home-icon.png" alt="home-icon" class="left-icon">
+      </a>
+      <!--
+          Home icon obtained from nicepng.com
+      -->
+      <p>I&N Hotels</p>
+      <img src="imgs/profile-icon.png" alt="profile-icon" class="right-icon">
+      <!--
+          Profile icon obtained from flaticons.com
+      -->
+    </nav>
+    <main>
+      <h1>Name of the hotel</h1>
+      <article>
+        <img alt='image of the hotel'>
+        <section id='description'>
+          <form>
+            <label for="start">Check-in date:</label>
+            <input type="date" id="start" name="trip-start"><br> <!-- min=today's date -->
 
-              <label for="end">Check-out data:</label>
-              <input type="date" id="end" name="trip-end"><br> <!-- min=today's date -->
+            <label for="end">Check-out data:</label>
+            <input type="date" id="end" name="trip-end"><br> <!-- min=today's date -->
 
-              <input type="submit" value="Submit"><br>
-            </form>
-            <button>Book now</button>
-            <p>Google Maps displaying Address</p>
-            <p>Display recommendations of nearby places</p>
-          </section>
-        </article>
-      </main>
-    </body>
+            <input type="submit" value="Submit"><br>
+          </form>
+          <button>Book now</button>
+          <p>Google Maps displaying Address</p>
+          <p>Display recommendations of nearby places</p>
+        </section>
+      </article>
+    </main>
+  </body>
 </html>
 
 

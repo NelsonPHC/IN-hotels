@@ -1,11 +1,11 @@
-article {
+/* article {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   margin: 10%;
 }
 
-img {
+article > img {
   width: 30%;
 }
 
@@ -18,4 +18,4 @@ img {
 form {
   display: flex;
   flex-direction: column;
-}
+} */
