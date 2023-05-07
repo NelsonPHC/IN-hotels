@@ -6,6 +6,35 @@
 
   function init() {
     console.log("window.addEventListener();");
+    generateHotels();
+  }
+
+  /**
+   * generates a set of hotels
+   */
+   function generateHotels() {
+    for (let i = 0; i < 10; i++) {
+      id('display').appendChild(generateHotel());
+    }
+  }
+
+  /**
+   * Generates hotels for the home page
+   * @returns {HTMLElement} a link element associated with a div that contains hotel image, name
+   */
+  function generateHotel() {
+    let hotelLink = document.createElement('a');
+    let hotelCard = document.createElement('div');
+    let hotelImg = document.createElement('img');
+    let hotelName = document.createElement('p');
+    hotelImg.alt = 'hotel image';
+    hotelName.textContent = 'AAA hotel';
+    hotelLink.href = 'item.html?hotel_nm=' + hotelName.textContent;
+    hotelCard.appendChild(hotelImg);
+    hotelCard.appendChild(hotelName);
+    hotelLink.appendChild(hotelCard);
+
+    return hotelLink
   }
 
   /**

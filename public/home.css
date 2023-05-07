@@ -63,7 +63,7 @@ h1, .caption, input, select {
   margin: 10%;
 }
 
-#display > div {
+#display > a {
   margin: 15px;
   height: 400px;
   width: 300px;
