@@ -36,3 +36,7 @@ form {
   width: 100%;
   display: inline-block;
 }
+
+main > h1 {
+  text-align: center;
+}
