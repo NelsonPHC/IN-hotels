@@ -37,6 +37,6 @@ form {
   display: inline-block;
 }
 
-main > h1 {
+section > h1 {
   text-align: center;
 }
