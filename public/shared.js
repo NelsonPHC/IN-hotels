@@ -11,6 +11,9 @@
 (function() {
   window.addEventListener('load', init);
 
+  /**
+   * initiates page upon load
+   */
   function init() {
     qs(".menu").addEventListener("click", clickMenu);
   }
