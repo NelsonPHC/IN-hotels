@@ -1,3 +1,14 @@
+/*
+Name: Isaac Yeoh & Nelson Chen
+Date: May 7th, 2023
+Section: CSE 154 AG
+This is the general style sheet shared between all pages.
+It contains the styling for the navigation bar, which
+consists of the logo, the option for users to login,
+and a button for the menu to expand. When the menu expands,
+it provides an option for the user to return to the home page
+or view their reservations.
+*/
 body {
   margin: 0%;
   background-color: rgb(246, 250, 254);
@@ -5,31 +16,19 @@ body {
 
 nav {
   height: 15%;
-  width: 100%;
-  background-color: rgb(28, 27, 27);
-  display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
 nav > p {
   font-family: 'Merriweather', serif;
-  color: white;
   margin: 10px;
   font-size: 40px;
 }
 
-nav > img, .left-icon, a > img {
+nav > img, .menu, a > img {
   width: 40px;
   height: 40px;
-}
-
-.left-icon {
-  margin-left: 25px;
-}
-
-.right-icon {
-  margin-right: 25px;
 }
 
 .hidden {
@@ -39,32 +38,34 @@ nav > img, .left-icon, a > img {
 .menu-bar {
   width: 250px;
   height: 90vh;
-  background-color: rgb(28, 27, 27);
   margin: 0;
 }
 
+.menu-box {
+  justify-content: left;
+  align-content: center;
+  border-bottom: white solid;
+}
+
 .menu-box > a > p {
-  color: white;
   font-size: 24px;
-  margin-left: 25px;
-  margin-right: 25px;
 }
 
 .menu:hover {
   cursor: pointer;
 }
 
+.menu, .menu-box > a > p {
+  margin-left: 25px;
+}
+
+.right-icon, .menu-box > a > p {
+  margin-right: 25px;
+}
+
 .fix {
   position: fixed;
   z-index: 1;
-  width: 100%;
-}
-
-.menu-box {
-  display: flex;
-  justify-content: left;
-  align-content: center;
-  border-bottom: white solid;
 }
 
 a > img {
@@ -73,5 +74,20 @@ a > img {
 
 a {
   text-decoration: none;
+}
+
+nav, .fix {
+  width: 100%;
+}
+
+nav, .menu-bar {
+  background-color: rgb(28, 27, 27);
+}
+
+.menu-box, a, nav {
   display: flex;
+}
+
+nav > p, .menu-box > a > p {
+  color: white;
 }

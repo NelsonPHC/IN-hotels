@@ -1,25 +1,28 @@
+/**
+ * Name: Isaac Yeoh & Nelson Chen
+ * Date: May 7th, 2023
+ * Section: CSE 154 AG
+ * This code generates the images of the hotels and the name of
+ * the hotels in our home page. It will later contain the filter option
+ * and we will replace the src of the images with actual images
+ * in the near future.
+ */
+
 "use strict";
 (function() {
-  let opacity = 0;
-  let intervalID = 0;
   window.addEventListener('load', init);
 
   function init() {
     generateHotels();
-    window.addEventListener("click", clickMenu);
   }
 
   /**
-   * generates a set of hotels
+   * Generates a set of hotels
    */
    function generateHotels() {
     for (let i = 0; i < 10; i++) {
       id('display').appendChild(generateHotel());
     }
-  }
-
-  function clickMenu() {
-    qs(".menu-bar").classList.toggle("hidden");
   }
 
   /**
@@ -49,37 +52,5 @@
    */
   function id(id) {
     return document.getElementById(id);
-  }
-
-  /**
-   * Returns first element matching selector.
-   * @param {string} selector - CSS query selector.
-   * @returns {object} - DOM object associated selector.
-   */
-  function qs(selector) {
-    return document.querySelector(selector);
-  }
-
-  /**
-   * Returns the array of elements that match the given CSS selector.
-   * @param {string} query - CSS query selector
-   * @returns {object[]} array of DOM objects matching the query.
-   */
-  function qsa(query) {
-    return document.querySelectorAll(query);
-  }
-
-  /**
-   * Helper function to return the response's result text if successful, otherwise
-   * returns the rejected Promise result with an error status and corresponding text
-   * @param {object} res - response to check for success/error
-   * @return {object} - valid response if response was successful, otherwise rejected
-   *                    Promise result
-   */
-  async function statusCheck(res) {
-    if (!res.ok) {
-      throw new Error(await res.text());
-    }
-    return res;
   }
 })();

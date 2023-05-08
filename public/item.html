@@ -1,26 +1,56 @@
 <!DOCTYPE html>
+<!--
+  Name: Isaac Yeoh & Nelson Chen
+  Date: May 7th, 2023
+  Section: CSE 154 AG
+  This is the webpage that displays when the user wants more information
+  about the hotel. It contains the navigation bar, the name of the hotel,
+  the image of the hotel, an option for the users to select their
+  check in and out dates, google maps displaying the address of the hotel,
+  recommendations for nearby places, and a confirmation button.
+  For now, we constructed a general layout of what we
+  want this page to look like, and we will substitute actual values in
+  the near future.
+-->
 <html lang="en">
   <head>
     <meta charset="utf-8">
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="item.css">
     <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@1,300&display=swap" rel="stylesheet">
+    <script src="shared.js"></script>
     <title>Hotel Name</title><!-- this should change according to the item being clicked -->
   </head>
   <body>
-    <nav>
-      <a href="index.html">
-          <img src="imgs/home-icon.png" alt="home-icon" class="left-icon">
-      </a>
-      <!--
-          Home icon obtained from nicepng.com
-      -->
-      <p>I&N Hotels</p>
-      <img src="imgs/profile-icon.png" alt="profile-icon" class="right-icon">
-      <!--
-          Profile icon obtained from flaticons.com
-      -->
-    </nav>
+    <section class="fix">
+      <nav>
+        <img src="imgs/menu-icon.png" alt="menu-icon" class="menu left-icon">
+        <!--
+          Menu icon obtained from cleanpng.com
+        -->
+        <p>I&N Hotels</p>
+        <img src="imgs/profile-icon.png" alt="profile-icon" class="right-icon">
+        <!--
+            Profile icon obtained from flaticons.com
+        -->
+      </nav>
+      <section class="menu-bar hidden">
+        <section class="menu-box">
+          <a href="index.html">
+            <p>Homepage</p>
+            <img src="imgs/home-icon.png" alt="home-icon">
+            <!--
+                Home icon obtained from nicepng.com
+            -->
+          </a>
+        </section>
+        <section class="menu-box">
+          <a>
+            <p>View my reservations</p>
+          </a>
+        </section>
+      </section>
+    </section>
     <section class="adjust">
       <main>
         <h1>Name of the hotel</h1>
