@@ -1,13 +1,13 @@
 /*
-Name: Isaac Yeoh & Nelson Chen
-Date: May 7th, 2023
-Section: CSE 154 AG
-This is the general style sheet shared between all pages.
-It contains the styling for the navigation bar, which
-consists of the logo, the option for users to login,
-and a button for the menu to expand. When the menu expands,
-it provides an option for the user to return to the home page
-or view their reservations.
+  Name: Isaac Yeoh & Nelson Chen
+  Date: May 7th, 2023
+  Section: CSE 154 AG
+  This is the general style sheet shared between all pages.
+  It contains the styling for the navigation bar, which
+  consists of the logo, the option for users to login,
+  and a button for the menu to expand. When the menu expands,
+  it provides an option for the user to return to the home page
+  or view their reservations.
 */
 body {
   margin: 0%;
