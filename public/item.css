@@ -37,6 +37,7 @@ form {
   display: inline-block;
 }
 
-section > h1 {
+.adjust > h1 {
   text-align: center;
+  margin-top: 10%;
 }
