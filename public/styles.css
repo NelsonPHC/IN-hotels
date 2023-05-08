@@ -4,26 +4,24 @@ body {
 }
 
 nav {
-  height: 10%;
+  height: 15%;
   width: 100%;
   background-color: rgb(28, 27, 27);
-  position: fixed;
   display: flex;
   justify-content: space-between;
-  z-index: 1;
+  align-items: center;
 }
 
 nav > p {
   font-family: 'Merriweather', serif;
   color: white;
-  margin: auto;
+  margin: 10px;
   font-size: 40px;
 }
 
-nav > img, .left-icon {
+nav > img, .left-icon, a > img {
   width: 40px;
   height: 40px;
-  margin-top: 15px;
 }
 
 .left-icon {
@@ -32,4 +30,48 @@ nav > img, .left-icon {
 
 .right-icon {
   margin-right: 25px;
+}
+
+.hidden {
+  display: none;
+}
+
+.menu-bar {
+  width: 250px;
+  height: 90vh;
+  background-color: rgb(28, 27, 27);
+  margin: 0;
+}
+
+.menu-box > a > p {
+  color: white;
+  font-size: 24px;
+  margin-left: 25px;
+  margin-right: 25px;
+}
+
+.menu:hover {
+  cursor: pointer;
+}
+
+.fix {
+  position: fixed;
+  z-index: 1;
+  width: 100%;
+}
+
+.menu-box {
+  display: flex;
+  justify-content: left;
+  align-content: center;
+  border-bottom: white solid;
+}
+
+a > img {
+  margin: 20px 25px;
+}
+
+a {
+  text-decoration: none;
+  display: flex;
 }

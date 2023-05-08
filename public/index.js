@@ -5,8 +5,8 @@
   window.addEventListener('load', init);
 
   function init() {
-    console.log("window.addEventListener();");
     generateHotels();
+    window.addEventListener("click", clickMenu);
   }
 
   /**
@@ -18,9 +18,14 @@
     }
   }
 
+  function clickMenu() {
+    qs(".menu-bar").classList.toggle("hidden");
+  }
+
   /**
    * Generates hotels for the home page
    * @returns {HTMLElement} a link element associated with a div that contains hotel image, name
+   * @todo add hotel src and text content
    */
   function generateHotel() {
     let hotelLink = document.createElement('a');
