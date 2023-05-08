@@ -54,11 +54,11 @@ input, select {
   justify-content: space-evenly;
 }
 
-label {
+.search-bar > p {
   text-decoration: underline;
 }
 
-input, select, label {
+input, select, .search-bar > p {
   font-size: 28px;
 }
 
