@@ -12,6 +12,9 @@
 (function() {
   window.addEventListener('load', init);
 
+  /**
+   * initiates page upon load
+   */
   function init() {
     generateHotels();
   }
@@ -19,7 +22,7 @@
   /**
    * Generates a set of hotels
    */
-   function generateHotels() {
+  function generateHotels() {
     for (let i = 0; i < 10; i++) {
       id('display').appendChild(generateHotel());
     }
@@ -42,7 +45,7 @@
     hotelCard.appendChild(hotelName);
     hotelLink.appendChild(hotelCard);
 
-    return hotelLink
+    return hotelLink;
   }
 
   /**
