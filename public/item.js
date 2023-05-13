@@ -8,36 +8,31 @@
  * in the near future.
  */
 
- "use strict";
- (function() {
+"use strict";
+(function() {
 
-   window.addEventListener('load', init);
+    window.addEventListener('load', init);
 
-   /**
+    /**
     * initiates page upon load
     */
-   function init() {
-     getHotelName();
-   }
+    function init() {
+      getHotelName();
+    }
 
-   function getHotelName() {
-    // Get the item ID from the URL query parameter
+    /**
+     * gets the name of the selected hotel
+     */
+    function getHotelName() {
+    // Get the hotel name from the URL query parameter
     const urlParams = new URLSearchParams(window.location.search);
     const hotelName = urlParams.get('hotel_nm');
 
-    // Display the corresponding item on the page
+    // Display the name on the page
     let h1 = qs('h1');
-    h1.textContent = hotelName.trim().split('%20').join(' ');
-   }
-
-  /**
-    * Returns the element that has the ID attribute with the specified value.
-    * @param {string} id - element ID.
-    * @returns {object} - DOM object associated with id.
-    */
-   function id(id) {
-     return document.getElementById(id);
-   }
+    h1.textContent = hotelName.trim().split('%20')
+    .join(' ');
+    }
 
   /**
    * Returns first element matching selector.
@@ -47,4 +42,4 @@
   function qs(selector) {
     return document.querySelector(selector);
   }
- })();
+})();
