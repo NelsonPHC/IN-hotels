@@ -51,6 +51,30 @@ The Hotel API provides information about user logins and their reservations, ava
 - Possible 500 errors (all plain text):
   - If something else goes wrong on the server, returns an error with the message: `Something went wrong. Please try again later.`
 
+## Make a booking
+**Request Format:** /book endpoint with POST parameters of `userID`, `hotelName`, `check-in`, `check-out`.
+
+**Request Type:** POST
+
+**Returned Data Format**: plain text
+
+**Description:** Given a valid `userID`, `hotelName`, `check-in` and `check-out` date, return plain text indicating if the reservation is success ('success'/'fail').
+
+**Example Request:** /book with POST parameters of `userID=user_123`, `hotelName=Hyatt`, `check-in=2023-06-07` and `check-out=2023-06-13`
+
+**Example Response:**
+```
+success
+```
+
+**Error Handling:**
+- Possible 400 (invalid request) errors (all plain text):
+  - If passed in an invalid `hotelName`, returns an error with the message: `hotelName is not found`
+  - If passed in an invalid `userID`, returns an error with the message: `hotelName is not found`
+  - If passed in invalid `check-in` `check-out` dates, returns an error with the message: `The dates are invalivd`
+- Possible 500 errors (all plain text):
+  - If something else goes wrong on the server, returns an error with the message: `Something went wrong. Please try again later.`
+
 ## Hotel availability
 **Request Format:** /availability?hotel_nm={hotelName}&start={check-in}&end={check-out}
 
@@ -58,13 +82,13 @@ The Hotel API provides information about user logins and their reservations, ava
 
 **Returned Data Format**: plain text
 
-**Description:** Given a valid hotelName, check-in and check-out date (this is the same format as given by the response detailed in the user reservations query), return plain text indicating the availability of the hotel.
+**Description:** Given a valid hotelName, check-in and check-out date (this is the same format as given by the response detailed in the user reservations query), return plain text indicating the availability of the hotel ('unavailable'/'available').
 
 **Example Request:** /availability?hotel_nm=Hyatt&start=2023-06-09&end=2023-06-13
 
 **Example Response:**
 ```
-booked
+unavailable
 ```
 
 **Error Handling:**
@@ -73,4 +97,5 @@ booked
   - If passed in invalid `check-in` `check-out` dates, returns an error with the message: `The dates are invalivd`
 - Possible 500 errors (all plain text):
   - If something else goes wrong on the server, returns an error with the message: `Something went wrong. Please try again later.`
+
 
