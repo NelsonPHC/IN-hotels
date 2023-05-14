@@ -24,14 +24,14 @@
    * gets the name of the selected hotel
    */
   function getHotelName() {
-  // Get the hotel name from the URL query parameter
-  const urlParams = new URLSearchParams(window.location.search);
-  const hotelName = urlParams.get('hotel_nm');
+    // Get the hotel name from the URL query parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const hotelName = urlParams.get('hotel_nm');
 
-  // Display the name on the page
-  let h1 = qs('h1');
-  h1.textContent = hotelName.trim().split('%20')
-  .join(' ');
+    // Display the name on the page
+    let h1 = qs('h1');
+    h1.textContent = hotelName.trim().split('%20')
+      .join(' ');
   }
 
   /**
