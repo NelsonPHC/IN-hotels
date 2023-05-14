@@ -14,8 +14,8 @@
   const PLACES_API_KEY = "AIzaSyAN5au_ZHKqsGwcq1bTufMgbEKAojvh3aw";
   const PLACES_URL = "https://maps.googleapis.com/maps/api/place/findplacefromtext/json";
   const PROXY_URL = "https://cors-anywhere.herokuapp.com/";
-  const TEST_URL = "https://maps.googleapis.com/maps/api/place/details/json?place_id=ChIJrTLr-GyuEmsRBfy61i59si0&fields=address_components&key=AIzaSyAN5au_ZHKqsGwcq1bTufMgbEKAojvh3aw"
-  
+  const TEST_URL = "https://maps.googleapis.com/maps/api/place/details/json?place_id=ChIJrTLr-GyuEmsRBfy61i59si0&fields=address_components&key=AIzaSyAN5au_ZHKqsGwcq1bTufMgbEKAojvh3aw";
+
   window.addEventListener('load', init);
 
   /**
@@ -26,19 +26,39 @@
     makeRequestHotel();
   }
 
+  // function makeRequestHotel() {
+  //   const requestOptions = {
+  //     mode: 'cors',
+  //     headers: {
+  //       'Access-Control-Allow-Origin': '*'
+  //     }
+  //   };
+
+  //   fetch(PROXY_URL + TEST_URL, requestOptions)
+  //     .then(statusCheck)
+  //     .then(resp => resp.json())
+  //     .then(data => console.log(data))
+  //     .catch(console.error);
+  // }
+
+  /**
+   * gets hotel information from our server
+   */
   function makeRequestHotel() {
-    const requestOptions = {
-      mode: 'cors',
-      headers: {
-        'Access-Control-Allow-Origin': '*'
-      }
-    };
-  
-    fetch(PROXY_URL + TEST_URL, requestOptions)
+    fetch('/places')
       .then(statusCheck)
       .then(resp => resp.json())
-      .then(data => console.log(data))
+      .then(handleResponse) // for debugging purpose
       .catch(console.error);
+  }
+
+  /**
+   * this handles response from our places endpoint
+   * @param {object} response a javascript object with the hotel info
+   */
+  function handleResponse(response) {
+    console.log(response);
+    console.log('proxied request success!');
   }
 
   /**
