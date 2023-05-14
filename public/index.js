@@ -10,6 +10,12 @@
 
 "use strict";
 (function() {
+  const GEOCODE_API_KEY = "AIzaSyAlItk_UpPVyKJCBKFJDqy6gBqRXEFtcEw";
+  const PLACES_API_KEY = "AIzaSyAN5au_ZHKqsGwcq1bTufMgbEKAojvh3aw";
+  const PLACES_URL = "https://maps.googleapis.com/maps/api/place/findplacefromtext/json";
+  const PROXY_URL = "https://cors-anywhere.herokuapp.com/";
+  const TEST_URL = "https://maps.googleapis.com/maps/api/place/details/json?place_id=ChIJrTLr-GyuEmsRBfy61i59si0&fields=address_components&key=AIzaSyAN5au_ZHKqsGwcq1bTufMgbEKAojvh3aw"
+  
   window.addEventListener('load', init);
 
   /**
@@ -17,6 +23,22 @@
    */
   function init() {
     generateHotels();
+    makeRequestHotel();
+  }
+
+  function makeRequestHotel() {
+    const requestOptions = {
+      mode: 'cors',
+      headers: {
+        'Access-Control-Allow-Origin': '*'
+      }
+    };
+  
+    fetch(PROXY_URL + TEST_URL, requestOptions)
+      .then(statusCheck)
+      .then(resp => resp.json())
+      .then(data => console.log(data))
+      .catch(console.error);
   }
 
   /**
@@ -46,6 +68,20 @@
     hotelLink.appendChild(hotelCard);
 
     return hotelLink;
+  }
+
+  /**
+   * Helper function to return the response's result text if successful, otherwise
+   * returns the rejected Promise result with an error status and corresponding text
+   * @param {object} res - response to check for success/error
+   * @return {object} - valid response if response was successful, otherwise rejected
+   *                    Promise result
+   */
+  async function statusCheck(res) {
+    if (!res.ok) {
+      throw new Error(await res.text());
+    }
+    return res;
   }
 
   /**
