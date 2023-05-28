@@ -5,23 +5,84 @@ The Hotel API provides information about user logins and their reservations, ava
 
 **Request Type:** POST
 
-**Returned Data Format**: JSON
+**Returned Data Format**: plain text
 
 **Description:** Given a valid `name` and a `password` to login, the server will reply with a JSON response with the user name and its corresponding user ID `uid`.
 
 **Example Request:** /user with POST parameters of `name=Nelson` and `password=abc`
 
 **Example Response:**
-```json
-{
-    "uid": "1",
-    "name": "Nelson"
-}
+```
+1
 ```
 
 **Error Handling:**
 - Possible 400 (invalid request) errors (all plain text):
   - If passed in an invalid user name or password, returns an error with the message: `User name or password is incorrect, please try again`
+- Possible 500 errors (all plain text):
+  - If something else goes wrong on the server, returns an error with the message: `Something went wrong. Please try again later.`
+
+## Get all hotel data or hotel data matching a given hotel ID
+
+**Request Format:** /hotels
+
+**Query Parameters:** hotel ID `hid` (optional)
+
+**Request Type (both requests)):** GET
+
+**Returned Data Format**: JSON
+
+**Description 1:** If the `hid` parameter is not included in the request, gets the `hid`, `hotelName`, `country`, `imageSrc`, `description`, `rating`	`price_per_night` from the `hotel` table and outputs JSON containing the information.
+
+**Example Request 1:** /hotels
+
+**Example Response 1:** (abbreviated)
+```json
+{
+  "hotels":[
+    {
+      "hid": 1,
+      "hotelName": "Hilton",
+      "country": "Singapore",
+      "imageSrc": "hilton.jpg",
+      "description": "Hilton Singapore Orchard is a new and inspiring landmark hotel for the brand in Singapore and the region. ...",
+      "rating": 4.5,
+      "price_per_night": 254
+    },
+    {
+      "hid": 2,
+      "hotelName": "Marina Bay Sands",
+      "country": "Singapore",
+      "imageSrc": "marina.jpg",
+      "description": "Marina Bay Sands is an integrated resort located at the Bayfront Subzone in Downtown Core.  ...",
+      "rating": 4.6,
+      "price_per_night": 582
+    },
+    ...
+  ]
+}
+```
+
+**Description 2:** If the `hid` parameter is included in the request, only get the `hid`, `hotelName`, `country`, `imageSrc`, `description`, `rating`	`price_per_night` from the `hotel` table with the specified `hid` and outputs JSON containing the information.
+
+**Example Request 2:** /hotels?hid=1
+
+**Example Response 2:**
+```json
+{
+  "hid": 1,
+  "hotelName": "Hilton",
+  "country": "Singapore",
+  "imageSrc": "hilton.jpg",
+  "description": "Hilton Singapore Orchard is a new and inspiring landmark hotel for the brand in Singapore and the region. ...",
+  "rating": 4.5,
+  "price_per_night": 254
+}
+```
+
+**Error Handling:**
+- Possible 400 (invalid request) errors (all plain text):
+  - If passed in an invalid hotel ID `hid`, returns an error with the message: `hotel is not found`
 - Possible 500 errors (all plain text):
   - If something else goes wrong on the server, returns an error with the message: `Something went wrong. Please try again later.`
 
