@@ -39,6 +39,7 @@ nav > img, .menu, a > img {
   width: 250px;
   height: 90vh;
   margin: 0;
+  border-bottom-right-radius: 50px;
 }
 
 .menu-box {
@@ -51,7 +52,7 @@ nav > img, .menu, a > img {
   font-size: 24px;
 }
 
-.menu:hover {
+.menu:hover, .right-icon {
   cursor: pointer;
 }
 
@@ -90,4 +91,65 @@ nav, .menu-bar {
 
 nav > p, .menu-box > a > p {
   color: white;
+}
+
+.login-box {
+  margin-right: auto;
+  margin-top: 5%;
+}
+
+.align-right {
+  background-color: rgb(28, 27, 27);
+  width: 20%;
+  margin-left: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  border-bottom-left-radius: 30px;
+}
+
+#username, #password {
+  width: 90%;
+  text-align: left;
+  margin-left: 10px;
+  font-size: 16px;
+}
+
+.login-box > label {
+  color: white;
+  margin-left: 10px;
+}
+
+.center {
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+input {
+  border-radius: 12px;
+  height: 50px;
+  border-color: black;
+  border-width: 2px;
+}
+
+.align-right > p {
+  color: white;
+  margin-left: 20px;
+  font-size: 18px;
+  margin-top: 5px;
+}
+
+#user {
+  text-decoration: underline;
+  text-decoration-color: white;
+}
+
+.center > button {
+  border-radius: 12px;
+  background-color: white;
+  font-size: 14px;
+}
+
+.center > button:hover {
+  cursor: pointer;
 }

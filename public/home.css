@@ -43,7 +43,7 @@ article {
   height: 100vh;
 }
 
-input, select {
+select {
   border-radius: 12px;
   height: 50px;
   border-color: black;

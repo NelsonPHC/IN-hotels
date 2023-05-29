@@ -9,6 +9,9 @@
 
 "use strict";
 (function() {
+  let UID = ""; //make sure to remove event listeners for profile and menu when backend
+  // is complete
+
   window.addEventListener('load', init);
 
   /**
@@ -16,6 +19,17 @@
    */
   function init() {
     qs(".menu").addEventListener("click", clickMenu);
+    qs(".right-icon").addEventListener("click", clickProfile);
+  }
+
+  /**
+   * Toggles login view
+   */
+  function clickProfile() {
+    qs(".user-bar").classList.toggle("hidden");
+    if (!qs(".menu-bar").classList.contains("hidden")) {
+      qs(".menu-bar").classList.toggle("hidden");
+    }
   }
 
   /**
@@ -23,6 +37,9 @@
    */
   function clickMenu() {
     qs(".menu-bar").classList.toggle("hidden");
+    if (!qs(".user-bar").classList.contains("hidden")) {
+      qs(".user-bar").classList.toggle("hidden");
+    }
   }
 
   /**
