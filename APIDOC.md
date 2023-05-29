@@ -63,7 +63,7 @@ The Hotel API provides information about user logins and their reservations, ava
 }
 ```
 
-**Description 2:** If the `search` and/or `country_filter` parameter is included in the request, respond with all the hotel IDs (`hid`) of the hotels whose `hotelName` mathces the term passed in the `search` query parameter and/or `country` equals the filtering country passed in the `country_filter` query parameter (ordered by the `hid`s).
+**Description 2:** If the `search` and/or `country_filter` parameter is included in the request, respond with all the hotel IDs (`hid`) of the hotels whose `hotelName` mathces the term passed in the `search` query parameter and/or `country` equals the filtering country passed in the `country_filter` query parameter (ordered by the `hid`s). A "match" would be any `hotelName` that has the `search` term in any position meaning that the term "hilton" should match any `hotelName` containing the words "hilton", "DoubleTree by Hilton Taipei Zhongshan" or "Hilton Queenstown Resort & Spa" (as an example, not exhaustive, more matches are possible).
 
 **Example Request 2:** /hotels?search=hilton
 

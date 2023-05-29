@@ -74,11 +74,11 @@ function queryParam(search, filter) {
     query += 'hotelName like ? ';
     inputArr.push('%' + search + '%');
     if (filter) {
-      query += 'and country = ? ';
+      query += 'and lower(country) = lower(?) ';
       inputArr.push(filter);
     }
   } else if (filter) {
-    query += 'country = ? ';
+    query += 'lower(country) = lower(?) ';
     inputArr.push(filter);
   }
 
