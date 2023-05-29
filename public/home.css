@@ -67,32 +67,91 @@ h1, .caption, input, select {
 }
 
 /* For grid view of hotels */
-
-.display {
+.grid {
   justify-content: center;
   margin: 5%;
-}
-
-.grid {
+  display: flex;
   flex-wrap: wrap;
 }
 
 .display > a {
   margin: 15px;
-  height: 400px;
-  width: 300px;
   color: black;
 }
 
-.display, .search-bar {
+.grid > a {
+  height: 400px;
+  width: 300px;
+}
+
+.grid, .search-bar {
   display: flex;
 }
 
-.display > a, .search-bar {
+.grid > a, .search-bar {
   align-items: center;
 }
 
 .display > a > div > img {
   width: 300px;
   height: 200px;
+}
+
+/* For list view of hotels */
+.list {
+  margin-left: 100px;
+  margin-right: 100px;
+}
+
+.list > a > div {
+  display: flex;
+}
+
+.list > a {
+  height: 250px;
+  align-items: center;
+  justify-content: center;
+}
+
+.list > a > div {
+  width: 60%;
+}
+
+.list > a > div > div, .list .price {
+  margin: 20px;
+}
+
+.list .price {
+  margin-left: auto;
+}
+
+.hotel-name {
+  font-size: 24px;
+  color: rgb(123, 123, 190);
+  margin: 0%;
+}
+
+.price {
+  margin: 0%;
+  text-align: right;
+  font-size: 20px;
+  color: rgb(59, 106, 66);
+}
+
+.grid-view {
+  width: 60px;
+  height: 60px;
+  cursor: pointer;
+}
+
+.list-view {
+  width: 100px;
+  height: 100px;
+  cursor: pointer;
+}
+
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

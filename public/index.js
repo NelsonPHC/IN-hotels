@@ -17,6 +17,18 @@
    */
   function init() {
     makeRequestHotel();
+    qs(".grid-view").addEventListener("click", () => {
+      if (!qs(".display").classList.contains("grid")) {
+        qs(".display").classList.add("grid");
+        qs(".display").classList.remove("list");
+      }
+    });
+    qs(".list-view").addEventListener("click", () => {
+      if (!qs(".display").classList.contains("list")) {
+        qs(".display").classList.add("list");
+        qs(".display").classList.remove("grid");
+      }
+    });
   }
 
   /**
@@ -34,48 +46,60 @@
    * Generates a set of hotels
    */
   function generateHotels(response) {
-    
     const parent = qs('.display');
     const hotels = response.hotels;
-    console.log(hotels);
     for (let i = 0; i < hotels.length; i++) {
-      const hotelLink = gen("a");
-      const hotelCard = gen("div");
-      const hotelImage = gen("img");
-      const hotelName = gen("p");
-      const location = gen("p");
-      hotelImage.src = "imgs/hotels/" + hotels[i].imageSrc;
-      hotelImage.alt = "Image of " + hotels[i].hotelName;
-      hotelName.textContent = hotels[i].hotelName;
-      location.textContent = hotels[i].country;
-      hotelCard.id = hotels[i].hid;
-      hotelLink.href = "item.html?hotel_nm=" + hotelName.textContent;
-      hotelCard.appendChild(hotelImage);
-      hotelCard.appendChild(hotelName);
-      hotelCard.appendChild(location);
-      hotelLink.appendChild(hotelCard);
-      parent.appendChild(hotelLink);
+      parent.appendChild(gridView(hotels[i]));
     }
   }
 
   /**
    * Generates hotels for the home page
+   * @param {integer} i - the hotel number in the given response
    * @returns {HTMLElement} a link element associated with a div that contains hotel image, name
    * @todo add hotel src and text content
    */
-  function generateHotel() {
-    let hotelLink = document.createElement('a');
-    let hotelCard = document.createElement('div');
-    let hotelImg = document.createElement('img');
-    let hotelName = document.createElement('p');
-    hotelImg.alt = 'hotel image';
-    hotelName.textContent = 'AAA hotel';
-    hotelLink.href = 'item.html?hotel_nm=' + hotelName.textContent;
-    hotelCard.appendChild(hotelImg);
-    hotelCard.appendChild(hotelName);
+  function gridView(hotels) {
+    const hotelLink = gen("a");
+    const hotelCard = gen("div");
+    const group = gen("div");
+    const hotelImage = gen("img");
+    const hotelName = gen("p");
+    const location = gen("p");
+    const price = gen("p");
+    hotelImage.src = "imgs/hotels/" + hotels.imageSrc;
+    hotelImage.alt = "Image of " + hotels.hotelName;
+    hotelName.textContent = hotels.hotelName;
+    hotelName.classList.add("hotel-name");
+    location.textContent = hotels.country;
+    hotelCard.id = hotels.hid;
+    hotelLink.href = "item.html?hotel_nm=" + hotelName.textContent;
+    price.textContent = "$" + hotels.price_per_night + "/night";
+    price.classList.add("price");
+    hotelCard.appendChild(hotelImage);
+    hotelCard.appendChild(group);
+    group.appendChild(hotelName);
+    group.appendChild(location);
+    hotelCard.appendChild(price);
     hotelLink.appendChild(hotelCard);
 
     return hotelLink;
+  }
+
+  function makeRequestListHotel() {
+    fetch('/hotels')
+      .then(statusCheck)
+      .then(resp => resp.json())
+      .then(generateListHotels)
+      .catch(console.error);
+  }
+
+  function generateListHotels() {
+    const parent = qs('.display');
+    const hotels = response.hotels;
+    for (let i = 0; i < hotels.length; i++) {
+      parent.appendChild(gridView(hotels[i]));
+    }
   }
 
   /**
