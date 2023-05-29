@@ -22,7 +22,7 @@ The Hotel API provides information about user logins and their reservations, ava
 - Possible 500 errors (all plain text):
   - If something else goes wrong on the server, returns an error with the message: `Something went wrong. Please try again later.`
 
-## Get all hotel data or hotel data that matches the search and filter criteria
+## Get all hotel data or hotel data that matches the search and/or filter criteria
 
 **Request Format:** /hotels
 
