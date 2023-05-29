@@ -55,7 +55,7 @@
 
   /**
    * Generates hotels for the home page
-   * @param {integer} i - the hotel number in the given response
+   * @param {Object} hotels - The response containing hotel information
    * @returns {HTMLElement} a link element associated with a div that contains hotel image, name
    * @todo add hotel src and text content
    */
