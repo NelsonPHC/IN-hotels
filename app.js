@@ -37,14 +37,14 @@ app.get('/places', (req, res) => {
   );
 });
 
-// Get all hotel data or hotel data matching a given hotel ID
+// Get all hotel data or hotel data matching a given search term and/or filter
 app.get('/hotels', async (req, res) => {
-  let hid = req.query.hid;
+  let search = req.query.search;
+  let filter = req.query.country_filter;
   try {
     let db = await getDBConnection();
-    const query = hid ? 'select * from hotels where hid = ?' :
-      'select * from hotels order by hotelName';
-    let queryResults = await db.all(query, hid ? hid : []);
+    let q = queryParam(search, filter);
+    let queryResults = await db.all(q.query, q.inputArr);
     await db.close();
     if (queryResults.length === 0) {
       res.type('text').status(400)
@@ -57,6 +57,42 @@ app.get('/hotels', async (req, res) => {
       .send('An error occurred on the server. Try again later.');
   }
 });
+
+/**
+ * based on the search or filter are applied, return the query and placeholder array for using sql
+ * in node.js
+ * @param {string} search search term for hotelName
+ * @param {string} filter the country filter
+ * @returns {dictionary} a dictionary containing the query and placeholder array, with keys 'query'
+ * and 'inputArr' respectively.
+ */
+function queryParam(search, filter) {
+  let query = (search || filter) ? 'select hid from hotels where ' :
+    'select * from hotels order by hotelName, country';
+  let inputArr = [];
+  if (search) {
+    query += 'hotelName like ? ';
+    inputArr.push('%' + search + '%');
+    if (filter) {
+      query += 'and country = ? ';
+      inputArr.push(filter);
+    }
+  } else if (filter) {
+    query += 'country = ? ';
+    inputArr.push(filter);
+  }
+
+  if (search || filter) { // if search or filter is specified, order the returned hid's
+    query += 'order by hid';
+  }
+
+  let queryAndInput = {
+    'query': query,
+    'inputArr': inputArr
+  };
+
+  return queryAndInput;
+}
 
 /**
  * Establishes a database connection to a database and returns the database object.

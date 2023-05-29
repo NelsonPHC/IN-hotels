@@ -84,6 +84,10 @@ The Hotel API provides information about user logins and their reservations, ava
 }
 ```
 
+- Possible 500 errors (all plain text):
+  - If something else goes wrong on the server, returns an error with the message: `Something went wrong. Please try again later.`
+
+
 ## Get hotel data matching a given hotel ID
 
 **Request Format:** /hotels/:hid
