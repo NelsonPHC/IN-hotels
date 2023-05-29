@@ -46,12 +46,7 @@ app.get('/hotels', async (req, res) => {
     let q = queryParam(search, filter);
     let queryResults = await db.all(q.query, q.inputArr);
     await db.close();
-    if (queryResults.length === 0) {
-      res.type('text').status(400)
-        .send('hotel is not found.');
-    } else {
-      res.json({'hotels': queryResults});
-    }
+    res.json({'hotels': queryResults});
   } catch (err) {
     res.type('text').status(500)
       .send('An error occurred on the server. Try again later.');
