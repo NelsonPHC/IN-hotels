@@ -10,63 +10,51 @@
 
 "use strict";
 (function() {
-  const GEOCODE_API_KEY = "AIzaSyAlItk_UpPVyKJCBKFJDqy6gBqRXEFtcEw";
-  const PLACES_API_KEY = "AIzaSyAN5au_ZHKqsGwcq1bTufMgbEKAojvh3aw";
-  const PLACES_URL = "https://maps.googleapis.com/maps/api/place/findplacefromtext/json";
-  const PROXY_URL = "https://cors-anywhere.herokuapp.com/";
-  const TEST_URL = "https://maps.googleapis.com/maps/api/place/details/json?place_id=ChIJrTLr-GyuEmsRBfy61i59si0&fields=address_components&key=AIzaSyAN5au_ZHKqsGwcq1bTufMgbEKAojvh3aw";
-
   window.addEventListener('load', init);
 
   /**
    * initiates page upon load
    */
   function init() {
-    generateHotels();
     makeRequestHotel();
   }
-
-  // function makeRequestHotel() {
-  //   const requestOptions = {
-  //     mode: 'cors',
-  //     headers: {
-  //       'Access-Control-Allow-Origin': '*'
-  //     }
-  //   };
-
-  //   fetch(PROXY_URL + TEST_URL, requestOptions)
-  //     .then(statusCheck)
-  //     .then(resp => resp.json())
-  //     .then(data => console.log(data))
-  //     .catch(console.error);
-  // }
 
   /**
    * gets hotel information from our server
    */
   function makeRequestHotel() {
-    fetch('/places')
+    fetch('/hotels')
       .then(statusCheck)
       .then(resp => resp.json())
-      .then(handleResponse) // for debugging purpose
+      .then(generateHotels)
       .catch(console.error);
-  }
-
-  /**
-   * this handles response from our places endpoint
-   * @param {object} response a javascript object with the hotel info
-   */
-  function handleResponse(response) {
-    console.log(response);
-    console.log('proxied request success!');
   }
 
   /**
    * Generates a set of hotels
    */
-  function generateHotels() {
-    for (let i = 0; i < 10; i++) {
-      id('display').appendChild(generateHotel());
+  function generateHotels(response) {
+    
+    const parent = qs('.display');
+    const hotels = response.hotels;
+    console.log(hotels);
+    for (let i = 0; i < hotels.length; i++) {
+      const hotelLink = gen("a");
+      const hotelCard = gen("div");
+      const hotelImage = gen("img");
+      const hotelName = gen("p");
+      const location = gen("p");
+      hotelImage.src = "imgs/hotels/" + hotels[i].imageSrc;
+      hotelImage.alt = "Image of " + hotels[i].hotelName;
+      hotelName.textContent = hotels[i].hotelName;
+      location.textContent = hotels[i].country;
+      hotelCard.id = hotels[i].hid;
+      hotelLink.href = "item.html?hotel_nm=" + hotelName.textContent;
+      hotelCard.appendChild(hotelImage);
+      hotelCard.appendChild(hotelName);
+      hotelCard.appendChild(location);
+      hotelLink.appendChild(hotelCard);
+      parent.appendChild(hotelLink);
     }
   }
 
@@ -105,11 +93,29 @@
   }
 
   /**
+   * Creates a new HTML element of the specified type.
+   * @param {string} element - The type of HTML element to create.
+   * @returns {object} - The newly created HTML element.
+   */
+  function gen(element) {
+    return document.createElement(element);
+  }
+
+  /**
    * Returns the element that has the ID attribute with the specified value.
    * @param {string} id - element ID.
    * @returns {object} - DOM object associated with id.
    */
   function id(id) {
     return document.getElementById(id);
+  }
+
+  /**
+   * Returns first element matching selector.
+   * @param {string} selector - CSS query selector.
+   * @returns {object} - DOM object associated selector.
+   */
+  function qs(selector) {
+    return document.querySelector(selector);
   }
 })();

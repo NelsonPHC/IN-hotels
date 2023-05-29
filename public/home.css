@@ -66,22 +66,33 @@ h1, .caption, input, select {
   text-align: center;
 }
 
-#display {
+/* For grid view of hotels */
+
+.display {
   justify-content: center;
-  flex-wrap: wrap;
-  margin: 10%;
+  margin: 5%;
 }
 
-#display > a {
+.grid {
+  flex-wrap: wrap;
+}
+
+.display > a {
   margin: 15px;
   height: 400px;
   width: 300px;
+  color: black;
 }
 
-#display, .search-bar {
+.display, .search-bar {
   display: flex;
 }
 
-#display > a, .search-bar {
+.display > a, .search-bar {
   align-items: center;
+}
+
+.display > a > div > img {
+  width: 300px;
+  height: 200px;
 }
