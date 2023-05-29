@@ -71,13 +71,15 @@ The Hotel API provides information about user logins and their reservations, ava
 ```json
 {
   "hotels":[
-    "hid": 1,
-    "hotelName": "Hilton",
-    "country": "Singapore",
-    "imageSrc": "hilton.jpg",
-    "description": "Hilton Singapore Orchard is a new and inspiring landmark hotel for the brand in Singapore and the region. ...",
-    "rating": 4.5,
-    "price_per_night": 254
+    {
+      "hid": 1,
+      "hotelName": "Hilton",
+      "country": "Singapore",
+      "imageSrc": "hilton.jpg",
+      "description": "Hilton Singapore Orchard is a new and inspiring landmark hotel for the brand in Singapore and the region. ...",
+      "rating": 4.5,
+      "price_per_night": 254
+    }
   ]
 }
 ```
