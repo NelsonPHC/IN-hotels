@@ -124,33 +124,7 @@ The Hotel API provides information about user logins and their reservations, ava
 - Possible 500 errors (all plain text):
   - If something else goes wrong on the server, returns an error with the message: `Something went wrong. Please try again later.`
 
-## 4. Get all previous reservations for a designated user
-**Request Format:** /reservations endpoint with POST parameters of user ID `uid`
-
-**Request Type:** POST
-
-**Returned Data Format**: JSON
-
-**Description:** Given a valid user ID `uid` (this is the same user id format as given by the response detailed in the user login query), return a JSON response with all the reservations of that user. Each reservation record have a hotel `hotelName`, `check-in` date, and `check-out` date.
-
-**Example Request:** /reservations with POST parameters of user ID `uid` (Hilton has `hid`=1 in our example here)
-
-**Example Response:**
-```json
-{
-    "hotelName": "Hilton",
-    "check-in": "2023-06-07",
-    "check-out": "2023-06-13"
-}
-```
-
-**Error Handling:**
-- Possible 400 (invalid request) errors (all plain text):
-  - If passed in an invalid user ID `uid`, returns an error with the message: `User is not found, please try again.`
-- Possible 500 errors (all plain text):
-  - If something else goes wrong on the server, returns an error with the message: `Something went wrong. Please try again later.`
-
-## 5. Make a booking
+## 4. Make a booking
 **Request Format:** /book endpoint with POST parameters of user ID `uid`, hotel ID `hid`, `check-in`, `check-out`.
 
 **Request Type:** POST
@@ -171,6 +145,32 @@ success
   - If passed in an invalid hotel ID `hid`, returns an error with the message: `hotel is not found`
   - If passed in an invalid user ID `uid`, returns an error with the message: `user is not found`
   - If passed in invalid `check-in` `check-out` dates, returns an error with the message: `The dates are invalid`
+- Possible 500 errors (all plain text):
+  - If something else goes wrong on the server, returns an error with the message: `Something went wrong. Please try again later.`
+
+## 5. Get all previous reservations for a designated user
+**Request Format:** /reservations endpoint with POST parameters of user ID `uid`
+
+**Request Type:** POST
+
+**Returned Data Format**: JSON
+
+**Description:** Given a valid user ID `uid` (this is the same user id format as given by the response detailed in the user login query), return a JSON response with all the reservations of that user. Each reservation record have a hotel `hotelName`, `check-in` date, and `check-out` date.
+
+**Example Request:** /reservations with POST parameters of user ID `uid`=1 (Hilton has `hid`=1 in our example here)
+
+**Example Response:**
+```json
+{
+    "hotelName": "Hilton",
+    "check-in": "2023-06-07",
+    "check-out": "2023-06-13"
+}
+```
+
+**Error Handling:**
+- Possible 400 (invalid request) errors (all plain text):
+  - If passed in an invalid user ID `uid`, returns an error with the message: `User is not found, please try again.`
 - Possible 500 errors (all plain text):
   - If something else goes wrong on the server, returns an error with the message: `Something went wrong. Please try again later.`
 
