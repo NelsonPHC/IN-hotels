@@ -32,7 +32,7 @@ The Hotel API provides information about user logins and their reservations, ava
 
 **Returned Data Format**: JSON
 
-**Description 1:** If the parameters are not included in the request, gets the `hid`, `hotelName`, `country`, `imageSrc`, `description`, `rating`	`price_per_night` from the `hotel` table and outputs JSON containing the information in alphabetical order of `hotelName`, breaking ties by `country` alphabetically.
+**Description 1:** If the parameters are not included in the request, gets the `hid`, `hotelName`, `country`, `imageSrc`, `citation`, `description`, `rating`	`price_per_night` from the `hotel` table and outputs JSON containing the information in alphabetical order of `hotelName`, breaking ties by `country` alphabetically.
 
 **Example Request 1:** /hotels
 
@@ -45,6 +45,7 @@ The Hotel API provides information about user logins and their reservations, ava
       "hotelName": "Hilton",
       "country": "Singapore",
       "imageSrc": "hilton.jpg",
+      "citation": "Trip Advisor",
       "description": "Hilton Singapore Orchard is a new and inspiring landmark hotel for the brand in Singapore and the region. ...",
       "rating": 4.5,
       "price_per_night": 254
@@ -54,6 +55,7 @@ The Hotel API provides information about user logins and their reservations, ava
       "hotelName": "Marina Bay Sands",
       "country": "Singapore",
       "imageSrc": "marina.jpg",
+      "citation": "Veena World",
       "description": "Marina Bay Sands is an integrated resort located at the Bayfront Subzone in Downtown Core.  ...",
       "rating": 4.6,
       "price_per_night": 582
@@ -98,7 +100,7 @@ The Hotel API provides information about user logins and their reservations, ava
 
 **Returned Data Format**: JSON
 
-**Description:** Gets the `hid`, `hotelName`, `country`, `imageSrc`, `description`, `rating`	`price_per_night` from the `hotel` table with the specified `hid`. The `hid` is taken exactly as passed in the request. This endpoint is intended for our item page.
+**Description:** Gets the `hid`, `hotelName`, `country`, `imageSrc`, `citation`, `description`, `rating`	`price_per_night` from the `hotel` table with the specified `hid`. The `hid` is taken exactly as passed in the request. This endpoint is intended for our item page.
 
 **Example Request:** /hotels/1
 
@@ -109,6 +111,7 @@ The Hotel API provides information about user logins and their reservations, ava
   "hotelName": "Hilton",
   "country": "Singapore",
   "imageSrc": "hilton.jpg",
+  "citation": "Trip Advisor",
   "description": "Hilton Singapore Orchard is a new and inspiring landmark hotel for the brand in Singapore and the region. ...",
   "rating": 4.5,
   "price_per_night": 254
@@ -117,7 +120,7 @@ The Hotel API provides information about user logins and their reservations, ava
 
 **Error Handling:**
 - Possible 400 (invalid request) errors (all plain text):
-  - If `hid` is not an existing hotel ID, returns an error with the message: `hotel is not found.`
+  - If `hid` is not an existing hotel ID, returns an error with the message: `hotel is not found`
 - Possible 500 errors (all plain text):
   - If something else goes wrong on the server, returns an error with the message: `Something went wrong. Please try again later.`
 
@@ -130,12 +133,12 @@ The Hotel API provides information about user logins and their reservations, ava
 
 **Description:** Given a valid user ID `uid` (this is the same user id format as given by the response detailed in the user login query), return a JSON response with all the reservations of that user. Each reservation record have a hotel `hotelName`, `check-in` date, and `check-out` date.
 
-**Example Request:** /reservations with POST parameters of user ID `uid` (Hyatt has `hid`=1 in our example here)
+**Example Request:** /reservations with POST parameters of user ID `uid` (Hilton has `hid`=1 in our example here)
 
 **Example Response:**
 ```json
 {
-    "hotelName": "Hyatt",
+    "hotelName": "Hilton",
     "check-in": "2023-06-07",
     "check-out": "2023-06-13"
 }

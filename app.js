@@ -53,6 +53,26 @@ app.get('/hotels', async (req, res) => {
   }
 });
 
+// Get hotel data of a particular hotel ID hid
+app.get('/hotels/:hid', async (req, res) => {
+  let hid = req.params.hid;
+  try {
+    let db = await getDBConnection();
+    const query = 'select * from hotels where hid = ?';
+    let queryResults = await db.all(query, hid);
+    await db.close();
+    if (queryResults.length === 0) {
+      res.type('text').status(400)
+        .send('hotel is not found');
+    } else {
+      res.json(queryResults);
+    }
+  } catch (err) {
+    res.type('text').status(500)
+      .send('An error occurred on the server. Try again later.');
+  }
+});
+
 /**
  * based on the search or filter are applied, return the query and placeholder array for using sql
  * in node.js
