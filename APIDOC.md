@@ -70,19 +70,21 @@ The Hotel API provides information about user logins and their reservations, ava
 **Example Response 2:**
 ```json
 {
-  "hid": 1,
-  "hotelName": "Hilton",
-  "country": "Singapore",
-  "imageSrc": "hilton.jpg",
-  "description": "Hilton Singapore Orchard is a new and inspiring landmark hotel for the brand in Singapore and the region. ...",
-  "rating": 4.5,
-  "price_per_night": 254
+  "hotels":[
+    "hid": 1,
+    "hotelName": "Hilton",
+    "country": "Singapore",
+    "imageSrc": "hilton.jpg",
+    "description": "Hilton Singapore Orchard is a new and inspiring landmark hotel for the brand in Singapore and the region. ...",
+    "rating": 4.5,
+    "price_per_night": 254
+  ]
 }
 ```
 
 **Error Handling:**
 - Possible 400 (invalid request) errors (all plain text):
-  - If passed in an invalid hotel ID `hid`, returns an error with the message: `hotel is not found`
+  - If passed in an invalid hotel ID `hid`, returns an error with the message: `hotel is not found.`
 - Possible 500 errors (all plain text):
   - If something else goes wrong on the server, returns an error with the message: `Something went wrong. Please try again later.`
 
