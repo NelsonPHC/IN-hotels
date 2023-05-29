@@ -9,7 +9,7 @@ The Hotel API provides information about user logins and their reservations, ava
 
 **Description:** Given a valid `name` and a `password` to login, the server will reply with a JSON response with the user name and its corresponding user ID `uid`.
 
-**Example Request:** /user with POST parameters of `name=Nelson` and `password=abc`
+**Example Request:** /user with POST parameters of `name=Nelson` and `password=Nel123`
 
 **Example Response:**
 ```
@@ -22,17 +22,17 @@ The Hotel API provides information about user logins and their reservations, ava
 - Possible 500 errors (all plain text):
   - If something else goes wrong on the server, returns an error with the message: `Something went wrong. Please try again later.`
 
-## Get all hotel data or hotel data matching a given hotel ID
+## Get all hotel data or hotel data that matches the search and filter criteria
 
 **Request Format:** /hotels
 
-**Query Parameters:** hotel ID `hid` (optional)
+**Query Parameters:** `search`, `country_filter` (both optional)
 
 **Request Type (both requests)):** GET
 
 **Returned Data Format**: JSON
 
-**Description 1:** If the `hid` parameter is not included in the request, gets the `hid`, `hotelName`, `country`, `imageSrc`, `description`, `rating`	`price_per_night` from the `hotel` table and outputs JSON containing the information.
+**Description 1:** If the parameters are not included in the request, gets the `hid`, `hotelName`, `country`, `imageSrc`, `description`, `rating`	`price_per_night` from the `hotel` table and outputs JSON containing the information in alphabetical order of `hotelName`, breaking ties by `country` alphabetically.
 
 **Example Request 1:** /hotels
 
@@ -63,30 +63,57 @@ The Hotel API provides information about user logins and their reservations, ava
 }
 ```
 
-**Description 2:** If the `hid` parameter is included in the request, only get the `hid`, `hotelName`, `country`, `imageSrc`, `description`, `rating`	`price_per_night` from the `hotel` table with the specified `hid` and outputs JSON containing the information.
+**Description 2:** If the `search` and/or `country_filter` parameter is included in the request, respond with all the hotel IDs (`hid`) of the hotels whose `hotelName` mathces the term passed in the `search` query parameter and/or `country` equals the filtering country passed in the `country_filter` query parameter (ordered by the `hid`s).
 
-**Example Request 2:** /hotels?hid=1
+**Example Request 2:** /hotels?search=hilton
 
 **Example Response 2:**
 ```json
 {
   "hotels":[
     {
-      "hid": 1,
-      "hotelName": "Hilton",
-      "country": "Singapore",
-      "imageSrc": "hilton.jpg",
-      "description": "Hilton Singapore Orchard is a new and inspiring landmark hotel for the brand in Singapore and the region. ...",
-      "rating": 4.5,
-      "price_per_night": 254
+      "hid": 1
+    },
+    {
+      "hid": 4
+    },
+    {
+      "hid": 24
     }
   ]
 }
 ```
 
+## Get hotel data matching a given hotel ID
+
+**Request Format:** /hotels/:hid
+
+**Query Parameters:** none.
+
+**Request Type (both requests)):** GET
+
+**Returned Data Format**: JSON
+
+**Description:** Gets the `hid`, `hotelName`, `country`, `imageSrc`, `description`, `rating`	`price_per_night` from the `hotel` table with the specified `hid`. The `hid` is taken exactly as passed in the request. This endpoint is intended for our item page.
+
+**Example Request:** /hotels/1
+
+**Example Response:**
+```json
+{
+  "hid": 1,
+  "hotelName": "Hilton",
+  "country": "Singapore",
+  "imageSrc": "hilton.jpg",
+  "description": "Hilton Singapore Orchard is a new and inspiring landmark hotel for the brand in Singapore and the region. ...",
+  "rating": 4.5,
+  "price_per_night": 254
+}
+```
+
 **Error Handling:**
 - Possible 400 (invalid request) errors (all plain text):
-  - If passed in an invalid hotel ID `hid`, returns an error with the message: `hotel is not found.`
+  - If `hid` is not an existing hotel ID, returns an error with the message: `hotel is not found.`
 - Possible 500 errors (all plain text):
   - If something else goes wrong on the server, returns an error with the message: `Something went wrong. Please try again later.`
 
