@@ -1,6 +1,6 @@
 # Hotel API Documentation
 The Hotel API provides information about user logins and their reservations, availability of hotels, as well as make a booking.
-## User login
+## 1. User login
 **Request Format:** /user endpoint with POST parameters of `name` and `password`
 
 **Request Type:** POST
@@ -22,7 +22,7 @@ The Hotel API provides information about user logins and their reservations, ava
 - Possible 500 errors (all plain text):
   - If something else goes wrong on the server, returns an error with the message: `Something went wrong. Please try again later.`
 
-## Get all hotel data or hotel data that matches the search and/or filter criteria
+## 2. Get all hotel data or hotel data that matches the search and/or filter criteria
 
 **Request Format:** /hotels
 
@@ -90,7 +90,7 @@ The Hotel API provides information about user logins and their reservations, ava
   - If something else goes wrong on the server, returns an error with the message: `Something went wrong. Please try again later.`
 
 
-## Get hotel data by a given hotel ID
+## 3. Get hotel data by a given hotel ID
 
 **Request Format:** /hotels/:hid
 
@@ -124,7 +124,7 @@ The Hotel API provides information about user logins and their reservations, ava
 - Possible 500 errors (all plain text):
   - If something else goes wrong on the server, returns an error with the message: `Something went wrong. Please try again later.`
 
-## User reservations
+## 4. Get all previous reservations for a designated user
 **Request Format:** /reservations endpoint with POST parameters of user ID `uid`
 
 **Request Type:** POST
@@ -150,7 +150,7 @@ The Hotel API provides information about user logins and their reservations, ava
 - Possible 500 errors (all plain text):
   - If something else goes wrong on the server, returns an error with the message: `Something went wrong. Please try again later.`
 
-## Make a booking
+## 5. Make a booking
 **Request Format:** /book endpoint with POST parameters of user ID `uid`, hotel ID `hid`, `check-in`, `check-out`.
 
 **Request Type:** POST
@@ -174,7 +174,7 @@ success
 - Possible 500 errors (all plain text):
   - If something else goes wrong on the server, returns an error with the message: `Something went wrong. Please try again later.`
 
-## Hotel availability
+## 6. Hotel availability
 **Request Format:** /availability?hotel_id={hid}&start={check-in}&end={check-out}
 
 **Request Type:** GET
@@ -196,5 +196,3 @@ unavailable
   - If passed in invalid `check-in` `check-out` dates, returns an error with the message: `The dates are invalid`
 - Possible 500 errors (all plain text):
   - If something else goes wrong on the server, returns an error with the message: `Something went wrong. Please try again later.`
-
-
