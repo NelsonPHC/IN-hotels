@@ -37,6 +37,32 @@ app.get('/places', (req, res) => {
   );
 });
 
+// User login
+app.post('/user', async (req, res) => {
+  res.type('text');
+  let name = req.body.name;
+  let pwd = req.body.password;
+  if (name && pwd) {
+    try {
+      let db = await getDBConnection();
+      const query = 'select uid from users where name = ? and password = ?';
+      let queryResults = await db.all(query, [name, pwd]);
+      await db.close();
+      if (queryResults.length === 0) {
+        res.status(400).send('User name or password is incorrect, please try again');
+      } else {
+        let uid = queryResults[0].uid;
+        res.send(uid.toString()); // integer need to be parsed to string
+      }
+    } catch (err) {
+      console.error(err);
+      res.status(500).send('An error occurred on the server. Try again later.');
+    }
+  } else {
+    res.status(400).send('Please enter both user name and password');
+  }
+});
+
 // Get all hotel data or hotel data matching a given search term and/or filter
 app.get('/hotels', async (req, res) => {
   let search = req.query.search;
@@ -53,7 +79,7 @@ app.get('/hotels', async (req, res) => {
   }
 });
 
-// Get hotel data of a particular hotel ID hid
+// Get hotel data by a given hotel ID
 app.get('/hotels/:hid', async (req, res) => {
   let hid = req.params.hid;
   try {
