@@ -139,14 +139,14 @@ h1, .caption, input, select {
 }
 
 .grid-view {
-  width: 60px;
-  height: 60px;
+  width: 40px;
+  height: 40px;
   cursor: pointer;
 }
 
 .list-view {
-  width: 100px;
-  height: 100px;
+  width: 60px;
+  height: 60px;
   cursor: pointer;
 }
 
