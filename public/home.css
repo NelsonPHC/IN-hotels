@@ -68,9 +68,7 @@ h1, .caption, input, select {
 
 /* For grid view of hotels */
 .grid {
-  justify-content: center;
   margin: 5%;
-  display: flex;
   flex-wrap: wrap;
 }
 
@@ -81,19 +79,9 @@ h1, .caption, input, select {
 
 .grid > a {
   height: 400px;
-  width: 300px;
-}
-
-.grid, .search-bar {
-  display: flex;
-}
-
-.grid > a, .search-bar {
-  align-items: center;
 }
 
 .display > a > div > img {
-  width: 300px;
   height: 200px;
 }
 
@@ -103,14 +91,9 @@ h1, .caption, input, select {
   margin-right: 100px;
 }
 
-.list > a > div {
-  display: flex;
-}
 
 .list > a {
   height: 250px;
-  align-items: center;
-  justify-content: center;
 }
 
 .list > a > div {
@@ -128,11 +111,9 @@ h1, .caption, input, select {
 .hotel-name {
   font-size: 24px;
   color: rgb(123, 123, 190);
-  margin: 0%;
 }
 
 .price {
-  margin: 0%;
   text-align: right;
   font-size: 20px;
   color: rgb(59, 106, 66);
@@ -141,17 +122,33 @@ h1, .caption, input, select {
 .grid-view {
   width: 40px;
   height: 40px;
-  cursor: pointer;
 }
 
 .list-view {
   width: 60px;
   height: 60px;
-  cursor: pointer;
 }
 
-.center {
-  display: flex;
+.grid, .list > a, .center {
   justify-content: center;
+}
+
+.grid, .search-bar, .center, .list > a > div {
+  display: flex;
+}
+
+.grid > a, .display > a > div > img {
+  width: 300px;
+}
+
+.search-bar, .center, .list > a {
   align-items: center;
+}
+
+.hotel-name, .price {
+  margin: 0%;
+}
+
+.list-view, .grid-view {
+  cursor: pointer;
 }
