@@ -52,10 +52,6 @@ nav > img, .menu, a > img {
   font-size: 24px;
 }
 
-.menu:hover, .right-icon {
-  cursor: pointer;
-}
-
 .menu, .menu-box > a > p {
   margin-left: 25px;
 }
@@ -81,15 +77,15 @@ nav, .fix {
   width: 100%;
 }
 
-nav, .menu-bar {
+nav, .menu-bar, .align-right {
   background-color: rgb(28, 27, 27);
 }
 
-.menu-box, a, nav {
+.menu-box, a, nav, .align-right {
   display: flex;
 }
 
-nav > p, .menu-box > a > p {
+nav > p, .menu-box > a > p, .align-right > p, .login-box > label {
   color: white;
 }
 
@@ -98,10 +94,8 @@ nav > p, .menu-box > a > p {
 }
 
 .align-right {
-  background-color: rgb(28, 27, 27);
   width: 20%;
   margin-left: auto;
-  display: flex;
   flex-direction: column;
   justify-content: flex-end;
   border-bottom-left-radius: 30px;
@@ -110,12 +104,10 @@ nav > p, .menu-box > a > p {
 #username, #password {
   width: 90%;
   text-align: left;
-  margin-left: 10px;
   font-size: 16px;
 }
 
-.login-box > label {
-  color: white;
+#username, #password, .login-box > label {
   margin-left: 10px;
 }
 
@@ -125,14 +117,12 @@ nav > p, .menu-box > a > p {
 }
 
 input {
-  border-radius: 12px;
   height: 50px;
   border-color: black;
   border-width: 2px;
 }
 
 .align-right > p {
-  color: white;
   margin-left: 20px;
   font-size: 18px;
   margin-top: 5px;
@@ -144,11 +134,14 @@ input {
 }
 
 .center > button {
-  border-radius: 12px;
   background-color: white;
   font-size: 14px;
 }
 
-.center > button:hover {
+.center > button:hover, .menu:hover, .right-icon {
   cursor: pointer;
+}
+
+input, .center > button {
+  border-radius: 12px;
 }
