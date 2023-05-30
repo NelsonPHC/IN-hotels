@@ -55,7 +55,6 @@ app.post('/user', async (req, res) => {
         res.send(uid.toString()); // integer need to be parsed to string
       }
     } catch (err) {
-      console.error(err);
       res.status(500).send('An error occurred on the server. Try again later.');
     }
   } else {
