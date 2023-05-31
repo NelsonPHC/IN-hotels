@@ -9,6 +9,9 @@ const request = require('request');
 const sqlite3 = require('sqlite3');
 const sqlite = require('sqlite');
 
+const cookieParser = require('cookie-parser');
+app.use(cookieParser());
+
 // for application/x-www-form-urlencoded
 app.use(express.urlencoded({extended: true})); // built-in middleware
 // for application/json
@@ -37,8 +40,8 @@ app.get('/places', (req, res) => {
   );
 });
 
-// User login
-app.post('/user', async (req, res) => {
+// User login (for every endpoint that requires user login, check if login cookie exist)
+app.post('/login', async (req, res) => {
   res.type('text');
   let name = req.body.name;
   let pwd = req.body.password;
@@ -52,13 +55,25 @@ app.post('/user', async (req, res) => {
         res.status(400).send('User name or password is incorrect, please try again');
       } else {
         let uid = queryResults[0].uid;
-        res.send(uid.toString()); // integer need to be parsed to string
+        res.cookie('uid', uid);
+        res.send('you are now logged in');
       }
     } catch (err) {
       res.status(500).send('An error occurred on the server. Try again later.');
     }
   } else {
     res.status(400).send('Please enter both user name and password');
+  }
+});
+
+// user logout
+app.post('/logout', (req, res) => {
+  res.type('text');
+  try {
+    res.clearCookie();
+    res.send('you are now logged out');
+  } catch (err) {
+    res.status(500).send('An error occurred on the server. Try again later.');
   }
 });
 
@@ -95,6 +110,34 @@ app.get('/hotels/:hid', async (req, res) => {
   } catch (err) {
     res.type('text').status(500)
       .send('An error occurred on the server. Try again later.');
+  }
+});
+
+// 4. Make a booking
+app.post('/book', async (req, res) => {
+  res.type('text');
+  let uid = req.body.uid;
+  let hid = req.body.hid;
+  let start = req.body.checkin;
+  let end = req.body.checkout;
+  if (uid && hid && start && end) {
+    try {
+      let db = await getDBConnection();
+      // check if the dates are of the correct format
+      const query = 'update bookings ';
+      let queryResults = await db.run(query, [name, pwd]);
+      await db.close();
+      if (queryResults.length === 0) {
+        res.status(400).send('User name or password is incorrect, please try again');
+      } else {
+        let uid = queryResults[0].uid;
+        res.send(uid.toString()); // integer need to be parsed to string
+      }
+    } catch (err) {
+      res.status(500).send('An error occurred on the server. Try again later.');
+    }
+  } else {
+    res.status(400).send('Missing required parameters');
   }
 });
 
