@@ -87,13 +87,17 @@
       <article>
         <section class="search-bar">
           <p>Filter by:</p>
-          <form>
-            <input type="text" id="hotel-name" placeholder="Search Hotels">
+          <form class="filter">
+            <input type="text" id="hotel-name" placeholder="Hotel Name">
+            <select>
+              <option>Any Country</option>
+            </select>
+            <img src="imgs/search-icon.png" alt = "search-icon" class="search-icon">
+            <!--
+              Image obtained from uxwing
+            -->
           </form>
-          <select>
-            <option>Hawaii</option>
-            <option>China</option>
-          </select>
+          <button>Reset Filter</button>
           <div class="center">
             <img src="imgs/grid-view.png" alt="grid-view" class="grid-view">
             <!--

@@ -29,6 +29,12 @@
         qs(".display").classList.remove("grid");
       }
     });
+    qs(".filter").addEventListener("submit", function(event) {
+      event.preventDefault();
+      makeRequestFilter();
+    });
+    qs(".search-icon").addEventListener("click", makeRequestFilter);
+    qs(".search-bar button").addEventListener("click", resetFilter);
   }
 
   /**
@@ -46,10 +52,20 @@
    * Generates a set of hotels
    */
   function generateHotels(response) {
-    const parent = qs('.display');
+    const display = qs('.display');
+    const select = qs(".filter select");
     const hotels = response.hotels;
+    let array = [];
     for (let i = 0; i < hotels.length; i++) {
-      parent.appendChild(gridView(hotels[i]));
+      display.appendChild(gridView(hotels[i]));
+      addOption(hotels[i], array);
+    }
+    let uniqueArray = Array.from(new Set(array));
+    uniqueArray.sort();
+    for (let i = 0; i < uniqueArray.length; i++) {
+      const option = gen("option");
+      option.textContent = uniqueArray[i];
+      select.appendChild(option);
     }
   }
 
@@ -73,7 +89,7 @@
     hotelName.classList.add("hotel-name");
     location.textContent = hotels.country;
     hotelCard.id = hotels.hid;
-    hotelLink.href = "item.html?hotel_nm=" + hotelName.textContent;
+    hotelLink.href = "item.html?hid=" + hotelCard.id;
     price.textContent = "$" + hotels.price_per_night + "/night";
     price.classList.add("price");
     hotelCard.appendChild(hotelImage);
@@ -86,19 +102,46 @@
     return hotelLink;
   }
 
-  function makeRequestListHotel() {
-    fetch('/hotels')
+  function addOption(hotels, array) {
+    const countries = hotels.country;
+    array.push(countries);
+    return array;
+  }
+
+  function makeRequestFilter() {
+    let search = id("hotel-name").value.trim();
+    let country = qs(".filter select").value;
+    if (country === "Any Country") {
+      country = "";
+    }
+    const url = '/hotels?search=' + search + "&country_filter=" + country;
+    fetch(url)
       .then(statusCheck)
       .then(resp => resp.json())
-      .then(generateListHotels)
+      .then(filter)
       .catch(console.error);
   }
 
-  function generateListHotels() {
-    const parent = qs('.display');
-    const hotels = response.hotels;
+  function filter(response) {
+    resetFilter;
+    const hotelId = response.hotels;
+    const hotels = qsa(".display > a > div");
     for (let i = 0; i < hotels.length; i++) {
-      parent.appendChild(gridView(hotels[i]));
+      let parent = hotels[i].parentNode;
+      parent.classList.add("hidden");
+    }
+    for (let i = 0; i < hotelId.length; i++) {
+      let parent = id(hotelId[i].hid).parentNode;
+      parent.classList.remove("hidden");
+    }
+  }
+
+  function resetFilter() {
+    qs(".filter > input").value = "";
+    qs(".filter > select").value = "Any Country";
+    const hotels = qsa(".display > a");
+    for (let i = 0; i < hotels.length; i++) {
+      hotels[i].classList.remove("hidden");
     }
   }
 
@@ -141,5 +184,14 @@
    */
   function qs(selector) {
     return document.querySelector(selector);
+  }
+
+  /**
+   * Returns the array of elements that match the given CSS selector.
+   * @param {string} query - CSS query selector
+   * @returns {object[]} array of DOM objects matching the query.
+   */
+  function qsa(query) {
+    return document.querySelectorAll(query);
   }
 })();
