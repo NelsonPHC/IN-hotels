@@ -9,9 +9,6 @@
 
 "use strict";
 (function() {
-  let UID = ""; //make sure to remove event listeners for profile and menu when backend
-  // is complete
-
   window.addEventListener('load', init);
 
   /**
@@ -24,16 +21,47 @@
       event.preventDefault();
       makeRequestLogin();
     });
+    qs(".logged-in button").addEventListener("click", logout);
   }
 
   /**
    * Toggles login view
    */
   function clickProfile() {
-    qs(".user-bar").classList.toggle("hidden");
+    if (!checkCookieExists("username")) {
+      qs(".user-bar").classList.toggle("hidden");
+    } else {
+      qs(".logged-in").classList.toggle("hidden");
+      id("user").textContent = getCookieValue("username");
+    }
     if (!qs(".menu-bar").classList.contains("hidden")) {
       qs(".menu-bar").classList.toggle("hidden");
     }
+  }
+
+  function checkCookieExists(cookieName) {
+    const cookies = document.cookie.split(';');
+    for (let i = 0; i < cookies.length; i++) {
+      const cookie = cookies[i].trim().split('=');
+      const cookieNameFromCookie = decodeURIComponent(cookie[0]);
+      if (cookieNameFromCookie === cookieName) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  function getCookieValue(cookieName) {
+    const cookies = document.cookie.split(';');
+    for (let i = 0; i < cookies.length; i++) {
+      const cookie = cookies[i].trim().split('=');
+      const cookieNameFromCookie = decodeURIComponent(cookie[0]);
+      if (cookieNameFromCookie === cookieName) {
+        const cookieValue = decodeURIComponent(cookie[1]);
+        return cookieValue;
+      }
+    }
+    return null;
   }
 
   /**
@@ -41,27 +69,51 @@
    */
   function clickMenu() {
     qs(".menu-bar").classList.toggle("hidden");
-    if (!qs(".user-bar").classList.contains("hidden")) {
-      qs(".user-bar").classList.toggle("hidden");
+    if (!checkCookieExists("username")) {
+      if (!qs(".user-bar").classList.contains("hidden")) {
+        qs(".user-bar").classList.toggle("hidden");
+      }
+    } else {
+      if (!qs(".logged-in").classList.contains("hidden")) {
+        qs(".logged-in").classList.toggle("hidden");
+      }
     }
   }
 
   function makeRequestLogin() {
-    let params = new FormData(id('login'));
-    console.log(params);
-    // const username = id("username").value;
-    // const password = id("password").value;
-    // params.append("name", username);
-    // params.append("password", password);
+    let params = new FormData();
+    const username = id("username").value;
+    const password = id("password").value;
+    params.append("name", username);
+    params.append("password", password);
     fetch("/login", {method: "POST", body: params})
       .then(statusCheck)
       .then(resp => resp.text())
-      .then(login)
+      .then(login(username))
       .catch(console.error);
   }
 
-  function login(response) {
-    console.log(response)
+  function login(username) {
+    document.cookie = "username=" + username + '; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/';
+    id("user").textContent = username;
+    qs(".logged-in").classList.toggle("hidden");
+    qs(".user-bar").classList.add("hidden");
+  }
+
+  function logout() {
+    id("user").textContent = "";
+    qs(".logged-in").classList.toggle("hidden");
+    qs(".user-bar").classList.add("hidden");
+    clearCookies();
+  }
+
+  function clearCookies() {
+    const cookies = document.cookie.split(';');
+    for (let i = 0; i < cookies.length; i++) {
+      const cookie = cookies[i].trim().split('=');
+      const cookieName = decodeURIComponent(cookie[0]);
+      document.cookie = cookieName + '=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+    }
   }
 
   /**
