@@ -1,20 +1,23 @@
 # Hotel API Documentation
 The Hotel API provides information about user logins and their reservations, availability of hotels, as well as make a booking.
 ## 1. User login
-**Request Format:** /user endpoint with POST parameters of `name` and `password`
+**Request Format:** /login
+
+**Request Parameters:** POST parameters `name`, `password`
 
 **Request Type:** POST
 
 **Returned Data Format**: plain text
 
-**Description:** Given a valid `name` and a `password` to login, the server will reply with a JSON response with the user name and its corresponding user ID `uid`.
+**Description:** Given a valid `name` and a `password` to login, the server will set the cookie with key `uid` to the corresponding user ID and reply with a plain text response indicating if the login is succesful.
 
-**Example Request:** /user with POST parameters of `name=Nelson` and `password=Nel123`
+**Example Request:** /login with POST parameters of `name=Nelson` and `password=Nel123`
 
 **Example Response:**
 ```
-1
+you are now logged in
 ```
+(Now cookie has key `uid` set to `1`)
 
 **Error Handling:**
 - Possible 400 (invalid request) errors (all plain text):
@@ -22,6 +25,29 @@ The Hotel API provides information about user logins and their reservations, ava
   - If passed in an invalid user name or password, returns an error with the message: `User name or password is incorrect, please try again`
 - Possible 500 errors (all plain text):
   - If something else goes wrong on the server, returns an error with the message: `An error occurred on the server. Try again later.`
+
+## 2. User logout
+**Request Format:** /logout
+
+**Request Parameters:** none.
+
+**Request Type:** POST
+
+**Returned Data Format**: plain text
+
+**Description:** Upon request, the server clears all cookies (that are related to user login) and replies with a plain text response indicating if the logout is succesful.
+
+**Example Request:** /logout
+
+**Example Response:**
+```
+you are now logged out
+```
+
+**Error Handling:**
+- Possible 500 errors (all plain text):
+  - If something else goes wrong on the server (including clearing cookies is unsuccessfull), returns an error with the message: `An error occurred on the server. Try again later.`
+
 
 ## 2. Get all hotel data or hotel data that matches the search and/or filter criteria
 
@@ -138,7 +164,9 @@ The Hotel API provides information about user logins and their reservations, ava
   - If something else goes wrong on the server, returns an error with the message: `An error occurred on the server. Try again later.`
 
 ## 4. Make a booking
-**Request Format:** /book endpoint with POST parameters of user ID `uid`, hotel ID `hid`, `checkin`, `checkout`.
+**Request Format:** /book
+
+**Request Parameters:** POST parameters of hotel ID `hid`, `checkin`, and `checkout`; cookie key `uid`.
 
 **Request Type:** POST
 
