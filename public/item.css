@@ -12,12 +12,15 @@ page, and it's formatted into a column style.
 article {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
-  margin: 10%;
+  justify-content: space-evenly;
+  align-items: start;
+  font-size: 16px;
 }
 
 article > img {
-  width: 30%;
+  width: 600px;
+  height: 400px;
+  margin-top: 20px;
 }
 
 #description {
@@ -32,7 +35,6 @@ form {
 }
 
 .adjust {
-  transform: translateY(10%);
   width: 100%;
   display: inline-block;
 }
@@ -40,4 +42,10 @@ form {
 .adjust > h1 {
   text-align: center;
   margin-top: 10%;
+  font-size: 44px;
+}
+
+h2 {
+  text-decoration: underline;
+  margin-bottom: 5px;
 }
