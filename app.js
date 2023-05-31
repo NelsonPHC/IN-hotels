@@ -78,20 +78,6 @@ app.get('/hotels', async (req, res) => {
   }
 });
 
-// Get all distint countries of the hotels
-app.get('/countries', async (req, res) => {
-  try {
-    let db = await getDBConnection();
-    const query = 'select distinct country from hotels order by country';
-    let queryResults = await db.all(query);
-    await db.close();
-    res.json({'countries': queryResults});
-  } catch (err) {
-    res.type('text').status(500)
-      .send('An error occurred on the server. Try again later.');
-  }
-});
-
 // Get hotel data by a given hotel ID
 app.get('/hotels/:hid', async (req, res) => {
   let hid = req.params.hid;
@@ -111,8 +97,6 @@ app.get('/hotels/:hid', async (req, res) => {
       .send('An error occurred on the server. Try again later.');
   }
 });
-
-
 
 /**
  * based on the search or filter are applied, return the query and placeholder array for using sql

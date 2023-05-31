@@ -21,7 +21,7 @@ The Hotel API provides information about user logins and their reservations, ava
   - If missing user name or password, returns an error with the message: `Please enter both user name and password`
   - If passed in an invalid user name or password, returns an error with the message: `User name or password is incorrect, please try again`
 - Possible 500 errors (all plain text):
-  - If something else goes wrong on the server, returns an error with the message: `Something went wrong with our site. Please try again later.`
+  - If something else goes wrong on the server, returns an error with the message: `An error occurred on the server. Try again later.`
 
 ## 2. Get all hotel data or hotel data that matches the search and/or filter criteria
 
@@ -88,8 +88,7 @@ The Hotel API provides information about user logins and their reservations, ava
 ```
 
 - Possible 500 errors (all plain text):
-  - If something else goes wrong on the server, returns an error with the message: `Something went wrong with our site. Please try again later.`
-
+  - If something else goes wrong on the server, returns an error with the message: `An error occurred on the server. Try again later.`
 
 ## 3. Get hotel data by a given hotel ID
 
@@ -123,18 +122,18 @@ The Hotel API provides information about user logins and their reservations, ava
 - Possible 400 (invalid request) errors (all plain text):
   - If `hid` is not an existing hotel ID, returns an error with the message: `hotel is not found`
 - Possible 500 errors (all plain text):
-  - If something else goes wrong on the server, returns an error with the message: `Something went wrong with our site. Please try again later.`
+  - If something else goes wrong on the server, returns an error with the message: `An error occurred on the server. Try again later.`
 
 ## 4. Make a booking
-**Request Format:** /book endpoint with POST parameters of user ID `uid`, hotel ID `hid`, `check-in`, `check-out`.
+**Request Format:** /book endpoint with POST parameters of user ID `uid`, hotel ID `hid`, `checkin`, `checkout`.
 
 **Request Type:** POST
 
 **Returned Data Format**: plain text
 
-**Description:** Given a valid `uid`, `hid`, `check-in` and `check-out` date, return plain text indicating if the reservation is success ('success'/'fail').
+**Description:** Given a valid `uid`, `hid`, `checkin` and `checkout` date, return plain text indicating if the reservation is success ('success'/'fail').
 
-**Example Request:** /book with POST parameters of `uid=1`, `hid=1`, `check-in=2023-06-07` and `check-out=2023-06-13`
+**Example Request:** /book with POST parameters of `uid=1`, `hid=1`, `checkin=2023-06-07` and `checkout=2023-06-13`
 
 **Example Response:**
 ```
@@ -145,9 +144,9 @@ success
 - Possible 400 (invalid request) errors (all plain text):
   - If passed in an invalid hotel ID `hid`, returns an error with the message: `hotel is not found`
   - If passed in an invalid user ID `uid`, returns an error with the message: `user is not found`
-  - If passed in invalid `check-in` `check-out` dates, returns an error with the message: `The dates are invalid`
+  - If passed in invalid `checkin` `checkout` dates, returns an error with the message: `The dates are invalid`
 - Possible 500 errors (all plain text):
-  - If something else goes wrong on the server, returns an error with the message: `Something went wrong with our site. Please try again later.`
+  - If something else goes wrong on the server, returns an error with the message: `An error occurred on the server. Try again later.`
 
 ## 5. Get all previous reservations for a designated user
 **Request Format:** /reservations endpoint with POST parameters of user ID `uid`
@@ -156,7 +155,7 @@ success
 
 **Returned Data Format**: JSON
 
-**Description:** Given a valid user ID `uid` (this is the same user id format as given by the response detailed in the user login query), return a JSON response with all the reservations of that user. Each reservation record have a hotel `hotelName`, `check-in` date, and `check-out` date.
+**Description:** Given a valid user ID `uid` (this is the same user id format as given by the response detailed in the user login query), return a JSON response with all the reservations of that user. Each reservation record have a hotel `hotelName`, `checkin` date, and `checkout` date.
 
 **Example Request:** /reservations with POST parameters of user ID `uid`=1 (Hilton has `hid`=1 in our example here)
 
@@ -165,8 +164,8 @@ success
 [
   {
     "hotelName": "Hilton",
-    "check-in": "2023-06-07",
-    "check-out": "2023-06-13"
+    "checkin": "2023-06-07",
+    "checkout": "2023-06-13"
   }
 ]
 
@@ -176,16 +175,16 @@ success
 - Possible 400 (invalid request) errors (all plain text):
   - If passed in an invalid user ID `uid`, returns an error with the message: `User is not found, please try again.`
 - Possible 500 errors (all plain text):
-  - If something else goes wrong on the server, returns an error with the message: `Something went wrong with our site. Please try again later.`
+  - If something else goes wrong on the server, returns an error with the message: `An error occurred on the server. Try again later.`
 
 ## 6. Hotel availability
-**Request Format:** /availability?hotel_id={hid}&start={check-in}&end={check-out}
+**Request Format:** /availability?hotel_id={hid}&start={checkin}&end={checkout}
 
 **Request Type:** GET
 
 **Returned Data Format**: plain text
 
-**Description:** Given a valid hotel ID `hid`, `check-in` and `check-out` date (this is the same format as given by the response detailed in the user reservations query), return plain text indicating the availability of the hotel ('unavailable'/'available').
+**Description:** Given a valid hotel ID `hid`, `checkin` and `checkout` date (this is the same format as given by the response detailed in the user reservations query), return plain text indicating the availability of the hotel ('unavailable'/'available').
 
 **Example Request:** /availability?hotel_id=1&start=2023-06-09&end=2023-06-13
 
@@ -197,6 +196,6 @@ unavailable
 **Error Handling:**
 - Possible 400 (invalid request) errors (all plain text):
   - If passed in an invalid hotel ID `hid`, returns an error with the message: `hotel is not found`
-  - If passed in invalid `check-in` `check-out` dates, returns an error with the message: `The dates are invalid`
+  - If passed in invalid `checkin` `checkout` dates, returns an error with the message: `The dates are invalid`
 - Possible 500 errors (all plain text):
-  - If something else goes wrong on the server, returns an error with the message: `Something went wrong with our site. Please try again later.`
+  - If something else goes wrong on the server, returns an error with the message: `An error occurred on the server. Try again later.`
