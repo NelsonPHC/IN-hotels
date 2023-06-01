@@ -106,28 +106,27 @@ app.get('/hotels/:hid', async (req, res) => {
 app.post('/book', async (req, res) => {
   res.type('text');
   let uid = req.cookies['uid'];
+  // let uid = req.body.uid; // for thunderclient testing
   let hid = req.body.hid;
   let checkin = req.body.checkin;
   let checkout = req.body.checkout;
   if (uid && hid && checkin && checkout) {
-    try {
-      let db = await getDBConnection();
-      // check if the dates are of the correct format (also checkin < checkout)
-      let availablityQuery = 'select * from bookings where hid = ? ' +
-      'and ((DATETIME(checkin) <= DATETIME(?) and DATETIME(?) < DATETIME(checkout)) ' + // checkin
-      'or (DATETIME(checkin) < DATETIME(?) and DATETIME(?) <= DATETIME(checkout)))'; // checkout
-      let booked = await db.all(availablityQuery, [hid, checkin, checkin, checkout, checkout]);
-      if (booked.length === 0) {
-        const query = 'insert into bookings (uid, hid, checkin, checkout) values (?,?,?,?)';
-        await db.run(query, [uid, hid, checkin, checkout]);
-        res.send('Booked!');
-      } else {
-        res.status(400).send('The hotel is unavailable during that time slot.');
+    if (validInAndOut(checkin, checkout)) {
+      try {
+        let db = await getDBConnection();
+        if (await hotelAvailability(db, hid, checkin, checkout)) {
+          const query = 'insert into bookings (uid, hid, checkin, checkout) values (?,?,?,?)';
+          await db.run(query, [uid, hid, checkin, checkout]);
+          res.send('Booked!');
+        } else {
+          res.status(400).send('The hotel is unavailable during that time slot.');
+        }
+        await db.close();
+      } catch (err) {
+        res.status(500).send('An error occurred on the server. Try again later.');
       }
-      await db.close();
-    } catch (err) {
-      console.error(err);
-      res.status(500).send('An error occurred on the server. Try again later.');
+    } else {
+      res.status(400).send('The dates are invalid');
     }
   } else if (!uid) {
     res.status(400).send('You need to log in first to make a booking');
@@ -135,6 +134,60 @@ app.post('/book', async (req, res) => {
     res.status(400).send('Missing required parameters');
   }
 });
+
+/**
+ * checks if the checkin checkout date strings are valid:
+ * 1. They are both of format YYYY-MM-DD
+ * 2. checkin date is before checkout date
+ * @param {string} checkin date string of check-in
+ * @param {string} checkout date string of check-out
+ * @returns {boolean} true if the dates are valid, false otherwise
+ */
+function validInAndOut(checkin, checkout) {
+  if (!isValidDate(checkin) || !isValidDate(checkout)) {
+    return false;
+  }
+
+  const start = new Date(checkin);
+  const end = new Date(checkout);
+
+  return start < end;
+}
+
+/**
+ * checks if a date string is of the format YYYY-MM-DD
+ * @param {string} dateString a date string of format YYYY-MM-DD
+ * @returns {boolean} true if the string is a date string, false otherwise
+ */
+function isValidDate(dateString) {
+  return !isNaN(Date.parse(dateString));
+}
+
+async function uidExist(db, uid) {
+
+}
+
+async function hidExist(db, hid) {
+
+}
+
+/**
+ * checks if the hotel is available for the checkin and checkout dates, need to close the
+ * database object db afterwards in the parent function
+ * @param {sqlite3.Database} db The database object for the connection.
+ * @param {integer} hid hotel ID
+ * @param {string} checkin check-in date of format YYYY-MM-DD
+ * @param {string} checkout check-out date of format YYYY-MM-DD
+ * @returns {boolean} true if the hotel is available, false otherwise
+ */
+async function hotelAvailability(db, hid, checkin, checkout) {
+  let availablityQuery = 'select * from bookings where hid = ? ' +
+      'and ((DATETIME(checkin) <= DATETIME(?) and DATETIME(?) < DATETIME(checkout)) ' + // checkin
+      'or (DATETIME(checkin) < DATETIME(?) and DATETIME(?) <= DATETIME(checkout)))'; // checkout
+  let booked = await db.all(availablityQuery, [hid, checkin, checkin, checkout, checkout]);
+  console.log(booked.length);
+  return (booked.length === 0);
+}
 
 /**
  * based on the search or filter are applied, return the query and placeholder array for using sql

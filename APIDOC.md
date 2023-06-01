@@ -172,13 +172,13 @@ you are now logged out
 
 **Returned Data Format**: plain text
 
-**Description:** Given a valid `uid`, `hid`, `checkin` and `checkout` date, return plain text indicating if the reservation is success ('success'/'fail').
+**Description:** Given a valid `uid`, `hid`, `checkin` and `checkout` date, return plain text indicating if the reservation is success.
 
 **Example Request:** /book with POST parameters of `hid=1`, `checkin=2023-06-07`, `checkout=2023-06-13`, and cookie key `uid=1`
 
 **Example Response:**
 ```
-success
+Booked!
 ```
 
 **Error Handling:**
@@ -186,6 +186,7 @@ success
   - If passed in an invalid hotel ID `hid`, returns an error with the message: `hotel is not found`
   - If passed in an invalid user ID `uid`, returns an error with the message: `user is not found`
   - If passed in invalid `checkin` `checkout` dates, returns an error with the message: `The dates are invalid`
+  - If the hotel is already booked between the `checkin` `checkout` dates, returns an error with the message `The hotel is unavailable during that time slot`
 - Possible 500 errors (all plain text):
   - If something else goes wrong on the server, returns an error with the message: `An error occurred on the server. Try again later.`
 
