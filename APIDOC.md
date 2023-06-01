@@ -183,10 +183,12 @@ Booked!
 
 **Error Handling:**
 - Possible 400 (invalid request) errors (all plain text):
-  - If passed in an invalid hotel ID `hid`, returns an error with the message: `hotel is not found`
+  - If `uid` is missing, returns an error with the message: `You need to log in first to make a booking`
+  - If any of the POST parameters `hid`, `checkin`, and `checkout` is missing, returns an error with the message: `Missing required parameters`
   - If passed in an invalid user ID `uid`, returns an error with the message: `user is not found`
-  - If passed in invalid `checkin` `checkout` dates, returns an error with the message: `The dates are invalid`
-  - If the hotel is already booked between the `checkin` `checkout` dates, returns an error with the message `The hotel is unavailable during that time slot`
+  - If passed in an invalid hotel ID `hid`, returns an error with the message: `hotel is not found`
+  - If passed in invalid `checkin` `checkout` dates (e.g., dates are not of format YYYY-MM-DD, `checkin` is before `checkout`), returns an error with the message: `The dates are invalid`
+  - If the hotel is already booked between the `checkin` `checkout` dates, returns an error with the message: `The hotel is unavailable during that time slot`
 - Possible 500 errors (all plain text):
   - If something else goes wrong on the server, returns an error with the message: `An error occurred on the server. Try again later.`
 

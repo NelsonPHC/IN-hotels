@@ -55,6 +55,8 @@ app.post('/login', async (req, res) => {
         res.status(400).send('User name or password is incorrect, please try again');
       } else {
         let uid = queryResults[0].uid;
+
+        // set uid cookie, used to make future requests associated with a logged in user
         res.cookie('uid', uid, {expires: new Date('Fri 31, Dec 9999 23:59:59 GMT')});
         res.send('you are now logged in');
       }
@@ -66,7 +68,7 @@ app.post('/login', async (req, res) => {
   }
 });
 
-// Get all hotel data or hotel data matching a given search term and/or filter
+// 2. Get all hotel data or hotel data matching a given search term and/or filter
 app.get('/hotels', async (req, res) => {
   let search = req.query.search;
   let filter = req.query.country_filter;
@@ -82,13 +84,12 @@ app.get('/hotels', async (req, res) => {
   }
 });
 
-// Get hotel data by a given hotel ID
+// 3. Get hotel data by a given hotel ID
 app.get('/hotels/:hid', async (req, res) => {
   let hid = req.params.hid;
   try {
     let db = await getDBConnection();
-    const query = 'select * from hotels where hid = ?';
-    let queryResults = await db.all(query, hid);
+    let queryResults = await getHotelByID(db, hid);
     await db.close();
     if (queryResults.length === 0) {
       res.type('text').status(400)
@@ -105,23 +106,26 @@ app.get('/hotels/:hid', async (req, res) => {
 // 4. Make a booking
 app.post('/book', async (req, res) => {
   res.type('text');
-  let uid = req.cookies['uid'];
-  // let uid = req.body.uid; // for thunderclient testing
-  let hid = req.body.hid;
-  let checkin = req.body.checkin;
-  let checkout = req.body.checkout;
+  // use req.body.uid for uid when testing using thunderclient
+  let bod = req.body;
+  let [uid, hid, checkin, checkout] = [req.cookies['uid'], bod.hid, bod.checkin, bod.checkout];
   if (uid && hid && checkin && checkout) {
     if (validInAndOut(checkin, checkout)) {
       try {
         let db = await getDBConnection();
-        if (await hotelAvailability(db, hid, checkin, checkout)) {
-          const query = 'insert into bookings (uid, hid, checkin, checkout) values (?,?,?,?)';
-          await db.run(query, [uid, hid, checkin, checkout]);
-          res.send('Booked!');
+        let existErrorMsg = await userHotelInvalidMsg(db, uid, hid);
+        if (!existErrorMsg) {
+          if (await hotelAvailability(db, hid, checkin, checkout)) {
+            const query = 'insert into bookings (uid, hid, checkin, checkout) values (?,?,?,?)';
+            await db.run(query, [uid, hid, checkin, checkout]);
+            res.send('Booked!');
+          } else {
+            res.status(400).send('The hotel is unavailable during that time slot.');
+          }
+          await db.close();
         } else {
-          res.status(400).send('The hotel is unavailable during that time slot.');
+          res.status(400).send(existErrorMsg);
         }
-        await db.close();
       } catch (err) {
         res.status(500).send('An error occurred on the server. Try again later.');
       }
@@ -160,15 +164,59 @@ function validInAndOut(checkin, checkout) {
  * @returns {boolean} true if the string is a date string, false otherwise
  */
 function isValidDate(dateString) {
-  return !isNaN(Date.parse(dateString));
+  const regex = /^\d{4}-\d{2}-\d{2}$/;
+  return !isNaN(Date.parse(dateString)) && regex.test(dateString);
 }
 
-async function uidExist(db, uid) {
+/**
+ * Helper function to check if the user ID exist first, then check if the hotel ID exist.
+ * Returns the error message as a string for sending server response.
+ * If no errors (both ID's exist), returns empty string.
+ * @param {sqlite3.Database} db The database object for the connection.
+ * @param {integer} uid the user ID
+ * @param {integer} hid the hotel ID
+ * @returns {string} an error message for server response.
+ */
+async function userHotelInvalidMsg(db, uid, hid) {
+  let userExist = await userIDExist(db, uid);
+  let hotel = await getHotelByID(db, hid);
 
+  let message = '';
+
+  if (!userExist) {
+    message = 'user is not found';
+  } else if (hotel.length === 0) {
+    message = 'hotel is not found';
+  }
+
+  return message;
 }
 
-async function hidExist(db, hid) {
+/**
+ * helper function to checks if an user exist. db connection should be close in the parent function
+ * @param {sqlite3.Database} db The database object for the connection.
+ * @param {integer} uid the user ID
+ * @returns {object} query result from the database
+ */
+async function userIDExist(db, uid) {
+  const query = 'select * from users where uid = ?';
+  let queryResults = await db.all(query, uid);
 
+  return queryResults.length !== 0;
+}
+
+/**
+ * helper function which gets the hotel information by hid, db connection should be close in the
+ * parent function
+ * @param {sqlite3.Database} db The database object for the connection.
+ * @param {integer} hid the hotel ID
+ * @returns {object} query result from the database
+ */
+async function getHotelByID(db, hid) {
+  const query = 'select * from hotels where hid = ?';
+  let queryResults = await db.all(query, hid);
+
+  return queryResults;
 }
 
 /**
@@ -185,7 +233,6 @@ async function hotelAvailability(db, hid, checkin, checkout) {
       'and ((DATETIME(checkin) <= DATETIME(?) and DATETIME(?) < DATETIME(checkout)) ' + // checkin
       'or (DATETIME(checkin) < DATETIME(?) and DATETIME(?) <= DATETIME(checkout)))'; // checkout
   let booked = await db.all(availablityQuery, [hid, checkin, checkin, checkout, checkout]);
-  console.log(booked.length);
   return (booked.length === 0);
 }
 
