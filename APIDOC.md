@@ -174,7 +174,7 @@ you are now logged out
 
 **Description:** Given a valid `uid`, `hid`, `checkin` and `checkout` date, return plain text indicating if the reservation is success ('success'/'fail').
 
-**Example Request:** /book with POST parameters of `uid=1`, `hid=1`, `checkin=2023-06-07` and `checkout=2023-06-13`
+**Example Request:** /book with POST parameters of `hid=1`, `checkin=2023-06-07`, `checkout=2023-06-13`, and cookie key `uid=1`
 
 **Example Response:**
 ```

@@ -55,7 +55,7 @@ app.post('/login', async (req, res) => {
         res.status(400).send('User name or password is incorrect, please try again');
       } else {
         let uid = queryResults[0].uid;
-        res.cookie('uid', uid);
+        res.cookie('uid', uid, {expires: new Date('Fri 31, Dec 9999 23:59:59 GMT')});
         res.send('you are now logged in');
       }
     } catch (err) {
@@ -63,17 +63,6 @@ app.post('/login', async (req, res) => {
     }
   } else {
     res.status(400).send('Please enter both user name and password');
-  }
-});
-
-// user logout
-app.post('/logout', (req, res) => {
-  res.type('text');
-  try {
-    res.clearCookie();
-    res.send('you are now logged out');
-  } catch (err) {
-    res.status(500).send('An error occurred on the server. Try again later.');
   }
 });
 
@@ -116,26 +105,33 @@ app.get('/hotels/:hid', async (req, res) => {
 // 4. Make a booking
 app.post('/book', async (req, res) => {
   res.type('text');
+  // let uid = req.cookies['uid'];
   let uid = req.body.uid;
   let hid = req.body.hid;
-  let start = req.body.checkin;
-  let end = req.body.checkout;
-  if (uid && hid && start && end) {
+  let checkin = req.body.checkin;
+  let checkout = req.body.checkout;
+  if (uid && hid && checkin && checkout) {
     try {
       let db = await getDBConnection();
-      // check if the dates are of the correct format
-      const query = 'update bookings ';
-      let queryResults = await db.run(query, [name, pwd]);
-      await db.close();
-      if (queryResults.length === 0) {
-        res.status(400).send('User name or password is incorrect, please try again');
+      // check if the dates are of the correct format (also checkin < checkout)
+      let availablityQuery = 'select * from bookings where hid = ? ' +
+      'and ((DATETIME(checkin) <= DATETIME(?) and DATETIME(?) < DATETIME(checkout)) ' + // checkin
+      'or (DATETIME(checkin) < DATETIME(?) and DATETIME(?) <= DATETIME(checkout)))'; // checkout
+      let booked = await db.all(availablityQuery, [hid, checkin, checkin, checkout, checkout]);
+      if (booked.length === 0) {
+        const query = 'insert into bookings (uid, hid, checkin, checkout) values (?,?,?,?)';
+        await db.run(query, [uid, hid, checkin, checkout]);
+        res.send('Booked!');
       } else {
-        let uid = queryResults[0].uid;
-        res.send(uid.toString()); // integer need to be parsed to string
+        res.status(400).send('The hotel is unavailable during that time slot.');
       }
+      await db.close();
     } catch (err) {
+      console.error(err);
       res.status(500).send('An error occurred on the server. Try again later.');
     }
+  } else if (!uid) {
+    res.status(400).send('You need to log in first to make a booking');
   } else {
     res.status(400).send('Missing required parameters');
   }
