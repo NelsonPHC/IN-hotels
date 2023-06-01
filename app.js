@@ -105,8 +105,7 @@ app.get('/hotels/:hid', async (req, res) => {
 // 4. Make a booking
 app.post('/book', async (req, res) => {
   res.type('text');
-  // let uid = req.cookies['uid'];
-  let uid = req.body.uid;
+  let uid = req.cookies['uid'];
   let hid = req.body.hid;
   let checkin = req.body.checkin;
   let checkout = req.body.checkout;
