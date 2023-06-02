@@ -46,7 +46,7 @@
           </a>
         </section>
         <section class="menu-box">
-          <a>
+          <a href="reservation.html">
             <p>View my reservations</p>
           </a>
         </section>
@@ -54,6 +54,9 @@
       <section class="user-bar hidden">
         <div class="align-right">
           <form id="login">
+            <div class="login-box prompt hidden">
+              <p>Please login first!</p>
+            </div>
             <div class="login-box">
               <label for='username'>Username:</label>
               <input type='text' id='username' name='name' required>
@@ -83,13 +86,14 @@
         <h1>Name of the hotel</h1>
         <article>
           <section id='description'>
+            <p class="date-error hidden">Please select a valid date range!!!</p>
             <div>
               <form>
                 <label for="start">Check-in date:</label>
-                <input type="date" id="start" name="trip-start"><br> <!-- min=today's date -->
+                <input type="date" id="start" name="checkin" required><br> <!-- min=today's date -->
                 <label for="end">Check-out data:</label>
-                <input type="date" id="end" name="trip-end"><br> <!-- min=today's date -->
-                <input type="submit" value="Book now"><br>
+                <input type="date" id="end" name="checkout" required><br> <!-- min=today's date -->
+                <input type="submit" id ="book" value="Book now"><br>
               </form>
               <p>Google Maps displaying Address</p>
               <p>Display recommendations of nearby places</p>

@@ -145,3 +145,24 @@ input {
 input, .center > button {
   border-radius: 12px;
 }
+
+.prompt {
+  margin-left: 10px;
+  color: rgb(255, 92, 92);
+}
+
+.prompt p {
+  margin-top: auto;
+  margin-bottom: auto;
+  animation: fadeInAnimation 1s;
+}
+
+@keyframes fadeInAnimation {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
