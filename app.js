@@ -119,9 +119,9 @@ app.post('/book', async (req, res) => {
       res.status(500).send('An error occurred on the server. Try again later.');
     } else if (bookingMsg === 'success') {
       const query = 'insert into bookings (uid, hid, checkin, checkout) values (?,?,?,?)';
-      await db.run(query, [uid, hid, checkin, checkout]);
+      let result = await db.run(query, [uid, hid, checkin, checkout]);
       await db.close();
-      res.send('booked succesfully!');
+      res.send('Booked succesfully! Your transaction number is ' + result.lastID);
     } else {
       await db.close();
       res.status(400).send(bookingMsg);
@@ -139,7 +139,7 @@ app.post('/reservations', async (req, res) => {
       let db = await getDBConnection();
       if (await userIDExist(db, uid)) {
         let query =
-        'select bid, hotelName, imageSrc, checkin, checkout, price_per_night' +
+        'select hotelName, imageSrc, checkin, checkout, price_per_night' +
         ' from bookings b, hotels h where b.hid = h.hid and b.uid = ?';
         let reservations = await db.all(query, uid);
         await db.close();

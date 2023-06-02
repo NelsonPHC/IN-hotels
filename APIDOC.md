@@ -155,7 +155,7 @@ you are now logged in
 
 **Example Response:**
 ```
-booked succesfully!
+Booked succesfully! Your transaction number is 1
 ```
 
 **Error Handling:**
