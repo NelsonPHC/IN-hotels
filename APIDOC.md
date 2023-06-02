@@ -26,29 +26,6 @@ you are now logged in
 - Possible 500 errors (all plain text):
   - If something else goes wrong on the server, returns an error with the message: `An error occurred on the server. Try again later.`
 
-## 2. User logout
-**Request Format:** /logout
-
-**Request Parameters:** none.
-
-**Request Type:** POST
-
-**Returned Data Format**: plain text
-
-**Description:** Upon request, the server clears all cookies (that are related to user login) and replies with a plain text response indicating if the logout is succesful.
-
-**Example Request:** /logout
-
-**Example Response:**
-```
-you are now logged out
-```
-
-**Error Handling:**
-- Possible 500 errors (all plain text):
-  - If something else goes wrong on the server (including clearing cookies is unsuccessfull), returns an error with the message: `An error occurred on the server. Try again later.`
-
-
 ## 2. Get all hotel data or hotel data that matches the search and/or filter criteria
 
 **Request Format:** /hotels
