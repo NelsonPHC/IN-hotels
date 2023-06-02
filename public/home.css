@@ -56,6 +56,7 @@ select, button {
 button {
   background-color: white;
   height: 30px;
+  box-shadow: 0 2px 5px #3a39397a;
 }
 
 .search-bar {
@@ -83,6 +84,7 @@ h1, .caption, input, select {
 .display > a {
   margin: 15px;
   color: black;
+  transition: .5s all;
 }
 
 .grid > a {
@@ -176,4 +178,17 @@ h1, .caption, input, select {
   justify-content: space-evenly;
   align-items: center;
   flex-wrap: wrap;
+}
+
+.search-bar> button:hover {
+  transition: .5s;
+  transform: translateY(5px);
+}
+
+.search-bar > button:active {
+  box-shadow: none;
+}
+
+.display > a:hover {
+  transform: translateY(-15px);
 }

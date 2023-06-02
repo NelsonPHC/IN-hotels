@@ -101,6 +101,9 @@
   }
 
   function logout() {
+    qs(".prompt").classList.add("hidden");
+    id("username").value = getCookieValue("username");
+    id("password").value = "";
     id("user").textContent = "";
     qs(".logged-in").classList.toggle("hidden");
     qs(".user-bar").classList.add("hidden");

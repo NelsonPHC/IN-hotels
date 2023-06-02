@@ -18,6 +18,11 @@
    */
   function init() {
     makeRequestFill();
+    const form = id("book").parentNode;
+    form.addEventListener("submit", function(event) {
+      event.preventDefault();
+      makeRequestBook();
+    });
   }
 
   /**
@@ -27,6 +32,7 @@
     // Get the hotel name from the URL query parameter
     const urlParams = new URLSearchParams(window.location.search);
     const hotelName = "/hotels/" + urlParams.get('hid');
+    console.log(hotelName);
 
     fetch(hotelName)
       .then(statusCheck)
@@ -50,6 +56,80 @@
     description.textContent = info.description;
     parent.prepend(description);
     parent.prepend(h2);
+  }
+
+  function makeRequestBook() {
+    qs(".date-error").classList.add("hidden");
+    if (!qs(".prompt").classList.contains("hidden")) {
+      qs(".prompt").classList.add("hidden");
+    }
+    if (checkCookieExists("uid")) {
+      const checkin = id("start").value;
+      const checkout = id("end").value;
+      if (compareDate(checkin, checkout)){
+        let params = createForm(checkin, checkout);
+        fetch("/book", {method: "POST", body: params})
+          .then(statusCheck)
+          .then(resp => resp.text())
+          .then(book)
+          .catch(console.error);
+      } else {
+        qs(".date-error").classList.remove("hidden");
+      }
+    } else {
+      qs(".user-bar").classList.remove("hidden");
+      qs(".prompt").classList.remove("hidden");
+    }
+  }
+
+  function createForm() {
+    let params = new FormData();
+    const urlParams = new URLSearchParams(window.location.search);
+    const hid = urlParams.get('hid');
+    const checkin = id("start").value;
+    const checkout = id("end").value;
+    const uid = getCookieValue("uid");
+    params.append("checkin", checkin);
+    params.append("checkout", checkout);
+    params.append("hid", hid);
+    params.append("uid", uid);
+    return params;
+  }
+
+  function compareDate(checkin, checkout) {
+    if (checkout <= checkin) {
+      return false;
+    }
+    return true;
+  }
+
+  function book() {
+    console.log("hello");
+  }
+
+  function checkCookieExists(cookieName) {
+    const cookies = document.cookie.split(';');
+    for (let i = 0; i < cookies.length; i++) {
+      const cookie = cookies[i].trim().split('=');
+      const cookieNameValue = decodeURIComponent(cookie[0]);
+      if (cookieNameValue === cookieName) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  function getCookieValue(cookieName) {
+    const cookies = document.cookie.split(';');
+    for (let i = 0; i < cookies.length; i++) {
+      const cookie = cookies[i].trim().split('=');
+      const cookieNameFromCookie = decodeURIComponent(cookie[0]);
+      if (cookieNameFromCookie === cookieName) {
+        const cookieValue = decodeURIComponent(cookie[1]);
+        return cookieValue;
+      }
+    }
+    return null;
   }
 
   /**
