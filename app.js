@@ -133,13 +133,14 @@ app.post('/book', async (req, res) => {
 
 // 5. Get all previous reservations for a designated user
 app.post('/reservations', async (req, res) => {
-  let uid = req.body.uid;
+  let uid = req.cookies['uid'];
   if (uid) {
     try {
       let db = await getDBConnection();
       if (await userIDExist(db, uid)) {
-        let query = 'select hotelName, checkin, checkout from bookings b, hotels h ' +
-        'where b.hid = h.hid and b.uid = ?';
+        let query =
+        'select hotelName, imageSrc, checkin, checkout, price_per_night from bookings b, hotels h' +
+        ' where b.hid = h.hid and b.uid = ?';
         let reservations = await db.all(query, uid);
         await db.close();
         res.json(reservations);

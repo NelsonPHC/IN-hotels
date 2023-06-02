@@ -176,7 +176,7 @@ Booked!
 
 **Returned Data Format**: JSON
 
-**Description:** Given a valid user ID `uid` (this is the same user id format as given by the response detailed in the user login query), return a JSON response with all the reservations of that user. Each reservation record have a hotel `hotelName`, `checkin` date, and `checkout` date.
+**Description:** Given a valid user ID `uid` (this is the same user id format as given by the response detailed in the user login query), return a JSON response with all the reservations of that user. Each reservation record have a hotel name `hotelName`, `imageSrc`, `checkin` date, `checkout` date, `price_per_night`.
 
 **Example Request:** /reservations with POST parameters of user ID `uid`=1 (Hilton has `hid`=1 in our example here)
 
@@ -185,8 +185,10 @@ Booked!
 [
   {
     "hotelName": "Hilton",
+    "imageSrc": "hilton.jpg",
     "checkin": "2023-06-07",
-    "checkout": "2023-06-13"
+    "checkout": "2023-06-13",
+    "price_per_night": 254
   }
 ]
 
