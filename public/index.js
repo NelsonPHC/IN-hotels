@@ -45,7 +45,17 @@
       .then(statusCheck)
       .then(resp => resp.json())
       .then(generateHotels)
-      .catch(console.error);
+      .catch(handleError);
+  }
+
+  function handleError(error) {
+    qs(".search-icon").removeEventListener("click", makeRequestFilter);
+    const issue = gen("p");
+    const errorMessage = error instanceof Error ? error.message : String(error);
+    const cleanedErrorMessage = errorMessage.replace("Error: ", "");
+    issue.textContent = cleanedErrorMessage;
+    issue.classList.add("issue");
+    qs(".display").appendChild(issue);
   }
 
   /**
@@ -119,7 +129,7 @@
       .then(statusCheck)
       .then(resp => resp.json())
       .then(filter)
-      .catch(console.error);
+      .catch(handleError);
   }
 
   function filter(response) {

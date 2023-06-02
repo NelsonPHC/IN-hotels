@@ -89,11 +89,21 @@
     fetch("/login", {method: "POST", body: params})
       .then(statusCheck)
       .then(resp => resp.text())
-      .then(login(username))
-      .catch(console.error);
+      .then(resp => login(resp, username))
+      .catch(handleLoginError);
   }
 
-  function login(username) {
+  function handleLoginError(error) {
+    qs("button.login-box").disabled = true;
+    const issue = gen("p");
+    const errorMessage = error instanceof Error ? error.message : String(error);
+    const cleanedErrorMessage = errorMessage.replace("Error: ", "");
+    issue.textContent = cleanedErrorMessage;
+    issue.classList.add("prompt");
+    id("login").prepend(issue);
+  }
+
+  function login(resp, username) {
     document.cookie = "username=" + username + '; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/';
     id("user").textContent = username;
     qs(".logged-in").classList.toggle("hidden");
@@ -101,7 +111,7 @@
   }
 
   function logout() {
-    qs(".prompt").classList.add("hidden");
+    qs(".login-box.prompt").classList.add("hidden");
     id("username").value = getCookieValue("username");
     id("password").value = "";
     id("user").textContent = "";
@@ -149,5 +159,14 @@
    */
   function qs(selector) {
     return document.querySelector(selector);
+  }
+
+  /**
+   * Creates a new HTML element of the specified type.
+   * @param {string} element - The type of HTML element to create.
+   * @returns {object} - The newly created HTML element.
+   */
+  function gen(element) {
+    return document.createElement(element);
   }
 })();

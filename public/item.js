@@ -20,6 +20,8 @@
     makeRequestFill();
     const form = id("book").parentNode;
     form.addEventListener("submit", function(event) {
+      qs(".success").classList.add("hidden");
+      qs(".conflict").classList.add("hidden");
       event.preventDefault();
       makeRequestBook();
     });
@@ -32,13 +34,19 @@
     // Get the hotel name from the URL query parameter
     const urlParams = new URLSearchParams(window.location.search);
     const hotelName = "/hotels/" + urlParams.get('hid');
-    console.log(hotelName);
-
     fetch(hotelName)
       .then(statusCheck)
       .then(resp => resp.json())
       .then(fill)
-      .catch(console.error);
+      .catch(handleFillError);
+  }
+
+  function handleFillError(error) {
+    const issue = qs("h1");
+    const errorMessage = error instanceof Error ? error.message : String(error);
+    const cleanedErrorMessage = errorMessage.replace("Error: ", "");
+    issue.textContent = cleanedErrorMessage;
+    qs(".adjust article").classList.add("hidden");
   }
 
   function fill(response) {
@@ -48,6 +56,7 @@
     const h1 = qs('h1');
     const info = response[0];
     qs(".success").classList.add("hidden");
+    qs(".conflict").classList.add("hidden");
     id("book").disabled = false;
     h2.textContent = "Description:";
     h1.textContent = info.hotelName + ", " + info.country;
@@ -74,7 +83,7 @@
           .then(statusCheck)
           .then(resp => resp.text())
           .then(book)
-          .catch(console.error);
+          .catch(handleBookingError);
       } else {
         qs(".date-error").classList.remove("hidden");
       }
@@ -136,6 +145,14 @@
       }
     }
     return null;
+  }
+
+  function handleBookingError(error) {
+    const errorMessage = error instanceof Error ? error.message : String(error);
+    const cleanedErrorMessage = errorMessage.replace("Error: ", "");
+    qs(".conflict").textContent = cleanedErrorMessage;
+    qs(".conflict").classList.add("prompt");
+    qs(".conflict").classList.remove("hidden");
   }
 
   /**

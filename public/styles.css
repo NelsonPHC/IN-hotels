@@ -157,6 +157,10 @@ input, .center > button {
   animation: fadeInAnimation 1s;
 }
 
+.issue {
+  font-size: 40px;
+}
+
 @keyframes fadeInAnimation {
   0% {
     opacity: 0;
