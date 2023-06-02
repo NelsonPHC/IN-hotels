@@ -106,38 +106,69 @@ app.get('/hotels/:hid', async (req, res) => {
 // 4. Make a booking
 app.post('/book', async (req, res) => {
   res.type('text');
-  // use req.body.uid for uid when testing using thunderclient
   let bod = req.body;
+
+  // replace req.cookies['uid'] to bod.uid for uid when testing using thunderclient
   let [uid, hid, checkin, checkout] = [req.cookies['uid'], bod.hid, bod.checkin, bod.checkout];
+
+  try {
+    let db = await getDBConnection();
+    let bookingMsg = await getBookingMsg(db, uid, hid, checkin, checkout);
+    if (bookingMsg === 'server error') {
+      await db.close();
+      res.status(500).send('An error occurred on the server. Try again later.');
+    } else if (bookingMsg === 'success') {
+      const query = 'insert into bookings (uid, hid, checkin, checkout) values (?,?,?,?)';
+      await db.run(query, [uid, hid, checkin, checkout]);
+      await db.close();
+      res.send('booked succesfully!');
+    } else {
+      await db.close();
+      res.status(400).send(bookingMsg);
+    }
+  } catch (err) {
+    res.status(500).send('An error occurred on the server. Try again later.');
+  }
+});
+
+/**
+ * helper function to get the booking message indicating the status of the booking operation
+ * @param {sqlite3.Database} db The database object for the connection.
+ * @param {integer} uid the user ID
+ * @param {integer} hid the hotel ID
+ * @param {string} checkin check-in date string
+ * @param {string} checkout check-out date string
+ * @returns {string} a message indicating the status of the booking operation
+ */
+async function getBookingMsg(db, uid, hid, checkin, checkout) {
+  let msg = '';
   if (uid && hid && checkin && checkout) {
     if (validInAndOut(checkin, checkout)) {
       try {
-        let db = await getDBConnection();
         let existErrorMsg = await userHotelInvalidMsg(db, uid, hid);
         if (!existErrorMsg) {
           if (await hotelAvailability(db, hid, checkin, checkout)) {
-            const query = 'insert into bookings (uid, hid, checkin, checkout) values (?,?,?,?)';
-            await db.run(query, [uid, hid, checkin, checkout]);
-            res.send('Booked!');
+            msg = 'success';
           } else {
-            res.status(400).send('The hotel is unavailable during that time slot.');
+            msg = 'The hotel is unavailable during that time slot.';
           }
-          await db.close();
         } else {
-          res.status(400).send(existErrorMsg);
+          msg = existErrorMsg;
         }
       } catch (err) {
-        res.status(500).send('An error occurred on the server. Try again later.');
+        msg = 'server error';
       }
     } else {
-      res.status(400).send('The dates are invalid');
+      msg = 'The dates are invalid';
     }
   } else if (!uid) {
-    res.status(400).send('You need to log in first to make a booking');
+    msg = 'You need to log in first to make a booking';
   } else {
-    res.status(400).send('Missing required parameters');
+    msg = 'Missing required parameters';
   }
-});
+
+  return msg;
+}
 
 /**
  * checks if the checkin checkout date strings are valid:
