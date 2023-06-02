@@ -47,6 +47,8 @@
     const h2 = gen("h2");
     const h1 = qs('h1');
     const info = response[0];
+    qs(".success").classList.add("hidden");
+    id("book").disabled = false;
     h2.textContent = "Description:";
     h1.textContent = info.hotelName + ", " + info.country;
     img.src = "imgs/hotels/" + info.imageSrc;
@@ -104,7 +106,11 @@
   }
 
   function book() {
-    console.log("hello");
+    qs(".success").classList.remove("hidden");
+    id("book").disabled = true;
+    setTimeout(function() {
+      window.location.href = "reservation.html";
+    }, 4000);
   }
 
   function checkCookieExists(cookieName) {

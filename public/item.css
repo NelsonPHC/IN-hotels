@@ -65,3 +65,9 @@ h2 {
     opacity: 1;
   }
 }
+
+.success {
+  color:rgb(0, 159, 69);
+  font-size: 20px;
+  animation: fadeInAnimation 1s;
+}

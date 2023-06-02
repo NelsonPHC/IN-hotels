@@ -87,12 +87,15 @@
         <article>
           <section id='description'>
             <p class="date-error hidden">Please select a valid date range!!!</p>
+            <p class="success hidden">
+              Booking has been successfull! Please wait for a moment!
+            </p>
             <div>
               <form>
                 <label for="start">Check-in date:</label>
-                <input type="date" id="start" name="checkin" required><br> <!-- min=today's date -->
+                <input type="date" id="start" name="checkin" required><br>
                 <label for="end">Check-out data:</label>
-                <input type="date" id="end" name="checkout" required><br> <!-- min=today's date -->
+                <input type="date" id="end" name="checkout" required><br>
                 <input type="submit" id ="book" value="Book now"><br>
               </form>
               <p>Google Maps displaying Address</p>
