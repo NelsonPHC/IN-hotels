@@ -131,6 +131,32 @@ app.post('/book', async (req, res) => {
   }
 });
 
+// 5. Get all previous reservations for a designated user
+app.post('/reservations', async (req, res) => {
+  let uid = req.body.uid;
+  if (uid) {
+    try {
+      let db = await getDBConnection();
+      if (await userIDExist(db, uid)) {
+        let query = 'select hotelName, checkin, checkout from bookings b, hotels h ' +
+        'where b.hid = h.hid and b.uid = ?';
+        let reservations = await db.all(query, uid);
+        await db.close();
+        res.json(reservations);
+      } else {
+        res.type('text').status(400)
+          .send('user is not found');
+      }
+    } catch (err) {
+      res.type('text').status(500)
+        .send('An error occurred on the server. Try again later.');
+    }
+  } else {
+    res.type('text').status(400)
+      .send('You need to log in first to make a booking');
+  }
+});
+
 /**
  * helper function to get the booking message indicating the status of the booking operation
  * @param {sqlite3.Database} db The database object for the connection.
@@ -148,7 +174,7 @@ async function getBookingMsg(db, uid, hid, checkin, checkout) {
         let existErrorMsg = await userHotelInvalidMsg(db, uid, hid);
         if (!existErrorMsg) {
           if (await hotelAvailability(db, hid, checkin, checkout)) {
-            msg = 'success';
+            msg = 'success'; // check this to see if the booking is succesful
           } else {
             msg = 'The hotel is unavailable during that time slot.';
           }
@@ -156,7 +182,7 @@ async function getBookingMsg(db, uid, hid, checkin, checkout) {
           msg = existErrorMsg;
         }
       } catch (err) {
-        msg = 'server error';
+        msg = 'server error'; // check this err msg to set status to 500
       }
     } else {
       msg = 'The dates are invalid';

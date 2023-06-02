@@ -194,7 +194,7 @@ Booked!
 
 **Error Handling:**
 - Possible 400 (invalid request) errors (all plain text):
-  - If passed in an invalid user ID `uid`, returns an error with the message: `User is not found, please try again.`
+  - If passed in an invalid user ID `uid`, returns an error with the message: `user is not found`
 - Possible 500 errors (all plain text):
   - If something else goes wrong on the server, returns an error with the message: `An error occurred on the server. Try again later.`
 
