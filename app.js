@@ -177,7 +177,8 @@ async function getBookingMsg(db, uid, hid, checkin, checkout) {
           if (await hotelAvailability(db, hid, checkin, checkout)) {
             msg = 'success'; // check this to see if the booking is succesful
           } else {
-            msg = 'The hotel is unavailable during that time slot.';
+            msg = 'We\'re extremely sorry, this hotel has already been booked in this timeslot,' +
+            ' please choose a different date.';
           }
         } else {
           msg = existErrorMsg;
