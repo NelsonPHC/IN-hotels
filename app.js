@@ -139,8 +139,8 @@ app.post('/reservations', async (req, res) => {
       let db = await getDBConnection();
       if (await userIDExist(db, uid)) {
         let query =
-        'select hotelName, imageSrc, checkin, checkout, price_per_night from bookings b, hotels h' +
-        ' where b.hid = h.hid and b.uid = ?';
+        'select bid, hotelName, imageSrc, checkin, checkout, price_per_night' +
+        ' from bookings b, hotels h where b.hid = h.hid and b.uid = ?';
         let reservations = await db.all(query, uid);
         await db.close();
         res.json(reservations);
