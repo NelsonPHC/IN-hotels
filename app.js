@@ -40,7 +40,7 @@ app.get('/places', (req, res) => {
   );
 });
 
-// User login (for every endpoint that requires user login, check if login cookie exist)
+// 1. User login (for every endpoint that requires user login, check if login cookie exist)
 app.post('/login', async (req, res) => {
   res.type('text');
   let name = req.body.name;
@@ -119,8 +119,6 @@ app.get('/hotels/:hid', async (req, res) => {
 app.post('/book', async (req, res) => {
   res.type('text');
   let bod = req.body;
-
-  // replace req.cookies['uid'] to bod.uid for uid when testing using thunderclient
   let [uid, hid, checkin, checkout] = [req.cookies['uid'], bod.hid, bod.checkin, bod.checkout];
 
   try {
@@ -152,7 +150,7 @@ app.post('/reservations', async (req, res) => {
       if (await userIDExist(db, uid)) {
         let query =
         'select hotelName, imageSrc, checkin, checkout, price_per_night' +
-        ' from bookings b, hotels h where b.hid = h.hid and b.uid = ?';
+        ' from bookings b, hotels h where b.hid = h.hid and b.uid = ? order by checkin, checkout';
         let reservations = await db.all(query, uid);
         await db.close();
         res.json(reservations);
