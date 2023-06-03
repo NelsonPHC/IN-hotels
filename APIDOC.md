@@ -30,7 +30,7 @@ you are now logged in
 
 **Request Format:** /hotels
 
-**Query Parameters:** `search`, `country_filter` (both optional)
+**Query Parameters (optional):** `search`, `country_filter`, `min`, `max`
 
 **Request Type (both requests)):** GET
 
@@ -69,7 +69,7 @@ you are now logged in
 }
 ```
 
-**Description 2:** If the `search` and/or `country_filter` parameter is included in the request, respond with all the hotel IDs (`hid`) of the hotels whose `hotelName` matches the term passed in the `search` query parameter and/or `country` equals the filtering country passed in the `country_filter` query parameter (ordered by the `hid`s). A "match" would be any `hotelName` that has the `search` term in any position meaning that the term "hilton" should match any `hotelName` containing the words "hilton", "DoubleTree by Hilton Taipei Zhongshan" or "Hilton Queenstown Resort & Spa" (as an example, not exhaustive, more matches are possible).
+**Description 2:** If at least one of the `search`, `country_filter`, `min`, `max` parameters are included in the request, respond with all the ordered hotel IDs (`hid`) of the hotels whose `hotelName` matches the term passed in the `search` query parameter and/or `country` equals the filtering country passed in the `country_filter` query parameter and/or having `price_per_night` >= `min` and/or `price_per_night` <= `max`. A "match" in `search` would be any `hotelName` that has the `search` term in any position meaning that the term "hilton" should match any `hotelName` containing the words "hilton", "DoubleTree by Hilton Taipei Zhongshan" or "Hilton Queenstown Resort & Spa" (as an example, not exhaustive, more matches are possible).
 
 **Example Request 2-1:** /hotels?search=hilton
 
@@ -103,6 +103,37 @@ you are now logged in
 }
 ```
 
+**Example Request 2-3:** /hotels?search=hilton&min=200
+
+**Example Response 2-3:**
+```json
+{
+  "hotels": [
+    {
+      "hid": 1
+    },
+    {
+      "hid": 4
+    }
+  ]
+}
+```
+
+**Example Request 2-4:** /hotels?search=hilton&min=200&max=250
+
+**Example Response 2-4:**
+```json
+{
+  "hotels": [
+    {
+      "hid": 4
+    }
+  ]
+}
+```
+- Possible 400 (invalid request) errors (all plain text):
+  - If `min` or `max` is not an integer, returns an error with the message: `please input integers`
+  - If `min` is bigger than `max`, returns an error with the message: `min must be less than or equal to max`
 - Possible 500 errors (all plain text):
   - If something else goes wrong on the server, returns an error with the message: `An error occurred on the server. Try again later.`
 

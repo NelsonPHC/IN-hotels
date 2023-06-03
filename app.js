@@ -71,16 +71,28 @@ app.post('/login', async (req, res) => {
 // 2. Get all hotel data or hotel data matching a given search term and/or filter
 app.get('/hotels', async (req, res) => {
   let search = req.query.search;
-  let filter = req.query.country_filter;
-  try {
-    let db = await getDBConnection();
-    let q = queryParam(search, filter);
-    let queryResults = await db.all(q.query, q.inputArr);
-    await db.close();
-    res.json({'hotels': queryResults});
-  } catch (err) {
-    res.type('text').status(500)
-      .send('An error occurred on the server. Try again later.');
+  let country = req.query.country_filter;
+  let min = req.query.min;
+  let max = req.query.max;
+  if (isIntegerString(min) && isIntegerString(max)) {
+    if (min <= max) {
+      try {
+        let db = await getDBConnection();
+        let q = queryParam(search, country, min, max);
+        let queryResults = await db.all(q.query, q.values);
+        await db.close();
+        res.json({'hotels': queryResults});
+      } catch (err) {
+        res.type('text').status(500)
+          .send('An error occurred on the server. Try again later.');
+      }
+    } else {
+      res.type('text').status(400)
+        .send('min must be less than or equal to max');
+    }
+  } else {
+    res.type('text').status(400)
+      .send('please input integers');
   }
 });
 
@@ -296,39 +308,67 @@ async function hotelAvailability(db, hid, checkin, checkout) {
 }
 
 /**
- * based on the search or filter are applied, return the query and placeholder array for using sql
+ * helper to check if the input string only consists of integers
+ * @param {string} value input string to be checked
+ * @returns {boolean} true if it is a integer string, false otherwise
+ */
+function isIntegerString(value) {
+  const parsedValue = parseInt(value, 10);
+  return !isNaN(parsedValue) && parsedValue.toString() === value;
+}
+
+/**
+ * based on the search or conditions applied, return the query and placeholder array for using sql
  * in node.js
  * @param {string} search search term for hotelName
- * @param {string} filter the country filter
- * @returns {dictionary} a dictionary containing the query and placeholder array, with keys 'query'
- * and 'inputArr' respectively.
+ * @param {string} country the country filter
+ * @param {string} min the min price of the hotel
+ * @param {string} max the max price of the hotel
+ * @returns {dictionary} a dictionary containing the query and placeholder array 'values',
+ * with keys 'query' and 'values' respectively.
  */
-function queryParam(search, filter) {
-  let query = (search || filter) ? 'select hid from hotels where ' :
+function queryParam(search, country, min, max) {
+  let filters = (search || country || min || max);
+  let query = filters ? 'select hid from hotels where ' :
     'select * from hotels order by hotelName, country';
-  let inputArr = [];
-  if (search) {
-    query += 'hotelName like ? ';
-    inputArr.push('%' + search + '%');
-    if (filter) {
-      query += 'and lower(country) = lower(?) ';
-      inputArr.push(filter);
-    }
-  } else if (filter) {
-    query += 'lower(country) = lower(?) ';
-    inputArr.push(filter);
+  let values = [];
+  let conditions = [];
+
+  newQueryCondition(conditions, 'hotelName like ?', values, '%' + search + '%');
+  newQueryCondition(conditions, 'lower(country) = lower(?)', values, country);
+  newQueryCondition(conditions, 'price_per_night >= ?', values, min);
+  newQueryCondition(conditions, 'price_per_night <= ?', values, max);
+
+  // append the condition clauses to the query
+  query += conditions.join(' and ');
+
+  // if search or filter is specified, order the returned hid's
+  if (filters) {
+    query += ' order by hid';
   }
 
-  if (search || filter) { // if search or filter is specified, order the returned hid's
-    query += 'order by hid';
-  }
-
-  let queryAndInput = {
+  let queryAndValues = {
     'query': query,
-    'inputArr': inputArr
+    'values': values
   };
 
-  return queryAndInput;
+  return queryAndValues;
+}
+
+/**
+ * helper function to append condition clause and its corresponding values to the sql query, if the
+ * value exist
+ * usage: newQueryCondition(conditions, 'hotelName like ?', values, search);
+ * @param {Array} conditions an array of strings storing the condition clauses
+ * @param {string} newCondition a new condition clause to be pushed to 'conditions'
+ * @param {Array} values an array of strings storing the condition values
+ * @param {string} newValue the new value corresponding to the new condition clause
+ */
+function newQueryCondition(conditions, newCondition, values, newValue) {
+  if (newValue) {
+    conditions.push(newCondition);
+    values.push(newValue);
+  }
 }
 
 /**
