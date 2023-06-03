@@ -95,10 +95,8 @@
       if (!qs(".user-bar").classList.contains("hidden")) {
         qs(".user-bar").classList.toggle("hidden");
       }
-    } else {
-      if (!qs(".logged-in").classList.contains("hidden")) {
-        qs(".logged-in").classList.toggle("hidden");
-      }
+    } else if (!qs(".logged-in").classList.contains("hidden")) {
+      qs(".logged-in").classList.toggle("hidden");
     }
   }
 

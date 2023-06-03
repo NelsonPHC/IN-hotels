@@ -9,7 +9,7 @@
 
 "use strict";
 (function() {
-
+  const ONE_SECOND = 1000;
   window.addEventListener('load', init);
 
   /**
@@ -34,7 +34,7 @@
       qs(".adjust > article > p").classList.add("hidden");
     }
     qs("article > img").classList.toggle("hidden");
-    setTimeout(checkUserLoggedIn, 1000);
+    setTimeout(checkUserLoggedIn, ONE_SECOND);
   }
 
   /**
@@ -42,9 +42,9 @@
    * Otherwise, it prompts the user to login.
    */
   function checkUserLoggedIn() {
-    if (checkCookieExists("uid")){
+    if (checkCookieExists("uid")) {
       let params = new FormData();
-      const uid = getCookieValue("uid")
+      const uid = getCookieValue("uid");
       params.append("uid", uid);
       fetch("/reservations", {method: "POST", body: params})
         .then(statusCheck)

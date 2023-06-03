@@ -163,7 +163,7 @@
    * @param {Object} response - The hotel data that matches the filter criteria
    */
   function filter(response) {
-    resetFilter;
+    resetFilter();
     const hotelId = response.hotels;
     const hotels = qsa(".display > a > div");
     for (let i = 0; i < hotels.length; i++) {

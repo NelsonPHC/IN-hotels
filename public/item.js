@@ -1,6 +1,6 @@
 /**
  * Name: Isaac Yeoh & Nelson Chen
- * Date: May 7th, 2023
+ * Date: June 3rd, 2023
  * Section: CSE 154 AG
  * This code generates the extended details of our hotels in the
  * item.html page and allows the users to book a reservation at the
@@ -10,7 +10,7 @@
 
 "use strict";
 (function() {
-
+  const FOUR_SECONDS = 4000;
   window.addEventListener('load', init);
 
   /**
@@ -92,7 +92,7 @@
     if (checkCookieExists("uid")) {
       const checkin = id("start").value;
       const checkout = id("end").value;
-      if (compareDate(checkin, checkout)){
+      if (compareDate(checkin, checkout)) {
         let params = createForm(checkin, checkout);
         fetch("/book", {method: "POST", body: params})
           .then(statusCheck)
@@ -142,19 +142,19 @@
     return true;
   }
 
-/**
- * Handles the successful booking of a hotel. The user will
- * not be able to make any bookings in the meantime, and will
- * be sent to reservation.html after 4 seconds of making a
- * reservation.
- * @returns {void}
- */
+  /**
+   * Handles the successful booking of a hotel. The user will
+   * not be able to make any bookings in the meantime, and will
+   * be sent to reservation.html after 4 seconds of making a
+   * reservation.
+   * @returns {void}
+   */
   function book() {
     qs(".success").classList.remove("hidden");
     id("book").disabled = true;
     setTimeout(function() {
       window.location.href = "reservation.html";
-    }, 4000);
+    }, FOUR_SECONDS);
   }
 
   /**
@@ -177,7 +177,8 @@
   /**
    * Retrieves the value of a cookie with the specified name.
    * @param {string} cookieName - The name of the cookie to retrieve the value from.
-   * @returns {string|null} - The value of the cookie if found, or null if the cookie does not exist.
+   * @returns {string|null} - The value of the cookie if found, or null if the
+   * cookie does not exist.
    */
   function getCookieValue(cookieName) {
     const cookies = document.cookie.split(';');
