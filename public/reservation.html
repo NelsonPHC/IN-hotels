@@ -5,12 +5,13 @@
     <link rel="stylesheet" href="reservation.css">
     <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@1,300&display=swap" rel="stylesheet">
     <script src="shared.js"></script>
-    <title>Hotel Name</title><!-- this should change according to the item being clicked -->
+    <script src="reservation.js"></script>
+    <title>My reservations</title>
   </head>
   <body>
     <section class="fix">
       <nav>
-        <img src="imgs/menu-icon.png" alt="menu-icon" class="menu left-icon">
+        <img src="imgs/menu-icon.png" alt="menu-icon" class="menu">
         <!--
           Menu icon obtained from cleanpng.com
         -->
@@ -31,7 +32,7 @@
           </a>
         </section>
         <section class="menu-box">
-          <a>
+          <a href="reservation.html">
             <p>View my reservations</p>
           </a>
         </section>
@@ -39,6 +40,9 @@
       <section class="user-bar hidden">
         <div class="align-right">
           <form id="login">
+            <div class="login-box prompt hidden">
+              <p>Please login first!</p>
+            </div>
             <div class="login-box">
               <label for='username'>Username:</label>
               <input type='text' id='username' name='name' required>
@@ -48,7 +52,7 @@
               <input type='text' id='password' name='password' required>
             </div>
             <div class="center">
-              <button class="login-box">Submit</button>
+              <button class="login-box">Login</button>
             </div>
           </form>
         </div>
@@ -67,7 +71,10 @@
       <section class="adjust">
         <h1>My reservations</h1>
         <article>
-          
+          <img src="imgs/load.gif" alt="loading gif" class="hidden">
+          <!--
+            Image obtained from tenor.com
+          -->
         </article>
       </section>
     </main>
