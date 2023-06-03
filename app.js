@@ -52,7 +52,7 @@ app.post('/login', async (req, res) => {
       let queryResults = await db.all(query, [name, pwd]);
       await db.close();
       if (queryResults.length === 0) {
-        res.status(400).send('User name or password is incorrect, please try again');
+        res.status(400).send('Username or Password is incorrect, please try again');
       } else {
         let uid = queryResults[0].uid;
 
@@ -64,16 +64,16 @@ app.post('/login', async (req, res) => {
       res.status(500).send('An error occurred on the server. Try again later.');
     }
   } else {
-    res.status(400).send('Please enter both user name and password');
+    res.status(400).send('Please enter both Username and Password');
   }
 });
 
 // 2. Get all hotel data or hotel data matching a given search term and/or filter
 app.get('/hotels', async (req, res) => {
-  let search = req.query.search; // avoid white spaces!!!!!!!
-  let country = req.query.country_filter;
-  let min = req.query.min;
-  let max = req.query.max;
+  let search = trimIfExist(req.query.search);
+  let country = trimIfExist(req.query.country_filter);
+  let min = trimIfExist(req.query.min);
+  let max = trimIfExist(req.query.max);
   if (isValidIntegerString(min) && isValidIntegerString(max)) {
     if (min <= max || !(min && max)) { // check only when min max both defined
       try {
@@ -303,6 +303,15 @@ async function hotelAvailability(db, hid, checkin, checkout) {
       'or (DATETIME(checkin) < DATETIME(?) and DATETIME(?) <= DATETIME(checkout)))'; // checkout
   let booked = await db.all(availablityQuery, [hid, checkin, checkin, checkout, checkout]);
   return (booked.length === 0);
+}
+
+/**
+ * trims the input string of white space on both sides if the string is defined
+ * @param {string} str the input string
+ * @returns {string} a potentially trimmed string
+ */
+function trimIfExist(str) {
+  return str ? str.trim() : str;
 }
 
 /**

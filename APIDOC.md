@@ -21,8 +21,8 @@ you are now logged in
 
 **Error Handling:**
 - Possible 400 (invalid request) errors (all plain text):
-  - If missing user name or password, returns an error with the message: `Please enter both user name and password`
-  - If passed in an invalid user name or password, returns an error with the message: `User name or password is incorrect, please try again`
+  - If missing username or password, returns an error with the message: `Please enter both Username and Password`
+  - If passed in an invalid username or password, returns an error with the message: `Username or Password is incorrect, please try again`
 - Possible 500 errors (all plain text):
   - If something else goes wrong on the server, returns an error with the message: `An error occurred on the server. Try again later.`
 
