@@ -1,11 +1,13 @@
 /**
  * Name: Isaac Yeoh & Nelson Chen
- * Date: May 7th, 2023
+ * Date: June 3rd, 2023
  * Section: CSE 154 AG
  * This code generates the images of the hotels and the name of
- * the hotels in our home page. It will later contain the filter option
- * and we will replace the src of the images with actual images
- * in the near future.
+ * the hotels in our home page. It contains various filter options
+ * which are the name of the hotel, country name, and price range.
+ * It also allows the users to reset their filters. Any error
+ * that occurs will be handled by either unhiding the error
+ * message or displaying the error message on the page.
  */
 
 "use strict";
@@ -13,7 +15,10 @@
   window.addEventListener('load', init);
 
   /**
-   * initiates page upon load
+   * Initiates page upon load by filling the page
+   * with hotel images. Allows the users to toggle between
+   * grid and list view, submit a filter request, and reset
+   * the filters.
    */
   function init() {
     makeRequestHotel();
@@ -38,7 +43,7 @@
   }
 
   /**
-   * gets hotel information from our server
+   * Gets hotel information from our server
    */
   function makeRequestHotel() {
     fetch('/hotels')
@@ -48,6 +53,13 @@
       .catch(handleError);
   }
 
+  /**
+   * Handles errors by not allowing the user to submit any
+   * more requests to filter the hotels, creating an error
+   * message element, and appending it to the display area where
+   * the hotel images are located at.
+   * @param {Error|string} error - The error object or error message.
+   */
   function handleError(error) {
     qs(".search-icon").removeEventListener("click", makeRequestFilter);
     const issue = gen("p");
@@ -55,11 +67,14 @@
     const cleanedErrorMessage = errorMessage.replace("Error: ", "");
     issue.textContent = cleanedErrorMessage;
     issue.classList.add("issue");
-    qs(".display").appendChild(issue);
+    qs(".display").prepend(issue);
   }
 
   /**
-   * Generates a set of hotels
+   * Generates hotel elements based on the response data,
+   * appends them to the display area, and adds the country options to
+   * the country filter.
+   * @param {Object} response - The response data containing the hotels.
    */
   function generateHotels(response) {
     const display = qs('.display');
@@ -80,10 +95,11 @@
   }
 
   /**
-   * Generates hotels for the home page
+   * Generates hotel cards for the home page containing the
+   * image of the hotel, the price, name, and country it's located
+   * in.
    * @param {Object} hotels - The response containing hotel information
-   * @returns {HTMLElement} a link element associated with a div that contains hotel image, name
-   * @todo add hotel src and text content
+   * @returns {HTMLElement} - The generated hotel element.
    */
   function gridView(hotels) {
     const hotelLink = gen("a");
@@ -108,16 +124,25 @@
     group.appendChild(location);
     hotelCard.appendChild(price);
     hotelLink.appendChild(hotelCard);
-
     return hotelLink;
   }
 
+  /**
+   * Adds the country of the hotel to the provided array.
+   * @param {Object} hotels - The hotel data.
+   * @param {array} array - The array to add the country to.
+   * @returns {array} - The updated array.
+   */
   function addOption(hotels, array) {
     const countries = hotels.country;
     array.push(countries);
     return array;
   }
 
+  /**
+   * Makes a request to the server to filter hotels based on the provided search criteria.
+   * Updates the display with the filtered hotels.
+   */
   function makeRequestFilter() {
     let search = id("hotel-name").value.trim();
     let country = qs(".filter select").value;
@@ -132,6 +157,11 @@
       .catch(handleError);
   }
 
+  /**
+   * Filters the displayed hotels based on the response from the server.
+   * Hides hotels that do not match the filter criteria and shows hotels that match.
+   * @param {Object} response - The hotel data that matches the filter criteria
+   */
   function filter(response) {
     resetFilter;
     const hotelId = response.hotels;
@@ -146,6 +176,9 @@
     }
   }
 
+  /**
+   * Resets the filter input fields and displays all hotels.
+   */
   function resetFilter() {
     qs(".filter > input").value = "";
     qs(".filter > select").value = "Any Country";
