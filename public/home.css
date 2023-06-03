@@ -1,13 +1,14 @@
 /*
 Name: Isaac Yeoh & Nelson Chen
-Date: May 7th, 2023
+Date: June 3rd, 2023
 Section: CSE 154 AG
 This is the style sheet for our home page. It makes the "welcome"
 text centered in the middle of the page and has a caption that fades
 in when the user enters/refreshes the page. It also styles the filter
 input boxes and the grid layout that the hotels are displayed in.
-The option to change the grid layout to list layout will be added
-in the near future.
+When hovering over the hotel cards, it will "bounce up" slightly,
+and when hovering over the "clear filter" button, it will "bounce
+down" slightly.
 */
 h1 {
   font-size: 100px;
@@ -83,8 +84,8 @@ h1, .caption, input, select {
 
 .display > a {
   margin: 15px;
-  color: black;
-  transition: .5s all;
+  color: #000000;
+  transition: 0.5s all;
 }
 
 .grid > a {
@@ -100,7 +101,6 @@ h1, .caption, input, select {
   margin-left: 100px;
   margin-right: 100px;
 }
-
 
 .list > a {
   height: 250px;
@@ -180,8 +180,8 @@ h1, .caption, input, select {
   flex-wrap: wrap;
 }
 
-.search-bar> button:hover {
-  transition: .5s;
+.search-bar > button:hover {
+  transition: 0.5s;
   transform: translateY(5px);
 }
 

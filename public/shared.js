@@ -1,10 +1,15 @@
 /**
  * Name: Isaac Yeoh & Nelson Chen
- * Date: May 7th, 2023
+ * Date: June 3rd, 2023
  * Section: CSE 154 AG
  * This code is shared between all files. It toggles the
  * view of the menu icon so that the menu bar expands or hides when
- * the user clicks on it.
+ * the user clicks on it. It also checks for cookies and gets the
+ * cookie information regarding the username of the user, and
+ * clears the cookies when the user logs out. When the user logs in,
+ * it will create a new cookie which stores their information. Various
+ * error messages will also have their visibility toggled depending
+ * on the issue.
  */
 
 "use strict";
@@ -12,7 +17,9 @@
   window.addEventListener('load', init);
 
   /**
-   * initiates page upon load
+   * Initiates page upon load and allows the user to interact
+   * with the menu icon, profile icon, login button, and logout
+   * button.
    */
   function init() {
     qs(".menu").addEventListener("click", clickMenu);
@@ -39,6 +46,12 @@
     }
   }
 
+  /**
+   * Checks if a specific cookie exists by iterating through all cookies
+   * and comparing their names.
+   * @param {String} cookieName - the name of the cookie
+   * @returns {Boolean} - Returns true if the cookie exists, otherwise false.
+   */
   function checkCookieExists(cookieName) {
     const cookies = document.cookie.split(';');
     for (let i = 0; i < cookies.length; i++) {
@@ -51,6 +64,13 @@
     return false;
   }
 
+  /**
+   * Retrieves the value of a specific cookie by iterating through
+   * all cookies and comparing their names.
+   * @param {string} cookieName - The name of the cookie to retrieve the value from.
+   * @returns {string|null} - The value of the cookie if found, or null
+   * if the cookie doesn't exist.
+   */
   function getCookieValue(cookieName) {
     const cookies = document.cookie.split(';');
     for (let i = 0; i < cookies.length; i++) {
@@ -65,7 +85,9 @@
   }
 
   /**
-   * Toggles the view of the menu bar
+   * Toggles the view of the menu bar and the profile icon.
+   * If the menu is open when the user clicks on the profile icon,
+   * it will hide the menu, and vice versa.
    */
   function clickMenu() {
     qs(".menu-bar").classList.toggle("hidden");
@@ -73,13 +95,14 @@
       if (!qs(".user-bar").classList.contains("hidden")) {
         qs(".user-bar").classList.toggle("hidden");
       }
-    } else {
-      if (!qs(".logged-in").classList.contains("hidden")) {
-        qs(".logged-in").classList.toggle("hidden");
-      }
+    } else if (!qs(".logged-in").classList.contains("hidden")) {
+      qs(".logged-in").classList.toggle("hidden");
     }
   }
 
+  /**
+   * Makes a login request by sending the provided username and password to the server.
+   */
   function makeRequestLogin() {
     let params = new FormData();
     const username = id("username").value;
@@ -93,6 +116,10 @@
       .catch(handleLoginError);
   }
 
+  /**
+   * Handles login errors by displaying the error message to the user.
+   * @param {Error|string} error - The error object or error message.
+   */
   function handleLoginError(error) {
     const issue = gen("p");
     const errorMessage = error instanceof Error ? error.message : String(error);
@@ -102,6 +129,12 @@
     id("login").prepend(issue);
   }
 
+  /**
+   * Performs login actions after a successful login response, including
+   * setting the username cookie, updating the UI, and hiding elements.
+   * @param {string} resp - The response from the login request.
+   * @param {string} username - The username used for login.
+   */
   function login(resp, username) {
     document.cookie = "username=" + username + '; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/';
     id("user").textContent = username;
@@ -109,6 +142,10 @@
     qs(".user-bar").classList.add("hidden");
   }
 
+  /**
+   * Performs logout actions, including clearing the username input,
+   * updating the UI, and clearing cookies.
+   */
   function logout() {
     qs(".login-box.prompt").classList.add("hidden");
     id("username").value = getCookieValue("username");
@@ -119,6 +156,9 @@
     clearCookies();
   }
 
+  /**
+   * Clears all cookies by iterating through them and setting their expiration to a past date.
+   */
   function clearCookies() {
     const cookies = document.cookie.split(';');
     for (let i = 0; i < cookies.length; i++) {

@@ -1,20 +1,21 @@
 /**
  * Name: Isaac Yeoh & Nelson Chen
- * Date: May 7th, 2023
+ * Date: June 3rd, 2023
  * Section: CSE 154 AG
- * This code generates the images of the hotels and the name of
- * the hotels in our home page. It will later contain the filter option
- * and we will replace the src of the images with actual images
- * in the near future.
+ * This code generates the extended details of our hotels in the
+ * item.html page and allows the users to book a reservation at the
+ * hotel they selected from the home page. It also displays error
+ * messages accordingly.
  */
 
 "use strict";
 (function() {
-
+  const FOUR_SECONDS = 4000;
   window.addEventListener('load', init);
 
   /**
-   * initiates page upon load
+   * Initiates page upon load by loading the selected
+   * hotel's information.
    */
   function init() {
     makeRequestFill();
@@ -28,10 +29,10 @@
   }
 
   /**
-   * gets the name of the selected hotel
+   * Makes a request to fetch the details of a specific
+   * hotel.
    */
   function makeRequestFill() {
-    // Get the hotel name from the URL query parameter
     const urlParams = new URLSearchParams(window.location.search);
     const hotelName = "/hotels/" + urlParams.get('hid');
     fetch(hotelName)
@@ -41,6 +42,11 @@
       .catch(handleFillError);
   }
 
+  /**
+   * Handles the error that occurs while filling the form with hotel details.
+   * Updates the error message, displays it, and hides the hotel information.
+   * @param {Error} error - The error object received.
+   */
   function handleFillError(error) {
     const issue = qs("h1");
     const errorMessage = error instanceof Error ? error.message : String(error);
@@ -49,6 +55,11 @@
     qs(".adjust article").classList.add("hidden");
   }
 
+  /**
+   * Fills the page with hotel details received from the API response.
+   * Updates the image, hotel name, description, and enables the booking button.
+   * @param {Object} response - The API response containing hotel details.
+   */
   function fill(response) {
     const img = gen("img");
     let description = gen("p");
@@ -69,6 +80,10 @@
     parent.prepend(h2);
   }
 
+  /**
+   * Makes a request to book a hotel. Checks if the necessary fields are
+   * filled and the user is logged in.
+   */
   function makeRequestBook() {
     qs(".date-error").classList.add("hidden");
     if (!qs(".prompt").classList.contains("hidden")) {
@@ -77,7 +92,7 @@
     if (checkCookieExists("uid")) {
       const checkin = id("start").value;
       const checkout = id("end").value;
-      if (compareDate(checkin, checkout)){
+      if (compareDate(checkin, checkout)) {
         let params = createForm(checkin, checkout);
         fetch("/book", {method: "POST", body: params})
           .then(statusCheck)
@@ -93,6 +108,12 @@
     }
   }
 
+  /**
+   * Creates a form data object with the necessary parameters for booking a hotel.
+   * Retrieves the hotel ID (hid), check-in and check-out dates, and user ID (uid)
+   * from the URL and cookies. Appends these parameters to a FormData object.
+   * @returns {FormData} The FormData object containing the booking parameters.
+   */
   function createForm() {
     let params = new FormData();
     const urlParams = new URLSearchParams(window.location.search);
@@ -107,6 +128,13 @@
     return params;
   }
 
+  /**
+   * Compares two dates to check if the check-out date is after the check-in date.
+   * @param {string} checkin - The check-in date in string format.
+   * @param {string} checkout - The check-out date in string format.
+   * @returns {boolean} Returns true if the check-out date is after the
+   * check-in date, false otherwise.
+   */
   function compareDate(checkin, checkout) {
     if (checkout <= checkin) {
       return false;
@@ -114,14 +142,26 @@
     return true;
   }
 
+  /**
+   * Handles the successful booking of a hotel. The user will
+   * not be able to make any bookings in the meantime, and will
+   * be sent to reservation.html after 4 seconds of making a
+   * reservation.
+   * @returns {void}
+   */
   function book() {
     qs(".success").classList.remove("hidden");
     id("book").disabled = true;
     setTimeout(function() {
       window.location.href = "reservation.html";
-    }, 4000);
+    }, FOUR_SECONDS);
   }
 
+  /**
+   * Checks if a cookie with the specified name exists.
+   * @param {string} cookieName - The name of the cookie to check.
+   * @returns {boolean} - Returns true if the cookie exists, false otherwise.
+   */
   function checkCookieExists(cookieName) {
     const cookies = document.cookie.split(';');
     for (let i = 0; i < cookies.length; i++) {
@@ -134,6 +174,12 @@
     return false;
   }
 
+  /**
+   * Retrieves the value of a cookie with the specified name.
+   * @param {string} cookieName - The name of the cookie to retrieve the value from.
+   * @returns {string|null} - The value of the cookie if found, or null if the
+   * cookie does not exist.
+   */
   function getCookieValue(cookieName) {
     const cookies = document.cookie.split(';');
     for (let i = 0; i < cookies.length; i++) {
@@ -147,6 +193,10 @@
     return null;
   }
 
+  /**
+   * Handles the error that occurred during the booking process.
+   * @param {Error|string} error - The error that occurred during booking.
+   */
   function handleBookingError(error) {
     const errorMessage = error instanceof Error ? error.message : String(error);
     const cleanedErrorMessage = errorMessage.replace("Error: ", "");

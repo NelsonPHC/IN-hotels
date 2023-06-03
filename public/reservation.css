@@ -1,3 +1,13 @@
+/*
+Name: Isaac Yeoh & Nelson Chen
+Date: June 3rd, 2023
+Section: CSE 154 AG
+This is the style sheet for our reservations page. Similar to
+the home page, it creates a list-view of the hotels that the user
+has already booked. The image is set to the left of the card
+and the name, reservation date, and price are contained on the right of the card.
+*/
+
 .adjust {
   width: 100%;
   display: inline-block;
