@@ -8,3 +8,51 @@
   margin-top: 100px;
   font-size: 44px;
 }
+
+.adjust > article {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.card {
+  width: 60%;
+  display: flex;
+  margin-bottom: 40px;
+}
+
+.card > img {
+  width: 300px;
+  height: 200px;
+}
+
+.price {
+  margin-left: auto;
+  font-size: 20px;
+  color: rgb(59, 106, 66);
+}
+
+.card > div {
+  display: flex;
+  flex-direction: column;
+  margin-left: 24px;
+}
+
+.reserve {
+  margin-top: auto;
+}
+
+article > img {
+  width: 300px;
+  margin-bottom: 40px;
+}
+
+.hotel-name {
+  font-size: 24px;
+  color: rgb(123, 123, 190);
+}
+
+.adjust > article > p {
+  font-size: 24px;
+}
