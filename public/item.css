@@ -1,13 +1,14 @@
 /*
 Name: Isaac Yeoh & Nelson Chen
-Date: May 7th, 2023
+Date: June 3rd, 2023
 Section: CSE 154 AG
 This is the style sheet for the page when the user wants to view
-more detailed information about a website. The image of the hotel
-and the section containing all the details of the hotel
-including the booking availabilities, google maps displaying address,
-and the places to visit nearby is set to 30% of the width of the
-page, and it's formatted into a column style.
+more detailed information about a hotel. It sets the content
+to the center of the page where the image of the hotel is placed
+towards the left, and the description is on the right of the image.
+The option to allow users to book is placed below the description, and
+the submit button is placed below those options. It also hides and unhides error
+messages when an issue occurs.
 */
 article {
   display: flex;
@@ -67,7 +68,7 @@ h2 {
 }
 
 .success {
-  color:rgb(0, 159, 69);
+  color: rgb(0, 159, 69);
   font-size: 20px;
   animation: fadeInAnimation 1s;
 }

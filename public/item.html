@@ -1,26 +1,23 @@
 <!DOCTYPE html>
 <!--
   Name: Isaac Yeoh & Nelson Chen
-  Date: May 7th, 2023
+  Date: June 3rd, 2023
   Section: CSE 154 AG
   This is the webpage that displays when the user wants more information
-  about the hotel. It contains the navigation bar, the name of the hotel,
-  the image of the hotel, an option for the users to select their
-  check in and out dates, google maps displaying the address of the hotel,
-  recommendations for nearby places, and a confirmation button.
-  For now, we constructed a general layout of what we
-  want this page to look like, and we will substitute actual values in
-  the near future.
+  about the hotel. The page contains the description of the hotel,
+  the name, and allows the user to select their desired booking date/time
+  values. It also contains a navigation bar which allows the user to login
+  and out of their account, allows them to view their reservations,
+  and return to the home page.
 -->
 <html lang="en">
   <head>
     <meta charset="utf-8">
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="item.css">
-    <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@1,300&display=swap" rel="stylesheet">
     <script src="shared.js"></script>
     <script src="item.js"></script>
-    <title>Hotel Name</title><!-- this should change according to the item being clicked -->
+    <title>Make a booking</title>
   </head>
   <body>
     <section class="fix">
@@ -94,10 +91,10 @@
             <div>
               <form>
                 <label for="start">Check-in date:</label>
-                <input type="date" id="start" name="checkin" required><br>
+                <input type="datetime-local" id="start" name="checkin" required><br>
                 <label for="end">Check-out data:</label>
-                <input type="date" id="end" name="checkout" required><br>
-                <input type="submit" id ="book" value="Book now"><br>
+                <input type="datetime-local" id="end" name="checkout" required><br>
+                <input type="submit" id="book" value="Book now"><br>
               </form>
               <p>Google Maps displaying Address</p>
               <p>Display recommendations of nearby places</p>
