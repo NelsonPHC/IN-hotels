@@ -360,9 +360,6 @@ function queryParam(search, country, min, max) {
     'values': values
   };
 
-  console.log(query);
-  console.log(values);
-
   return queryAndValues;
 }
 
