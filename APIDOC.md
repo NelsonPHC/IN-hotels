@@ -180,9 +180,9 @@ you are now logged in
 
 **Returned Data Format**: plain text
 
-**Description:** Given a valid `uid`, `hid`, `checkin` and `checkout` date, return plain text indicating if the reservation is success.
+**Description:** Given a valid `uid`, `hid`, `checkin` and `checkout` datetime, return plain text indicating if the reservation is success.
 
-**Example Request:** /book with POST parameters of `hid=1`, `checkin=2023-06-07`, `checkout=2023-06-13`, and cookie key `uid=1`
+**Example Request:** /book with POST parameters of `hid=1`, `checkin=2023-06-07 13:00`, `checkout=2023-06-13 13:00`, and cookie key `uid=1`
 
 **Example Response:**
 ```
@@ -195,8 +195,8 @@ Booked succesfully! Your transaction number is 1
   - If any of the POST parameters `hid`, `checkin`, and `checkout` is missing, returns an error with the message: `Missing required parameters`
   - If passed in an invalid user ID `uid`, returns an error with the message: `user is not found`
   - If passed in an invalid hotel ID `hid`, returns an error with the message: `hotel is not found`
-  - If passed in invalid `checkin` `checkout` dates (e.g., dates are not of format YYYY-MM-DD, `checkin` is before `checkout`), returns an error with the message: `The dates are invalid`
-  - If the hotel is already booked between the `checkin` `checkout` dates, returns an error with the message: `The hotel is unavailable during that time slot`
+  - If passed in invalid `checkin` `checkout` datetimes (e.g., datetimes are not of format YYYY-MM-DD HH:MI, `checkin` is before `checkout`), returns an error with the message: `The datetimes are invalid`
+  - If the hotel is already booked between the `checkin` `checkout` datetimes, returns an error with the message: `The hotel is unavailable during that time slot`
 - Possible 500 errors (all plain text):
   - If something else goes wrong on the server, returns an error with the message: `An error occurred on the server. Try again later.`
 
@@ -231,14 +231,14 @@ Booked succesfully! Your transaction number is 1
 - Possible 500 errors (all plain text):
   - If something else goes wrong on the server, returns an error with the message: `An error occurred on the server. Try again later.`
 
-## 6. Hotel availability
+## 6. Hotel availability (X)
 **Request Format:** /availability?hotel_id={hid}&start={checkin}&end={checkout}
 
 **Request Type:** GET
 
 **Returned Data Format**: plain text
 
-**Description:** Given a valid hotel ID `hid`, `checkin` and `checkout` date (this is the same format as given by the response detailed in the user reservations query), return plain text indicating the availability of the hotel ('unavailable'/'available').
+**Description:** Given a valid hotel ID `hid`, `checkin` and `checkout` datetimes (this is the same format as given by the response detailed in the user reservations query), return plain text indicating the availability of the hotel ('unavailable'/'available').
 
 **Example Request:** /availability?hotel_id=1&start=2023-06-09&end=2023-06-13
 

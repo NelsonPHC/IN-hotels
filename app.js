@@ -173,8 +173,8 @@ app.post('/reservations', async (req, res) => {
  * @param {sqlite3.Database} db The database object for the connection.
  * @param {integer} uid the user ID
  * @param {integer} hid the hotel ID
- * @param {string} checkin check-in date string
- * @param {string} checkout check-out date string
+ * @param {string} checkin check-in datetime string
+ * @param {string} checkout check-out datetime string
  * @returns {string} a message indicating the status of the booking operation
  */
 async function getBookingMsg(db, uid, hid, checkin, checkout) {
@@ -197,7 +197,7 @@ async function getBookingMsg(db, uid, hid, checkin, checkout) {
         msg = 'server error'; // check this err msg to set status to 500
       }
     } else {
-      msg = 'The dates are invalid';
+      msg = 'The datetimes are invalid';
     }
   } else if (!uid) {
     msg = 'You need to log in first to make a booking';
@@ -209,15 +209,15 @@ async function getBookingMsg(db, uid, hid, checkin, checkout) {
 }
 
 /**
- * checks if the checkin checkout date strings are valid:
- * 1. They are both of format YYYY-MM-DD
- * 2. checkin date is before checkout date
- * @param {string} checkin date string of check-in
- * @param {string} checkout date string of check-out
- * @returns {boolean} true if the dates are valid, false otherwise
+ * checks if the checkin checkout datetime strings are valid:
+ * 1. They are both of format YYYY-MM-DD HH:MI
+ * 2. checkin datetime is before checkout date
+ * @param {string} checkin datetime string of check-in
+ * @param {string} checkout datetime string of check-out
+ * @returns {boolean} true if the datetimes are valid, false otherwise
  */
 function validInAndOut(checkin, checkout) {
-  if (!isValidDate(checkin) || !isValidDate(checkout)) {
+  if (!isValidDateTimeFormat(checkin) || !isValidDateTimeFormat(checkout)) {
     return false;
   }
 
@@ -228,13 +228,46 @@ function validInAndOut(checkin, checkout) {
 }
 
 /**
- * checks if a date string is of the format YYYY-MM-DD
- * @param {string} dateString a date string of format YYYY-MM-DD
- * @returns {boolean} true if the string is a date string, false otherwise
+ * checks if a datetime string is of the format YYYY-MM-DD HH:MI
+ * @param {string} dateTimeString a datetime string to be checked
+ * @returns {boolean} true if the string is a valid datetime string, false otherwise
  */
-function isValidDate(dateString) {
-  const regex = /^\d{4}-\d{2}-\d{2}$/;
-  return !isNaN(Date.parse(dateString)) && regex.test(dateString);
+function isValidDateTimeFormat(dateTimeString) {
+  const regex = /^\d{4}-\d{2}-\d{2} \d{2}:\d{2}$/;
+  if (!regex.test(dateTimeString)) {
+    return false; // Invalid format
+  }
+
+  const dateParts = dateTimeString.split(' ');
+  const date = dateParts[0];
+  const time = dateParts[1];
+
+  // Check if the date part is valid
+  const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
+  if (!dateRegex.test(date)) {
+    return false; // Invalid date format
+  }
+
+  // Check if the time part is valid
+  const timeRegex = /^(?:0\d|1\d|2[0-3]):[0-5]\d$/;
+  if (!timeRegex.test(time)) {
+    return false; // Invalid time format
+  }
+
+  // Parse the date components
+  const [year, month, day] = date.split('-').map(Number);
+  const [hours, minutes] = time.split(':').map(Number);
+
+  // Create a new Date object and check if the parsed values match
+  const parsedDate = new Date(year, month - 1, day, hours, minutes);
+
+  return (
+    parsedDate.getFullYear() === year &&
+    parsedDate.getMonth() === month - 1 &&
+    parsedDate.getDate() === day &&
+    parsedDate.getHours() === hours &&
+    parsedDate.getMinutes() === minutes
+  );
 }
 
 /**
@@ -289,12 +322,12 @@ async function getHotelByID(db, hid) {
 }
 
 /**
- * checks if the hotel is available for the checkin and checkout dates, need to close the
+ * checks if the hotel is available for the checkin and checkout datetimes, need to close the
  * database object db afterwards in the parent function
  * @param {sqlite3.Database} db The database object for the connection.
  * @param {integer} hid hotel ID
- * @param {string} checkin check-in date of format YYYY-MM-DD
- * @param {string} checkout check-out date of format YYYY-MM-DD
+ * @param {string} checkin check-in datetime of format YYYY-MM-DD HH:MI
+ * @param {string} checkout check-out datetime of format YYYY-MM-DD HH:MI
  * @returns {boolean} true if the hotel is available, false otherwise
  */
 async function hotelAvailability(db, hid, checkin, checkout) {
