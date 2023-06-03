@@ -70,12 +70,12 @@ app.post('/login', async (req, res) => {
 
 // 2. Get all hotel data or hotel data matching a given search term and/or filter
 app.get('/hotels', async (req, res) => {
-  let search = req.query.search;
+  let search = req.query.search; // avoid white spaces!!!!!!!
   let country = req.query.country_filter;
   let min = req.query.min;
   let max = req.query.max;
-  if (isIntegerString(min) && isIntegerString(max)) {
-    if (min <= max) {
+  if (isValidIntegerString(min) && isValidIntegerString(max)) {
+    if (min <= max || !(min && max)) { // check only when min max both defined
       try {
         let db = await getDBConnection();
         let q = queryParam(search, country, min, max);
@@ -92,7 +92,7 @@ app.get('/hotels', async (req, res) => {
     }
   } else {
     res.type('text').status(400)
-      .send('please input integers');
+      .send('please input integers for min and max');
   }
 });
 
@@ -306,13 +306,14 @@ async function hotelAvailability(db, hid, checkin, checkout) {
 }
 
 /**
- * helper to check if the input string only consists of integers
+ * helper to check if the defined input string only consists of integers
+ * note that if the input string is undefined will return true by default
  * @param {string} value input string to be checked
  * @returns {boolean} true if it is a integer string, false otherwise
  */
-function isIntegerString(value) {
+function isValidIntegerString(value) {
   const parsedValue = parseInt(value, 10);
-  return !isNaN(parsedValue) && parsedValue.toString() === value;
+  return !isNaN(parsedValue) && parsedValue.toString() === value || !value;
 }
 
 /**
@@ -332,7 +333,7 @@ function queryParam(search, country, min, max) {
   let values = [];
   let conditions = [];
 
-  newQueryCondition(conditions, 'hotelName like ?', values, '%' + search + '%');
+  newQueryCondition(conditions, 'hotelName like ?', values, search, true);
   newQueryCondition(conditions, 'lower(country) = lower(?)', values, country);
   newQueryCondition(conditions, 'price_per_night >= ?', values, min);
   newQueryCondition(conditions, 'price_per_night <= ?', values, max);
@@ -350,19 +351,31 @@ function queryParam(search, country, min, max) {
     'values': values
   };
 
+  console.log(query);
+  console.log(values);
+
   return queryAndValues;
 }
 
 /**
  * helper function to append condition clause and its corresponding values to the sql query, if the
  * value exist
- * usage: newQueryCondition(conditions, 'hotelName like ?', values, search);
  * @param {Array} conditions an array of strings storing the condition clauses
  * @param {string} newCondition a new condition clause to be pushed to 'conditions'
  * @param {Array} values an array of strings storing the condition values
  * @param {string} newValue the new value corresponding to the new condition clause
+ * @param {boolean} isSearch indicate if the filter is a search, default is false. set it to true
+ * for passing search filter condition
  */
-function newQueryCondition(conditions, newCondition, values, newValue) {
+function newQueryCondition(conditions, newCondition, values, newValue, isSearch = false) {
+
+  /*
+   * extra checking for search using the param isSearch to avoid passing %undefined%,
+   * which will still be included in the query otherwise.
+   */
+  if (newValue && isSearch) {
+    newValue = '%' + newValue + '%';
+  }
   if (newValue) {
     conditions.push(newCondition);
     values.push(newValue);
