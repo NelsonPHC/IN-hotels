@@ -94,7 +94,6 @@
   }
 
   function handleLoginError(error) {
-    qs("button.login-box").disabled = true;
     const issue = gen("p");
     const errorMessage = error instanceof Error ? error.message : String(error);
     const cleanedErrorMessage = errorMessage.replace("Error: ", "");

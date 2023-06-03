@@ -9,11 +9,15 @@
   function init() {
     makeRequestReservations();
     id("login").addEventListener("submit", makeRequestReservations);
+    qs(".logged-in button").addEventListener("click", clearPage);
   }
 
   function makeRequestReservations() {
     if (!qs(".prompt").classList.contains("hidden")) {
       qs(".prompt").classList.add("hidden");
+    }
+    if (!qs(".adjust > article > p").classList.contains("hidden")) {
+      qs(".adjust > article > p").classList.add("hidden");
     }
     qs("article > img").classList.toggle("hidden");
     setTimeout(checkUserLoggedIn, 1000);
@@ -63,6 +67,13 @@
       div.appendChild(name);
       div.appendChild(reserve);
     }
+  }
+
+  function clearPage() {
+    const divs = qsa(".adjust > article > div.card");
+    divs.forEach(div => div.remove());
+    qs(".adjust > article > p").classList.remove("hidden");
+    qs(".user-bar").classList.remove("hidden");
   }
 
   function checkCookieExists(cookieName) {
@@ -129,5 +140,14 @@
    */
   function gen(element) {
     return document.createElement(element);
+  }
+
+  /**
+   * Returns the array of elements that match the given CSS selector.
+   * @param {string} query - CSS query selector
+   * @returns {object[]} array of DOM objects matching the query.
+   */
+  function qsa(query) {
+    return document.querySelectorAll(query);
   }
 })();

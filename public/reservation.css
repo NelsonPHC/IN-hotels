@@ -52,3 +52,7 @@ article > img {
   font-size: 24px;
   color: rgb(123, 123, 190);
 }
+
+.adjust > article > p {
+  font-size: 24px;
+}
