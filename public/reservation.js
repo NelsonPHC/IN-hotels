@@ -72,22 +72,27 @@
       const name = gen("p");
       const reserve = gen("p");
       const price = gen("p");
+      const bid = gen("p");
+      const group = gen("div");
       card.classList.add("card");
       name.classList.add("hotel-name");
-      reserve.classList.add("reserve");
+      group.classList.add("reserve");
       price.classList.add("price");
       img.src = "imgs/hotels/" + response[i].imageSrc;
       img.alt = "Image of " + response[i].hotelName;
       name.textContent = response[i].hotelName;
-      reserve.textContent = "Reservation date: " + response[i].checkin + " to " +
-      response[i].checkout;
+      bid.textContent = "Transaction number: " + response[i].bid;
+      reserve.textContent = "Reservation date: " + response[i].checkin.replace(" ", " at ") +
+      " to " + response[i].checkout.replace(" ", " at ");
       price.textContent = "$" + response[i].price_per_night + "/night";
       qs(".adjust > article").appendChild(card);
       card.appendChild(img);
       card.appendChild(div);
+      group.appendChild(bid);
+      group.appendChild(reserve);
       card.appendChild(price);
       div.appendChild(name);
-      div.appendChild(reserve);
+      div.appendChild(group);
     }
   }
 

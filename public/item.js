@@ -147,9 +147,11 @@
    * not be able to make any bookings in the meantime, and will
    * be sent to reservation.html after 4 seconds of making a
    * reservation.
+   * @param {string} response - The success message and transaction number of the user's booking
    * @returns {void}
    */
-  function book() {
+  function book(response) {
+    qs(".success").textContent = response;
     qs(".success").classList.remove("hidden");
     id("book").disabled = true;
     setTimeout(function() {
