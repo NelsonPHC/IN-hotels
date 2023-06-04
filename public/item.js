@@ -92,8 +92,6 @@
     if (checkCookieExists("uid")) {
       let checkin = id("start").value.replace("T", " ");
       let checkout = id("end").value.replace("T", " ");
-      console.log('start:'+checkin+':end');
-      console.log(checkout);
       if (compareDate(checkin, checkout)) {
         let params = createForm(checkin, checkout);
         fetch("/book", {method: "POST", body: params})
@@ -114,14 +112,14 @@
    * Creates a form data object with the necessary parameters for booking a hotel.
    * Retrieves the hotel ID (hid), check-in and check-out dates, and user ID (uid)
    * from the URL and cookies. Appends these parameters to a FormData object.
+   * @param {String} checkin - The string of the checkin date
+   * @param {String} checkout - The string of the checkin date
    * @returns {FormData} The FormData object containing the booking parameters.
    */
-  function createForm() {
+  function createForm(checkin, checkout) {
     let params = new FormData();
     const urlParams = new URLSearchParams(window.location.search);
     const hid = urlParams.get('hid');
-    const checkin = id("start").value;
-    const checkout = id("end").value;
     const uid = getCookieValue("uid");
     params.append("checkin", checkin);
     params.append("checkout", checkout);
