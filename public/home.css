@@ -45,7 +45,6 @@ article {
 }
 
 select {
-  height: 50px;
   border-color: black;
   border-width: 2px;
 }
@@ -68,8 +67,14 @@ button {
   text-decoration: underline;
 }
 
-input, .search-bar > p {
+.search-bar > p {
   font-size: 28px;
+}
+
+input, select {
+  font-size: 12px;
+  height: 45px;
+  margin-top: 16px;
 }
 
 h1, .caption, input, select {
@@ -191,4 +196,18 @@ h1, .caption, input, select {
 
 .display > a:hover {
   transform: translateY(-15px);
+}
+
+.input-with-dollar {
+  position: relative;
+}
+
+.dollar-symbol {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+}
+
+.error {
+  text-align: center;
 }

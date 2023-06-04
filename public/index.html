@@ -95,6 +95,14 @@
             <select>
               <option>Any Country</option>
             </select>
+            <div class="input-with-dollar">
+              <span class="dollar-symbol">$</span>
+              <input type="number" id="minPrice" min="0" placeholder="Minimum Price">
+            </div>
+            <div class="input-with-dollar">
+              <span class="dollar-symbol">$</span>
+              <input type="number" id="maxPrice" min="0" placeholder="Maximum Price">
+            </div>
             <img src="imgs/search-icon.png" alt="search-icon" class="search-icon">
             <!--
               Image obtained from uxwing
@@ -112,6 +120,7 @@
             -->
           </div>
         </section>
+        <p class="hidden prompt error">Please select a valid price filter range</p>
         <section class='display grid'>
         </section>
       </article>

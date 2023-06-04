@@ -40,6 +40,20 @@
     });
     qs(".search-icon").addEventListener("click", makeRequestFilter);
     qs(".search-bar button").addEventListener("click", resetFilter);
+    id("minPrice").addEventListener("keypress", checkInvalidInput);
+    id("maxPrice").addEventListener("keypress", checkInvalidInput);
+  }
+
+  /**
+   * Disables the users from clicking +, -, and "e" in the
+   * input box for min and max price.
+   * @param {Event} evt - The keypress event object.
+   */
+  function checkInvalidInput(evt) {
+    const charCode = evt.which ? evt.which : evt.keyCode;
+    if (charCode !== 8 && charCode !== 0 && (charCode < 48 || charCode > 57)) {
+      evt.preventDefault();
+    }
   }
 
   /**
@@ -50,17 +64,17 @@
       .then(statusCheck)
       .then(resp => resp.json())
       .then(generateHotels)
-      .catch(handleError);
+      .catch(handleGenError);
   }
 
   /**
    * Handles errors by not allowing the user to submit any
-   * more requests to filter the hotels, creating an error
+   * requests to filter the hotels, creating an error
    * message element, and appending it to the display area where
    * the hotel images are located at.
    * @param {Error|string} error - The error object or error message.
    */
-  function handleError(error) {
+  function handleGenError(error) {
     qs(".search-icon").removeEventListener("click", makeRequestFilter);
     const issue = gen("p");
     const errorMessage = error instanceof Error ? error.message : String(error);
@@ -144,17 +158,34 @@
    * Updates the display with the filtered hotels.
    */
   function makeRequestFilter() {
+    qs(".error").classList.add("hidden");
     let search = id("hotel-name").value.trim();
     let country = qs(".filter select").value;
+    let min = parseInt(id("minPrice").value);
+    let max = parseInt(id("maxPrice").value);
     if (country === "Any Country") {
       country = "";
     }
-    const url = '/hotels?search=' + search + "&country_filter=" + country;
-    fetch(url)
-      .then(statusCheck)
-      .then(resp => resp.json())
-      .then(filter)
-      .catch(handleError);
+    if (min > max) {
+      qs(".error").classList.remove("hidden");
+    } else {
+      const url = '/hotels?search=' + search + "&country_filter=" + country +
+        "&min=" + min + "&max=" + max;
+      fetch(url)
+        .then(statusCheck)
+        .then(resp => resp.json())
+        .then(filter)
+        .catch(handleFilterError);
+    }
+  }
+
+  function handleFilterError(error) {
+    const issue = gen("p");
+    const errorMessage = error instanceof Error ? error.message : String(error);
+    const cleanedErrorMessage = errorMessage.replace("Error: ", "");
+    issue.textContent = cleanedErrorMessage;
+    issue.classList.add("issue");
+    qs(".display").prepend(issue);
   }
 
   /**
@@ -163,7 +194,6 @@
    * @param {Object} response - The hotel data that matches the filter criteria
    */
   function filter(response) {
-    resetFilter();
     const hotelId = response.hotels;
     const hotels = qsa(".display > a > div");
     for (let i = 0; i < hotels.length; i++) {
@@ -182,6 +212,8 @@
   function resetFilter() {
     qs(".filter > input").value = "";
     qs(".filter > select").value = "Any Country";
+    id("minPrice").value = "";
+    id("maxPrice").value = "";
     const hotels = qsa(".display > a");
     for (let i = 0; i < hotels.length; i++) {
       hotels[i].classList.remove("hidden");

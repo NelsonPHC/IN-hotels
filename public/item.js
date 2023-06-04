@@ -90,8 +90,10 @@
       qs(".prompt").classList.add("hidden");
     }
     if (checkCookieExists("uid")) {
-      const checkin = id("start").value;
-      const checkout = id("end").value;
+      const checkin = id("start").value.replace("T", " ");
+      const checkout = id("end").value.replace("T", " ");
+      console.log('start:'+checkin+':end');
+      console.log(checkout);
       if (compareDate(checkin, checkout)) {
         let params = createForm(checkin, checkout);
         fetch("/book", {method: "POST", body: params})
