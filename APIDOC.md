@@ -47,6 +47,7 @@ User Nelson is created!
 **Error Handling:**
 - Possible 400 (invalid request) errors (all plain text):
   - If missing any of `name`, `email`, or `password`, returns an error with the message: `Please enter Email, Username and Password`
+  - If `email` is not of format 'XXX@XXX.XXX', returns an error with the message: `Please input a valid Email`
   - If passed in an existing `name` or `email`, returns an error with the message: `Username or Email is already registered, please try again`
 - Possible 500 errors (all plain text):
   - If something else goes wrong on the server, returns an error with the message: `An error occurred on the server. Try again later.`

@@ -75,21 +75,25 @@ app.post('/create', async (req, res) => {
   let name = req.body.name;
   let pwd = req.body.password;
   if (email && name && pwd) {
-    try {
-      let db = await getDBConnection();
-      const checkDuplicates = 'select * from users where name = ? or email = ?';
-      let queryResults = await db.all(checkDuplicates, [name, email]);
-      if (queryResults.length !== 0) {
-        await db.close();
-        res.status(400).send('Username or Email is already registered, please try again');
-      } else {
-        const createUser = 'insert into users (name, password, email) values (?,?,?)';
-        await db.run(createUser, [name, pwd, email]);
-        await db.close();
-        res.send('User ' + name + ' is created!');
+    if (isValidEmail(email)) {
+      try {
+        let db = await getDBConnection();
+        const checkDuplicates = 'select * from users where name = ? or email = ?';
+        let queryResults = await db.all(checkDuplicates, [name, email]);
+        if (queryResults.length !== 0) {
+          await db.close();
+          res.status(400).send('Username or Email is already registered, please try again');
+        } else {
+          const createUser = 'insert into users (name, password, email) values (?,?,?)';
+          await db.run(createUser, [name, pwd, email]);
+          await db.close();
+          res.send('User ' + name + ' is created!');
+        }
+      } catch (err) {
+        res.status(500).send('An error occurred on the server. Try again later.');
       }
-    } catch (err) {
-      res.status(500).send('An error occurred on the server. Try again later.');
+    } else {
+      res.status(400).send('Please input a valid Email');
     }
   } else {
     res.status(400).send('Please enter Email, Username and Password');
@@ -377,6 +381,16 @@ async function hotelAvailability(db, hid, checkin, checkout) {
  */
 function trimIfExist(str) {
   return str ? str.trim() : str;
+}
+
+/**
+ * a helper function to check if the input email is of the format 'XXX@XXX.XXX'
+ * @param {string} email the email string to be verified
+ * @returns {boolean} true if it is a valid email string, false otherwise
+ */
+function isValidEmail(email) {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(email);
 }
 
 /**
