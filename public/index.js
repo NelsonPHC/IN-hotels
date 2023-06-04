@@ -158,15 +158,25 @@
    * Updates the display with the filtered hotels.
    */
   function makeRequestFilter() {
+    if (qs("div > .issue")) {
+      qs("div > .issue").remove();
+    }
     qs(".error").classList.add("hidden");
     let search = id("hotel-name").value.trim();
     let country = qs(".filter select").value;
     let min = parseInt(id("minPrice").value);
     let max = parseInt(id("maxPrice").value);
+    if (isNaN(min)) {
+      min = "";
+    }
+    // max === NaN
+    if (isNaN(max)) {
+      max = "";
+    }
     if (country === "Any Country") {
       country = "";
     }
-    if (min > max) {
+    if (min > max && (min && max)) {
       qs(".error").classList.remove("hidden");
     } else {
       const url = '/hotels?search=' + search + "&country_filter=" + country +
@@ -179,13 +189,19 @@
     }
   }
 
+  /**
+   * Handles filter errors by printing the error message
+   * @param {Error|string} error - The error object or error message.
+   */
   function handleFilterError(error) {
     const issue = gen("p");
+    issue.classList.add("prompt");
+    issue.classList.add("error");
     const errorMessage = error instanceof Error ? error.message : String(error);
     const cleanedErrorMessage = errorMessage.replace("Error: ", "");
     issue.textContent = cleanedErrorMessage;
     issue.classList.add("issue");
-    qs(".display").prepend(issue);
+    qs(".error").parentNode.appendChild(issue);
   }
 
   /**
@@ -210,6 +226,7 @@
    * Resets the filter input fields and displays all hotels.
    */
   function resetFilter() {
+    qs(".error").classList.add("hidden");
     qs(".filter > input").value = "";
     qs(".filter > select").value = "Any Country";
     id("minPrice").value = "";
