@@ -159,7 +159,9 @@ app.post('/book', async (req, res) => {
       const query = 'insert into bookings (uid, hid, checkin, checkout) values (?,?,?,?)';
       let result = await db.run(query, [uid, hid, checkin, checkout]);
       await db.close();
-      res.send('Booked succesfully! Your transaction number is ' + result.lastID);
+      let successMsg = 'Booking has been successful! Your transaction number is ' + result.lastID +
+      '. Please wait for a moment!';
+      res.send(successMsg);
     } else {
       await db.close();
       res.status(400).send(bookingMsg);
@@ -215,7 +217,7 @@ async function getBookingMsg(db, uid, hid, checkin, checkout) {
           if (await hotelAvailability(db, hid, checkin, checkout)) {
             msg = 'success'; // check this to see if the booking is succesful
           } else {
-            msg = 'We\'re extremely sorry, this hotel has already been booked in this timeslot,' +
+            msg = 'We\'re sorry, this hotel has already been booked in this timeslot,' +
             ' please choose a different date.';
           }
         } else {
