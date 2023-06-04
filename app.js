@@ -68,7 +68,7 @@ app.post('/login', async (req, res) => {
   }
 });
 
-// Create a New User
+// 1-1. Create a New User
 app.post('/create', async (req, res) => {
   res.type('text');
   let email = req.body.email;
