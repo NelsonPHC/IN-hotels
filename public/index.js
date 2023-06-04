@@ -169,7 +169,6 @@
     if (isNaN(min)) {
       min = "";
     }
-    // max === NaN
     if (isNaN(max)) {
       max = "";
     }
