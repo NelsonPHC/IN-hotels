@@ -232,7 +232,7 @@ Booked succesfully! Your transaction number is 1
 
 **Returned Data Format**: JSON
 
-**Description:** Given a valid user ID `uid` (this is the same user id format as given by the response detailed in the user login query), return a JSON response with all the reservations of that user, ordered by `checkin` date, breaking ties by `checkout`. Each reservation record have a hotel name `hotelName`, `imageSrc`, `checkin` datetime, `checkout` datetime, and `price_per_night`.
+**Description:** Given a valid user ID `uid` (this is the same user id format as given by the response detailed in the user login query), return a JSON response with all the reservations of that user, ordered by `checkin` date, breaking ties by `checkout`. Each reservation record have a transaction number `bid`, hotel name `hotelName`, `imageSrc`, `checkin` datetime, `checkout` datetime, and `price_per_night`.
 
 **Example Request:** /reservations with POST parameters of user ID `uid`=1 (Hilton has `hid`=1 in our example here)
 
@@ -240,6 +240,7 @@ Booked succesfully! Your transaction number is 1
 ```json
 [
   {
+    "bid": 1,
     "hotelName": "Hilton",
     "imageSrc": "hilton.jpg",
     "checkin": "2023-06-07",
