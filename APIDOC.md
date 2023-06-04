@@ -157,7 +157,7 @@ User Nelson is created!
 }
 ```
 - Possible 400 (invalid request) errors (all plain text):
-  - If `min` or `max` is not an integer, returns an error with the message: `please input integers for min and max`
+  - If `min` or `max` is not of proper integer string format, returns an error with the message: `please input proper integer string format for min and max`
   - If `min` is bigger than `max`, returns an error with the message: `min must be less than or equal to max`
 - Possible 500 errors (all plain text):
   - If something else goes wrong on the server, returns an error with the message: `An error occurred on the server. Try again later.`

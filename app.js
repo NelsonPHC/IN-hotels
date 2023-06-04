@@ -102,8 +102,10 @@ app.get('/hotels', async (req, res) => {
   let country = trimIfExist(req.query.country_filter);
   let min = trimIfExist(req.query.min);
   let max = trimIfExist(req.query.max);
+
+  // in js should parse integer strings to Int for comparing the numerical values
   if (isValidIntegerString(min) && isValidIntegerString(max)) {
-    if (min <= max || !(min && max)) { // check only when min max both defined
+    if (parseInt(min) <= parseInt(max) || !(min && max)) { // check only when min max both defined
       try {
         let db = await getDBConnection();
         let q = queryParam(search, country, min, max);
@@ -120,7 +122,7 @@ app.get('/hotels', async (req, res) => {
     }
   } else {
     res.type('text').status(400)
-      .send('please input integers for min and max');
+      .send('please input proper integer string format for min and max');
   }
 });
 
@@ -378,8 +380,9 @@ function trimIfExist(str) {
 }
 
 /**
- * helper to check if the defined input string only consists of integers
- * note that if the input string is undefined will return true by default
+ * helper to check if the defined input string only consists of non-trivial integers
+ * (leading zeros will return false)
+ * Note that if the input string is undefined will return true by default
  * @param {string} value input string to be checked
  * @returns {boolean} true if it is a integer string, false otherwise
  */
