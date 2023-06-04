@@ -26,6 +26,31 @@ you are now logged in
 - Possible 500 errors (all plain text):
   - If something else goes wrong on the server, returns an error with the message: `An error occurred on the server. Try again later.`
 
+## 1-1. Create a New User
+**Request Format:** /create
+
+**Request Parameters:** POST parameters `name`, `password`, and `email`
+
+**Request Type:** POST
+
+**Returned Data Format**: plain text
+
+**Description:** Given a `name` and a `password`, and `email` to create, the server  reply with a plain text response indicating if the user `name` is created succesfully.
+
+**Example Request:** /create with POST parameters of `name=Nelson`, `password=Nel123`, `email=nelsonpc@uw.edu`
+
+**Example Response:**
+```
+User Nelson is created!
+```
+
+**Error Handling:**
+- Possible 400 (invalid request) errors (all plain text):
+  - If missing any of `name`, `email`, or `password`, returns an error with the message: `Please enter Email, Username and Password`
+  - If passed in an existing `name` or `email`, returns an error with the message: `Username or Email is already registered, please try again`
+- Possible 500 errors (all plain text):
+  - If something else goes wrong on the server, returns an error with the message: `An error occurred on the server. Try again later.`
+
 ## 2. Get all hotel data or hotel data that matches the search and/or filter criteria
 
 **Request Format:** /hotels

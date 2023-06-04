@@ -68,6 +68,34 @@ app.post('/login', async (req, res) => {
   }
 });
 
+// Create a New User
+app.post('/create', async (req, res) => {
+  res.type('text');
+  let email = req.body.email;
+  let name = req.body.name;
+  let pwd = req.body.password;
+  if (email && name && pwd) {
+    try {
+      let db = await getDBConnection();
+      const checkDuplicates = 'select * from users where name = ? or email = ?';
+      let queryResults = await db.all(checkDuplicates, [name, email]);
+      if (queryResults.length !== 0) {
+        await db.close();
+        res.status(400).send('Username or Email is already registered, please try again');
+      } else {
+        const createUser = 'insert into users (name, password, email) values (?,?,?)';
+        await db.run(createUser, [name, pwd, email]);
+        await db.close();
+        res.send('User ' + name + ' is created!');
+      }
+    } catch (err) {
+      res.status(500).send('An error occurred on the server. Try again later.');
+    }
+  } else {
+    res.status(400).send('Please enter Email, Username and Password');
+  }
+});
+
 // 2. Get all hotel data or hotel data matching a given search term and/or filter
 app.get('/hotels', async (req, res) => {
   let search = trimIfExist(req.query.search);
