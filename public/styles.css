@@ -170,3 +170,11 @@ input, .center > button {
     opacity: 1;
   }
 }
+
+.create-acc {
+  color: white;
+  margin: 0%;
+  margin-top: 10px;
+  margin-left: 10px;
+  text-decoration: underline;
+}

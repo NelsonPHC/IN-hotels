@@ -42,6 +42,20 @@
     qs(".search-bar button").addEventListener("click", resetFilter);
     id("minPrice").addEventListener("keypress", checkInvalidInput);
     id("maxPrice").addEventListener("keypress", checkInvalidInput);
+    id("minPrice").addEventListener("input", handleMinPriceInput);
+    id("maxPrice").addEventListener("input", handleMinPriceInput);
+  }
+
+  /**
+   * Prevents the users from pressing 0 into the max and min price
+   * filters if 0 is the first character
+   */
+  function handleMinPriceInput() {
+    const inputValue = this.value;
+    
+    if (inputValue.length === 1 && inputValue[0] === "0") {
+      this.value = ""; // Clear the input value if it starts with a zero
+    }
   }
 
   /**

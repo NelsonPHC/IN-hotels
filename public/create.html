@@ -3,19 +3,12 @@
   Name: Isaac Yeoh & Nelson Chen
   Date: June 3rd, 2023
   Section: CSE 154 AG
-  This is the main webpage that allows the user to select
-  a hotel to reserve from. It contains a navigation bar which
-  allows the user to return to the homepage, login/out of their account,
-  and view their reservations. This page allows the users to filter
-  hotels based on the name, country, and their desired price range.
-  It also allows the users to toggle between a grid view and list view.
 -->
 <html lang="en">
   <head>
     <meta charset="utf-8">
     <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="home.css">
-    <script type="text/javascript" src="index.js"></script>
+    <link rel="stylesheet" href="create.css">
     <script src="shared.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@1,300&display=swap" rel="stylesheet">
     <title>Hotel Reservation Website</title>
@@ -81,51 +74,19 @@
       </section>
     </section>
     <main>
-      <article>
-        <h1>Welcome!</h1>
-        <p class="caption">
-          Explore hotels all around the world and choose your ideal
-          getaway
-        </p>
-      </article>
-      <article>
-        <section class="search-bar">
-          <p>Filter by:</p>
-          <form class="filter">
-            <input type="text" id="hotel-name" placeholder="Hotel Name">
-            <select>
-              <option>Any Country</option>
-            </select>
-            <div class="input-with-dollar">
-              <span class="dollar-symbol">$</span>
-              <input type="number" id="minPrice" min="0" placeholder="Minimum Price">
-            </div>
-            <div class="input-with-dollar">
-              <span class="dollar-symbol">$</span>
-              <input type="number" id="maxPrice" min="0" placeholder="Maximum Price">
-            </div>
-            <img src="imgs/search-icon.png" alt="search-icon" class="search-icon">
-            <!--
-              Image obtained from uxwing
-            -->
-          </form>
-          <button>Reset Filter</button>
-          <div class="center">
-            <img src="imgs/grid-view.png" alt="grid-view" class="grid-view">
-            <!--
-              Image obtained from thenounproject.com
-            -->
-            <img src="imgs/list-view.png" alt="list-view" class="list-view">
-            <!--
-              Image obtained from thenounproject.com
-            -->
+      <article class="adjust">
+        <form id="form">
+          <h1>Sign up as a new user!</h1>
+          <div>
+            <label for="email">Email:</label>
+            <input type="text" id="email" name="email" required><br>
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" required><br>
+            <label for="password">Password:</label>
+            <input type="text" id="password" name="password" required><br>
+            <input type="submit" id="sign-up" value="Sign up"><br>
           </div>
-        </section>
-        <div>
-          <p class="hidden prompt error">Please select a valid price filter range</p>
-        </div>
-        <section class='display grid'>
-        </section>
+        </form>
       </article>
     </main>
   </body>
