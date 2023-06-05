@@ -47,6 +47,7 @@ User Nelson is created!
 **Error Handling:**
 - Possible 400 (invalid request) errors (all plain text):
   - If missing any of `name`, `email`, or `password`, returns an error with the message: `Please enter Email, Username and Password`
+  - If `email` is not of format 'XXX@XXX.XXX', returns an error with the message: `Please input a valid Email`
   - If passed in an existing `name` or `email`, returns an error with the message: `Username or Email is already registered, please try again`
 - Possible 500 errors (all plain text):
   - If something else goes wrong on the server, returns an error with the message: `An error occurred on the server. Try again later.`
@@ -157,7 +158,7 @@ User Nelson is created!
 }
 ```
 - Possible 400 (invalid request) errors (all plain text):
-  - If `min` or `max` is not an integer, returns an error with the message: `please input integers for min and max`
+  - If `min` or `max` is not of proper integer string format (including integer strings with leading zeros), returns an error with the message: `please input proper integer string format for min and max`
   - If `min` is bigger than `max`, returns an error with the message: `min must be less than or equal to max`
 - Possible 500 errors (all plain text):
   - If something else goes wrong on the server, returns an error with the message: `An error occurred on the server. Try again later.`

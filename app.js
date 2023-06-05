@@ -75,21 +75,25 @@ app.post('/create', async (req, res) => {
   let name = req.body.name;
   let pwd = req.body.password;
   if (email && name && pwd) {
-    try {
-      let db = await getDBConnection();
-      const checkDuplicates = 'select * from users where name = ? or email = ?';
-      let queryResults = await db.all(checkDuplicates, [name, email]);
-      if (queryResults.length !== 0) {
-        await db.close();
-        res.status(400).send('Username or Email is already registered, please try again');
-      } else {
-        const createUser = 'insert into users (name, password, email) values (?,?,?)';
-        await db.run(createUser, [name, pwd, email]);
-        await db.close();
-        res.send('User ' + name + ' is created!');
+    if (isValidEmail(email)) {
+      try {
+        let db = await getDBConnection();
+        const checkDuplicates = 'select * from users where name = ? or email = ?';
+        let queryResults = await db.all(checkDuplicates, [name, email]);
+        if (queryResults.length !== 0) {
+          await db.close();
+          res.status(400).send('Username or Email is already registered, please try again');
+        } else {
+          const createUser = 'insert into users (name, password, email) values (?,?,?)';
+          await db.run(createUser, [name, pwd, email]);
+          await db.close();
+          res.send('User ' + name + ' is created!');
+        }
+      } catch (err) {
+        res.status(500).send('An error occurred on the server. Try again later.');
       }
-    } catch (err) {
-      res.status(500).send('An error occurred on the server. Try again later.');
+    } else {
+      res.status(400).send('Please input a valid Email');
     }
   } else {
     res.status(400).send('Please enter Email, Username and Password');
@@ -102,8 +106,10 @@ app.get('/hotels', async (req, res) => {
   let country = trimIfExist(req.query.country_filter);
   let min = trimIfExist(req.query.min);
   let max = trimIfExist(req.query.max);
+
+  // in js should parse integer strings to Int for comparing the numerical values
   if (isValidIntegerString(min) && isValidIntegerString(max)) {
-    if (min <= max || !(min && max)) { // check only when min max both defined
+    if (parseInt(min) <= parseInt(max) || !(min && max)) { // check only when min max both defined
       try {
         let db = await getDBConnection();
         let q = queryParam(search, country, min, max);
@@ -120,7 +126,7 @@ app.get('/hotels', async (req, res) => {
     }
   } else {
     res.type('text').status(400)
-      .send('please input integers for min and max');
+      .send('please input proper integer string format for min and max');
   }
 });
 
@@ -378,8 +384,19 @@ function trimIfExist(str) {
 }
 
 /**
- * helper to check if the defined input string only consists of integers
- * note that if the input string is undefined will return true by default
+ * a helper function to check if the input email is of the format 'XXX@XXX.XXX'
+ * @param {string} email the email string to be verified
+ * @returns {boolean} true if it is a valid email string, false otherwise
+ */
+function isValidEmail(email) {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(email);
+}
+
+/**
+ * helper to check if the defined input string only consists of non-trivial integers
+ * (leading zeros will return false)
+ * Note that if the input string is undefined will return true by default
  * @param {string} value input string to be checked
  * @returns {boolean} true if it is a integer string, false otherwise
  */
