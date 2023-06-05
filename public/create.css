@@ -30,6 +30,10 @@ h1 {
   margin-left: 0px;
 }
 
+#email {
+  font-size: 16px;
+}
+
 #password {
   margin-bottom: 10px;
 }

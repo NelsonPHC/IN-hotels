@@ -211,11 +211,3 @@ h1, .caption, input, select {
 .error {
   text-align: center;
 }
-
-.create-acc {
-  color: white;
-  margin: 0%;
-  margin-top: 10px;
-  margin-left: 10px;
-  text-decoration: underline;
-}
