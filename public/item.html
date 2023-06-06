@@ -90,11 +90,16 @@
             <p class="conflict hidden"></p>
             <div>
               <form>
+                <h2>Book now:</h2>
                 <label for="start">Check-in date:</label>
                 <input type="datetime-local" id="start" name="checkin" required><br>
                 <label for="end">Check-out data:</label>
                 <input type="datetime-local" id="end" name="checkout" required><br>
-                <input type="submit" id="book" value="Book now"><br>
+                <div>
+                  <input type="checkbox" id="confirm" required>
+                  <label for="confirm">Please check this box to confirm your booking date and time</label>
+                </div>
+                <input type="submit" id="book" value="Book now" disabled><br>
               </form>
             </div>
           </section>

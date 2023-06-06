@@ -40,10 +40,10 @@
     });
     qs(".search-icon").addEventListener("click", makeRequestFilter);
     qs(".search-bar button").addEventListener("click", resetFilter);
-    id("minPrice").addEventListener("keypress", checkInvalidInput);
-    id("maxPrice").addEventListener("keypress", checkInvalidInput);
-    id("minPrice").addEventListener("input", handleMinPriceInput);
-    id("maxPrice").addEventListener("input", handleMinPriceInput);
+    id("min-price").addEventListener("keypress", checkInvalidInput);
+    id("max-price").addEventListener("keypress", checkInvalidInput);
+    id("min-price").addEventListener("input", handleMinPriceInput);
+    id("max-price").addEventListener("input", handleMinPriceInput);
   }
 
   /**
@@ -178,8 +178,8 @@
     qs(".error").classList.add("hidden");
     let search = id("hotel-name").value.trim();
     let country = qs(".filter select").value;
-    let min = parseInt(id("minPrice").value);
-    let max = parseInt(id("maxPrice").value);
+    let min = parseInt(id("min-price").value);
+    let max = parseInt(id("max-price").value);
     if (isNaN(min)) {
       min = "";
     }
@@ -242,8 +242,8 @@
     qs(".error").classList.add("hidden");
     qs(".filter > input").value = "";
     qs(".filter > select").value = "Any Country";
-    id("minPrice").value = "";
-    id("maxPrice").value = "";
+    id("min-price").value = "";
+    id("max-price").value = "";
     const hotels = qsa(".display > a");
     for (let i = 0; i < hotels.length; i++) {
       hotels[i].classList.remove("hidden");

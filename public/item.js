@@ -19,6 +19,9 @@
    */
   function init() {
     makeRequestFill();
+    id("confirm").addEventListener("click", () => {
+      id("book").disabled = !id("confirm").checked;
+    })
     const form = id("book").parentNode;
     form.addEventListener("submit", function(event) {
       qs(".success").classList.add("hidden");
@@ -63,19 +66,29 @@
   function fill(response) {
     const img = gen("img");
     let description = gen("p");
-    const h2 = gen("h2");
     const h1 = qs('h1');
+    const h2 = gen("h2");
+    const h3 = gen("h3");
+    const h4 = gen("h4");
+    let ratings = gen("p");
+    let price = gen("p");
     const info = response[0];
-    qs(".success").classList.add("hidden");
-    qs(".conflict").classList.add("hidden");
-    id("book").disabled = false;
-    h2.textContent = "Description:";
     h1.textContent = info.hotelName + ", " + info.country;
+    h2.textContent = "Description:";
+    h3.textContent = "Ratings:";
+    h4.textContent = "Price:";
+    price.textContent = "The price of staying at this hotel is $" +
+    info.price_per_night + " per night."
+    ratings.textContent = "People rate this hotel " + info.rating + " stars out of 5";
     img.src = "imgs/hotels/" + info.imageSrc;
     img.alt = "Image of " + info.hotelName;
     qs(".adjust > article").prepend(img);
     const parent = id("description");
     description.textContent = info.description;
+    parent.prepend(price);
+    parent.prepend(h4);
+    parent.prepend(ratings);
+    parent.prepend(h3);
     parent.prepend(description);
     parent.prepend(h2);
   }
