@@ -66,7 +66,6 @@
 
   /**
    * Handles and displays an error message for user creation.
-   * 
    * @param {Error|string} error - The error object or error message to handle.
    * @returns {void}
    */

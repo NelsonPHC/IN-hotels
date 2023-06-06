@@ -21,7 +21,7 @@
     makeRequestFill();
     id("confirm").addEventListener("click", () => {
       id("book").disabled = !id("confirm").checked;
-    })
+    });
     const form = id("book").parentNode;
     form.addEventListener("submit", function(event) {
       qs(".success").classList.add("hidden");
@@ -78,7 +78,7 @@
     h3.textContent = "Ratings:";
     h4.textContent = "Price:";
     price.textContent = "The price of staying at this hotel is $" +
-    info.price_per_night + " per night."
+    info.price_per_night + " per night.";
     ratings.textContent = "People rate this hotel " + info.rating + " stars out of 5";
     img.src = "imgs/hotels/" + info.imageSrc;
     img.alt = "Image of " + info.hotelName;

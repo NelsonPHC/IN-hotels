@@ -70,6 +70,11 @@
     }
   }
 
+  /**
+   * Generates a single card containing the image, name, price, reservation date,
+   * and booking id of the user who made a reservation at that hotel.
+   * @param {Object} hotels - The data of each hotel that has a reservation made by the user.
+   */
   function generateCard(hotels) {
     const card = gen("div");
     const img = gen("img");

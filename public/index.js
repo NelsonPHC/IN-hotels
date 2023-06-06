@@ -52,9 +52,8 @@
    */
   function handleMinPriceInput() {
     const inputValue = this.value;
-    
     if (inputValue.length === 1 && inputValue[0] === "0") {
-      this.value = ""; // Clear the input value if it starts with a zero
+      this.value = "";
     }
   }
 
