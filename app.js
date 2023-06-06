@@ -1,3 +1,22 @@
+/**
+ * Name: Nelson Po-Hao Chen & Isaac Yeoh
+ * Date: June 3rd, 2023
+ * Section: CSE 154 AG
+ * The is the backend code for our final project, a hotel reservation site. It has six endpoints:
+ * 1. User login
+ * 1-1. Create a New User
+ * 2. Get all hotel data or hotel data that matches the search and/or filter criteria (home page)
+ * 3. Get hotel data by a given hotel ID (for item page)
+ * 4. Make a booking
+ * 5. Get all previous reservations for a designated user
+ * For further details on the endpoint, please refer to the APIDOC.md file.
+ *
+ * Helper functions implemented include checking:
+ * - valid format of datetime, email address, and hotel price range search inputs
+ * - existence of user ID and hotel ID in the requests parameters
+ * - hotel availability
+ * The functions are placed after the api endpoints.
+ */
 'use strict';
 
 const express = require('express');
@@ -310,7 +329,7 @@ function isValidDateTimeFormat(dateTimeString) {
 /**
  * Helper function to check if the user ID exist first, then check if the hotel ID exist.
  * Returns the error message as a string for sending server response.
- * If no errors (both ID's exist), returns empty string.
+ * If no errors (both ID's exist), returns empty string (as a false condition).
  * @param {sqlite3.Database} db The database object for the connection.
  * @param {integer} uid the user ID
  * @param {integer} hid the hotel ID
