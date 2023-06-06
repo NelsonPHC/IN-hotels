@@ -203,3 +203,18 @@ button, .search-icon {
   left: 10px;
   top: 50%;
 }
+
+/*
+Background image obtained from:
+https://www.mystart.com/blog/my-tropical-beach-summer-vacation-wallpapers/
+*/
+.welcome {
+  background-image: url("imgs/background.jpg");
+  z-index: -1;
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 100vh;
+  width: 100%;
+  position: relative;
+  opacity: 0.6;
+}
