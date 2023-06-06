@@ -1,9 +1,23 @@
+/**
+ * Name: Isaac Yeoh & Nelson Chen
+ * Date: June 5th, 2023
+ * Section: CSE 154 AG
+ * This code allows the users to create their username and password
+ * given a valid email address, username, and password. If they manage
+ * to successfully create one, they will be sent back to the
+ * home page in 4 seconds after the request goes through.
+ */
+
 "use strict";
 (function() {
   const FOUR_SECONDS = 4000;
 
   window.addEventListener('load', init);
 
+  /**
+   * Checks if there are any previous success messages and removes them.
+   * Also initializes the sign up button.
+   */
   function init() {
     if (qs(".fade-in") !== null) {
       qs(".fade-in").remove();
@@ -14,6 +28,10 @@
     });
   }
 
+  /**
+   * Sends a request to create a new user with the provided name, password, and email.
+   * Removes any existing prompt message.
+   */
   function makeRequestCreateUser() {
     qs(".prompt").remove();
     let params = new FormData();
@@ -30,6 +48,11 @@
       .catch(handleCreateError);
   }
 
+  /**
+   * Displays a success message with the provided response and
+   * redirects the user to the home page after a delay.
+   * @param {string} response - The response message to display.
+   */
   function createUser(response) {
     const success = gen("p");
     success.classList.add("fade-in");
@@ -41,6 +64,12 @@
     }, FOUR_SECONDS);
   }
 
+  /**
+   * Handles and displays an error message for user creation.
+   * 
+   * @param {Error|string} error - The error object or error message to handle.
+   * @returns {void}
+   */
   function handleCreateError(error) {
     const issue = gen("p");
     issue.classList.add("prompt");
@@ -90,14 +119,5 @@
    */
   function qs(selector) {
     return document.querySelector(selector);
-  }
-
-  /**
-   * Returns the array of elements that match the given CSS selector.
-   * @param {string} query - CSS query selector
-   * @returns {object[]} array of DOM objects matching the query.
-   */
-  function qsa(query) {
-    return document.querySelectorAll(query);
   }
 })();

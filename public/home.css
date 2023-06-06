@@ -66,11 +66,8 @@ button {
 }
 
 .search-bar > p {
-  text-decoration: underline;
-}
-
-.search-bar > p {
   font-size: 28px;
+  text-decoration: underline;
 }
 
 input, select {
