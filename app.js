@@ -9,7 +9,7 @@
  * 3. Get hotel data by a given hotel ID (for item page)
  * 4. Make a booking
  * 5. Get all previous reservations for a designated user
- * For further details on the endpoint, please refer to the APIDOC.md file.
+ * For further details on the endpoints, please refer to the APIDOC.md file.
  *
  * Helper functions implemented include checking:
  * - valid format of datetime, email address, and hotel price range search inputs
