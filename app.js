@@ -74,6 +74,7 @@ app.post('/create', async (req, res) => {
   let email = req.body.email;
   let name = req.body.name;
   let pwd = req.body.password;
+
   if (email && name && pwd) {
     if (isValidEmail(email)) {
       try {
