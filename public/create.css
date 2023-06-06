@@ -1,9 +1,17 @@
+/*
+  Name: Isaac Yeoh & Nelson Chen
+  Date: June 5th, 2023
+  Section: CSE 154 AG
+  This is the stylesheet for our create.html page. It
+  contains the styling for the form where the user has
+  to fill their information in order to create a new
+  user login. It centers the card in the middle of the
+  page and makes the sign up button look 3 dimensional
+  when the user clicks on it.
+*/
 .adjust {
-  width: 100%;
   height: 100vh;
   display: inline-flex;
-  justify-content: center;
-  align-items: center;
 }
 
 h1 {
@@ -13,8 +21,6 @@ h1 {
 #form {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
   width: 20%;
   border-style: solid;
   border-radius: 30px;
@@ -22,25 +28,29 @@ h1 {
   padding-top: 0%;
 }
 
-#form input {
+#form, .adjust {
+  justify-content: center;
+  align-items: center;
+}
+
+#form input, .adjust {
   width: 100%;
 }
 
-#username, #password {
+#name, #pass {
   margin-left: 0px;
 }
 
-#email {
+#form input {
   font-size: 16px;
 }
 
-#password {
+#pass {
   margin-bottom: 10px;
 }
 
 #sign-up {
   background-color: rgb(201, 201, 201);
-  font-size: 16px;
   box-shadow: 0 2px 5px #3a39397a;
 }
 
@@ -51,4 +61,19 @@ h1 {
 #sign-up:active {
   transform: translateY(5px);
   box-shadow: none;
+}
+
+.fade-in {
+  color: rgb(59, 106, 66);
+  animation: fadeInAnimation 1s;
+}
+
+@keyframes fadeInAnimation {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
 }

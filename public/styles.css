@@ -10,8 +10,11 @@
   or view their reservations.
 */
 body {
-  margin: 0%;
   background-color: rgb(246, 250, 254);
+}
+
+.create-acc, body {
+  margin: 0%;
 }
 
 nav {
@@ -23,7 +26,6 @@ nav {
 nav > p {
   font-family: 'Merriweather', serif;
   margin: 10px;
-  font-size: 40px;
 }
 
 nav > img, .menu, a > img {
@@ -85,7 +87,7 @@ nav, .menu-bar, .align-right {
   display: flex;
 }
 
-nav > p, .menu-box > a > p, .align-right > p, .login-box > label {
+nav > p, .menu-box > a > p, .align-right > p, .login-box > label, .create-acc {
   color: white;
 }
 
@@ -107,7 +109,7 @@ nav > p, .menu-box > a > p, .align-right > p, .login-box > label {
   font-size: 16px;
 }
 
-#username, #password, .login-box > label {
+#username, #password, .login-box > label, .create-acc, .prompt {
   margin-left: 10px;
 }
 
@@ -129,7 +131,6 @@ input {
 }
 
 #user {
-  text-decoration: underline;
   text-decoration-color: white;
 }
 
@@ -147,7 +148,6 @@ input, .center > button {
 }
 
 .prompt {
-  margin-left: 10px;
   color: rgb(255, 92, 92);
 }
 
@@ -157,7 +157,7 @@ input, .center > button {
   animation: fadeInAnimation 1s;
 }
 
-.issue {
+.issue, nav > p {
   font-size: 40px;
 }
 
@@ -172,9 +172,9 @@ input, .center > button {
 }
 
 .create-acc {
-  color: white;
-  margin: 0%;
   margin-top: 10px;
-  margin-left: 10px;
+}
+
+#user, .create-acc {
   text-decoration: underline;
 }

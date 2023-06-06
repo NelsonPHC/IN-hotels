@@ -1,8 +1,13 @@
 "use strict";
 (function() {
+  const FOUR_SECONDS = 4000;
+
   window.addEventListener('load', init);
 
   function init() {
+    if (qs(".fade-in") !== null) {
+      qs(".fade-in").remove();
+    }
     id("form").addEventListener("submit", function(event) {
       event.preventDefault();
       makeRequestCreateUser();
@@ -12,9 +17,9 @@
   function makeRequestCreateUser() {
     qs(".prompt").remove();
     let params = new FormData();
-    const name = qs("#form #username");
-    const password = qs("#form password");
-    const email = id("email");
+    const name = id("name").value;
+    const password = id("pass").value;
+    const email = id("email").value;
     params.append("email", email);
     params.append("name", name);
     params.append("password", password);
@@ -26,7 +31,14 @@
   }
 
   function createUser(response) {
-    console.log(response);
+    const success = gen("p");
+    success.classList.add("fade-in");
+    success.textContent = response + " Please wait for a moment to " +
+    "be sent back to the home page.";
+    qs("#form div").appendChild(success);
+    setTimeout(() => {
+      window.location.href = "index.html";
+    }, FOUR_SECONDS);
   }
 
   function handleCreateError(error) {

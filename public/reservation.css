@@ -20,20 +20,15 @@ and the name, reservation date, and price are contained on the right of the card
 }
 
 .adjust > article {
-  display: flex;
   justify-content: center;
   align-items: center;
-  flex-direction: column;
 }
 
 .card {
   width: 60%;
-  display: flex;
-  margin-bottom: 40px;
 }
 
 .card > img {
-  width: 300px;
   height: 200px;
 }
 
@@ -44,25 +39,33 @@ and the name, reservation date, and price are contained on the right of the card
 }
 
 .card > div {
-  display: flex;
-  flex-direction: column;
   margin-left: 24px;
+}
+
+.card, .adjust > article, .card > div {
+  display: flex;
+}
+
+.adjust > article, .card > div {
+  flex-direction: column;
 }
 
 .reserve {
   margin-top: auto;
 }
 
-article > img {
+article > img, .card > img {
   width: 300px;
+}
+
+.card, article > img {
   margin-bottom: 40px;
 }
 
 .hotel-name {
-  font-size: 24px;
   color: rgb(123, 123, 190);
 }
 
-.adjust > article > p {
+.adjust > article > p, .hotel-name {
   font-size: 24px;
 }

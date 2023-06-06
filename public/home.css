@@ -25,9 +25,12 @@ h1 {
 }
 
 h1, .caption {
-  position: absolute;
   transform: translateX(-50%);
   left: 50%;
+}
+
+.dollar-symbol, h1, .caption {
+  position: absolute;
 }
 
 @keyframes fadeInAnimation {
@@ -55,11 +58,10 @@ select, button {
 
 button {
   background-color: white;
-  height: 30px;
   box-shadow: 0 2px 5px #3a39397a;
 }
 
-.search-bar {
+.search-bar, .filter {
   justify-content: space-evenly;
 }
 
@@ -77,13 +79,16 @@ input, select {
   margin-top: 16px;
 }
 
-h1, .caption, input, select {
+h1, .caption, input, select, .error {
   text-align: center;
 }
 
 /* For grid view of hotels */
 .grid {
   margin: 5%;
+}
+
+.filter, .grid {
   flex-wrap: wrap;
 }
 
@@ -148,7 +153,7 @@ h1, .caption, input, select {
   justify-content: center;
 }
 
-.grid, .search-bar, .center, .list > a > div {
+.grid, .search-bar, .center, .list > a > div, .filter {
   display: flex;
 }
 
@@ -156,7 +161,7 @@ h1, .caption, input, select {
   width: 300px;
 }
 
-.search-bar, .center, .list > a {
+.search-bar, .center, .list > a, .filter {
   align-items: center;
 }
 
@@ -164,25 +169,20 @@ h1, .caption, input, select {
   margin: 0%;
 }
 
-.list-view, .grid-view {
+.list-view, .grid-view, .search-icon:hover, button:hover {
   cursor: pointer;
 }
 
 .search-icon {
-  height: 30px;
   width: 30px;
 }
 
-.search-icon:hover, button:hover {
-  cursor: pointer;
+button, .search-icon {
+  height: 30px;
 }
 
 .filter {
   width: 50%;
-  display: flex;
-  justify-content: space-evenly;
-  align-items: center;
-  flex-wrap: wrap;
 }
 
 .search-bar > button:hover {
@@ -203,11 +203,6 @@ h1, .caption, input, select {
 }
 
 .dollar-symbol {
-  position: absolute;
   left: 10px;
   top: 50%;
-}
-
-.error {
-  text-align: center;
 }

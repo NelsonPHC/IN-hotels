@@ -11,7 +11,6 @@ the submit button is placed below those options. It also hides and unhides error
 messages when an issue occurs.
 */
 article {
-  display: flex;
   flex-wrap: wrap;
   justify-content: space-evenly;
   align-items: start;
@@ -26,13 +25,14 @@ article > img {
 
 #description {
   width: 30%;
-  display: flex;
+}
+
+form, #description {
   flex-direction: column;
 }
 
-form {
+article, #description, form {
   display: flex;
-  flex-direction: column;
 }
 
 .adjust {
@@ -53,8 +53,6 @@ h2 {
 
 .date-error, .conflict {
   color: rgb(222, 14, 14);
-  font-size: 20px;
-  animation: fadeInAnimation 1s;
 }
 
 @keyframes fadeInAnimation {
@@ -69,6 +67,9 @@ h2 {
 
 .success {
   color: rgb(0, 159, 69);
-  font-size: 20px;
+}
+
+.date-error, .conflict, .success {
   animation: fadeInAnimation 1s;
+  font-size: 20px;
 }
